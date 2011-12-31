@@ -1,3 +1,23 @@
+/*
+http://sj-http-server.googlecode.com/
+
+Copyright (C) 2011  Samir Jorina
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
 #include <QtGui/QApplication>
 #include <QSettings>
 #include <QDebug>
@@ -5,9 +25,11 @@
 #include "settingsconstants.h"
 
 static void setUpSettings();
+static QString copyrightNote();
 
 int main(int argc, char *argv[])
 {
+    qDebug() << copyrightNote();
     setUpSettings();
     QApplication a(argc, argv);
 
@@ -56,4 +78,26 @@ void setUpSettings()
     qDebug() << SETTING_LISTEN_INTERFACE <<  " = " << settings.value(SETTING_LISTEN_INTERFACE).toString();
     qDebug() << SETTING_LISTEN_PORT <<  " = " << settings.value(SETTING_LISTEN_PORT).toInt();
     qDebug() << SETTING_WWW_ROOT_PATH <<  " = " << settings.value(SETTING_WWW_ROOT_PATH).toString();
+}
+
+
+QString copyrightNote()
+{
+    QString copyright = "http://sj-http-server.googlecode.com/\n\n"
+            "Copyright (C) 2011  Samir Jorina\n\n"
+
+            "This program is free software: you can redistribute it and/or modify\n"
+            "it under the terms of the GNU General Public License as published by\n"
+            "the Free Software Foundation, either version 3 of the License, or\n"
+            "(at your option) any later version.\n\n"
+
+            "This program is distributed in the hope that it will be useful,\n"
+            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+            "GNU General Public License for more details.\n\n"
+
+            "You should have received a copy of the GNU General Public License\n"
+            "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\n";
+
+    return copyright;
 }

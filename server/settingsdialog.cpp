@@ -1,3 +1,23 @@
+/*
+http://sj-http-server.googlecode.com/
+
+Copyright (C) 2011  Samir Jorina
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
 #include "settingsdialog.h"
 
 #include "settingsconstants.h"
@@ -32,22 +52,22 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     layout->addWidget(label);
 
-    AbstractSetting * genMiniatures = new BoolSetting("Generate miniatures", SETTING_MINIATURE_ENABLED);
-    connect(okButton, SIGNAL(clicked()), genMiniatures, SLOT(saveSetting()));
-    layout->addWidget(genMiniatures);
+//    AbstractSetting * genMiniatures = new BoolSetting("Generate miniatures", SETTING_MINIATURE_ENABLED);
+//    connect(okButton, SIGNAL(clicked()), genMiniatures, SLOT(saveSetting()));
+//    layout->addWidget(genMiniatures);
 
-    AbstractSetting * fileStoreDir = new DirectorySetting("File storage directory", SETTING_FILE_STORE_PATH);
-    connect(okButton, SIGNAL(clicked()), fileStoreDir, SLOT(saveSetting()));
-    layout->addWidget(fileStoreDir);
+//    AbstractSetting * fileStoreDir = new DirectorySetting("File storage directory", SETTING_FILE_STORE_PATH);
+//    connect(okButton, SIGNAL(clicked()), fileStoreDir, SLOT(saveSetting()));
+//    layout->addWidget(fileStoreDir);
 
     AbstractSetting * wwwRootDir = new DirectorySetting("WWW root directory", SETTING_WWW_ROOT_PATH);
     connect(okButton, SIGNAL(clicked()), wwwRootDir, SLOT(saveSetting()));
     layout->addWidget(wwwRootDir);
 
-    IntSetting * miniatureSize = new IntSetting("Miniature size", SETTING_MINIATURE_SIZE);
-    miniatureSize->setMin(1);
-    connect(okButton, SIGNAL(clicked()), miniatureSize, SLOT(saveSetting()));
-    layout->addWidget(miniatureSize);
+//    IntSetting * miniatureSize = new IntSetting("Miniature size", SETTING_MINIATURE_SIZE);
+//    miniatureSize->setMin(1);
+//    connect(okButton, SIGNAL(clicked()), miniatureSize, SLOT(saveSetting()));
+//    layout->addWidget(miniatureSize);
 
     AbstractSetting * interfaceHost = new HostSetting("Listening host", SETTING_LISTEN_INTERFACE);
     connect(okButton, SIGNAL(clicked()), interfaceHost, SLOT(saveSetting()));

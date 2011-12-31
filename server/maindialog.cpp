@@ -1,8 +1,29 @@
+/*
+http://sj-http-server.googlecode.com/
+
+Copyright (C) 2011  Samir Jorina
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
 #include "maindialog.h"
 #include "ui_maindialog.h"
 #include "logger.h"
 #include "settingsconstants.h"
 #include "settingsdialog.h"
+#include "utils.h"
 
 #include <QSettings>
 #include <QHostAddress>
@@ -11,9 +32,11 @@
 MainDialog::MainDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MainDialog),
-    server(0)
+    server(0),
+    serverStarted(false)
 {
     ui->setupUi(this);
+    setWindowTitle("SJ-Server v. " + Utils::version());
     Logger::init(ui->listWidget);
     Logger::instance().debug("Logger initialized correctly");
 
@@ -78,7 +101,7 @@ void MainDialog::startButtonClickedSlot()
 
 void MainDialog::aboutButtonClickedSlot()
 {
-    QMessageBox::information(this, "About Server...", "Http Server written in Qt by Samir Jorina");
+    QMessageBox::information(this, "About Server...", "Http Server written in Qt by Samir Jorina\nhttp://sj-http-server.googlecode.com/");
 }
 
 void MainDialog::quitButtonClickedSlot()
