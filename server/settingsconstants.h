@@ -3,8 +3,8 @@
 
 #include <QString>
 
-const QString ORGANIZATION_NAME = "KubaOrg";
-const QString APPLICATION_NAME = "ImageServer";
+const QString ORGANIZATION_NAME = "SamirJorinaOrg";
+const QString APPLICATION_NAME = "SjHttpServer";
 
 const QString SETTING_WWW_ROOT_PATH = "www.root.path";
 const QString SETTING_FILE_STORE_PATH = "file.store.path";

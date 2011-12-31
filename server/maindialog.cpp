@@ -78,7 +78,7 @@ void MainDialog::startButtonClickedSlot()
 
 void MainDialog::aboutButtonClickedSlot()
 {
-    QMessageBox::information(this, "About Image Server...", "Image Server written in QT by Jakub Wachowski");
+    QMessageBox::information(this, "About Server...", "Http Server written in Qt by Samir Jorina");
 }
 
 void MainDialog::quitButtonClickedSlot()
