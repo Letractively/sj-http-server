@@ -62,7 +62,7 @@ void MainDialog::startButtonClickedSlot()
         if(!serverStarted) {
             Logger::instance().debug("Starting server...");
 
-            QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+            QSettings & settings = Utils::getSettings();
             QString serverInterface = settings.value(SETTING_LISTEN_INTERFACE).toString();
             quint16 serverPort = settings.value(SETTING_LISTEN_PORT).toInt();
 

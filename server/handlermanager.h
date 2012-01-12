@@ -25,15 +25,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "handlerdata.h"
 #include "QVector"
 
+
 class HandlerManager
 {
 public:
+
     HandlerManager();
+
     ~HandlerManager();
+
     static HandlerManager & instance();
+
     AbstractRequestHandler * getHandler(HttpRequest * request);
 
+    /**
+     * @return Name of the handler (as returned by the plugin)
+     */
+    QString registerHandler(const QString & filePath, const QString & contextRoot);
+
 private:
+
+    static const QString PLUGIN_GROUP_NAME;
+    static const QString PLUGIN_FILE_PATH;
+    static const QString PLUGIN_CONTEXT_ROOT;
+
+    void loadPluginsFromConfig();
+    void persistHandlerConfig(const QString & filepath, const QString & contextRoot);
+
+    AbstractRequestHandler * loadPlugin(const QString & filepath, const QString & contextRoot);
+
+
+
     AbstractRequestHandler * defaultHandler;
     QVector<HandlerData> handlers;
 };

@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include "maindialog.h"
 #include "settingsconstants.h"
+#include "utils.h"
 
 static void setUpSettings();
 static QString copyrightNote();
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
 {
     qDebug() << copyrightNote();
     setUpSettings();
+
     QApplication a(argc, argv);
 
     MainDialog w;
@@ -42,22 +44,9 @@ int main(int argc, char *argv[])
 
 void setUpSettings()
 {
-
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-
+    QSettings & settings = Utils::getSettings();
 
     //setup default values
-    if(!settings.contains(SETTING_FILE_STORE_PATH)) {
-        settings.setValue(SETTING_FILE_STORE_PATH, "/tmp/");
-    }
-
-    if(!settings.contains(SETTING_MINIATURE_ENABLED)) {
-        settings.setValue(SETTING_MINIATURE_ENABLED, true);
-    }
-
-    if(!settings.contains(SETTING_MINIATURE_SIZE)) {
-        settings.setValue(SETTING_MINIATURE_SIZE, 256);
-    }
 
     if(!settings.contains(SETTING_LISTEN_INTERFACE)) {
         settings.setValue(SETTING_LISTEN_INTERFACE, "localhost");
@@ -72,9 +61,6 @@ void setUpSettings()
     }
 
     qDebug() << "Settings:";
-    qDebug() << SETTING_FILE_STORE_PATH <<  " = " << settings.value(SETTING_FILE_STORE_PATH).toString();
-    qDebug() << SETTING_MINIATURE_ENABLED <<  " = " << settings.value(SETTING_MINIATURE_ENABLED).toBool();
-    qDebug() << SETTING_MINIATURE_SIZE <<  " = " << settings.value(SETTING_MINIATURE_SIZE).toInt();
     qDebug() << SETTING_LISTEN_INTERFACE <<  " = " << settings.value(SETTING_LISTEN_INTERFACE).toString();
     qDebug() << SETTING_LISTEN_PORT <<  " = " << settings.value(SETTING_LISTEN_PORT).toInt();
     qDebug() << SETTING_WWW_ROOT_PATH <<  " = " << settings.value(SETTING_WWW_ROOT_PATH).toString();
@@ -84,7 +70,7 @@ void setUpSettings()
 QString copyrightNote()
 {
     QString copyright = "http://sj-http-server.googlecode.com/\n\n"
-            "Copyright (C) 2011  Samir Jorina\n\n"
+            "Copyright (C) 2011-2012  Samir Jorina\n\n"
 
             "This program is free software: you can redistribute it and/or modify\n"
             "it under the terms of the GNU General Public License as published by\n"
@@ -97,7 +83,7 @@ QString copyrightNote()
             "GNU General Public License for more details.\n\n"
 
             "You should have received a copy of the GNU General Public License\n"
-            "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\n";
+            "along with this program. If not, see <http://www.gnu.org/licenses/>.\n\n";
 
     return copyright;
 }

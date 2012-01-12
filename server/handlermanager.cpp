@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,39 +14,121 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
 #include "handlermanager.h"
 #include "requesthandler.h"
+#include "utils.h"
 
 #include <QPluginLoader>
+
+
+const QString HandlerManager::PLUGIN_GROUP_NAME="plugins";
+const QString HandlerManager::PLUGIN_FILE_PATH = "file.path";
+const QString HandlerManager::PLUGIN_CONTEXT_ROOT = "context.root";
+
+
 
 HandlerManager::HandlerManager()
 {
     defaultHandler = new RequestHandler;
-    AbstractRequestHandler * fortuneHandler = 0;
+    loadPluginsFromConfig();
+}
 
 
-    QPluginLoader pl("../fortune-teller/libfortune-teller.so");
+QString HandlerManager::registerHandler(const QString & filePath, const QString & contextRoot)
+{
+     AbstractRequestHandler * newHandler = loadPlugin(filePath, contextRoot);
+
+     if(0 != newHandler) {
+         persistHandlerConfig(filePath, contextRoot);
+
+         return newHandler->name();
+     }
+
+     return "";
+}
+
+
+void HandlerManager::loadPluginsFromConfig()
+{
+    QSettings & settings = Utils::getSettings();
+
+    int size = settings.beginReadArray(PLUGIN_GROUP_NAME);
+
+    for(int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+        loadPlugin(settings.value(PLUGIN_FILE_PATH).toString(), settings.value(PLUGIN_CONTEXT_ROOT).toString());
+    }
+
+    settings.endArray();
+}
+
+void HandlerManager::persistHandlerConfig(const QString & filepath, const QString & contextRoot)
+{
+    QSettings & settings = Utils::getSettings();
+
+    int size = settings.beginReadArray(PLUGIN_GROUP_NAME);
+    settings.endArray();
+
+    settings.beginWriteArray(PLUGIN_GROUP_NAME);
+    settings.setArrayIndex(size);
+    settings.setValue(PLUGIN_FILE_PATH, filepath);
+    settings.setValue(PLUGIN_CONTEXT_ROOT, contextRoot);
+    settings.endArray();
+    settings.sync();
+}
+
+AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, const QString & contextRoot)
+{
+    AbstractRequestHandler * newHandler = 0;
+    QPluginLoader pl(filepath);
     pl.load();
-    qDebug() << "fortune teller loaded " << pl.isLoaded();
+    qDebug() << "new handler loaded " << pl.isLoaded();
     if(pl.isLoaded()) {
         qDebug() << "creating instance ...";
-        fortuneHandler = qobject_cast<AbstractRequestHandler *>(pl.instance());
+        newHandler = qobject_cast<AbstractRequestHandler *>(pl.instance());
+        if(0 != newHandler) {
         qDebug() << "instance created";
-        qDebug() << "name " << fortuneHandler->name();
+        qDebug() << "name " << newHandler->name();
+        } else {
+            qDebug() << "cannot creeate an instance";
+        }
     }
 
-    if(fortuneHandler !=0 ) {
-        handlers.push_back(HandlerData("fortune-cookie", fortuneHandler));
+    if(newHandler != 0) {
+
+        //check if plugin is already loaded
+        bool alreadySet = false;
+
+        for(int i = 0; i < handlers.size(); ++i) {
+            if(newHandler->name() == handlers[i].getHandler()->name()
+                    && contextRoot == handlers[i].getContextRoot() ) {
+                alreadySet = true;
+                break;
+            }
+        }
+
+        if(!alreadySet) {
+            qDebug() << "Plugin " << newHandler->name() << " added to the handlers; Context root is " << contextRoot;
+            handlers.push_back(HandlerData(contextRoot, newHandler));
+        } else {
+            qDebug() << "Plugin already set: "<< newHandler->name() << "for context root " << contextRoot;
+        }
     }
+
+    return newHandler;
 }
+
 
 HandlerManager::~HandlerManager()
 {
     delete defaultHandler;
+    for(int i = 0; i < handlers.size(); ++i) {
+        delete handlers[i].getHandler();
+    }
 }
 
 HandlerManager & HandlerManager::instance()
@@ -60,7 +142,7 @@ AbstractRequestHandler * HandlerManager::getHandler(HttpRequest * request)
     QString uri = request->getRequestUri();
 
     for(int i = 0; i < handlers.size(); ++i) {
-        if(uri.startsWith(handlers[i].getContextPath())) {
+        if(uri.startsWith(handlers[i].getContextRoot())) {
             return handlers[i].getHandler();
         }
     }
@@ -68,19 +150,3 @@ AbstractRequestHandler * HandlerManager::getHandler(HttpRequest * request)
     return defaultHandler;
 }
 
-//    if("/fortune-teller" == request->getRequestUri()) {
-//        QPluginLoader pl("/home/kuba/image-server/build/fortune-teller/libfortune-teller.so");
-//        pl.load();
-//        qDebug() << "fortune teller loaded " << pl.isLoaded();
-//        if(pl.isLoaded()) {
-//            qDebug() << "creating instance ...";
-//            AbstractRequestHandler * handler = qobject_cast<AbstractRequestHandler *>(pl.instance());
-//            qDebug() << "instance created";
-//            qDebug() << "name " << handler->name();
-//            HttpResponse resp = handler->handle(0,0);
-//            qDebug() << "req handled ";
-//            resp.writeToSocket(socket);
-//            socket->disconnectFromHost();
-//            return;
-//        }
-//    }

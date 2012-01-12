@@ -85,6 +85,17 @@ void HttpResponse::addHeader(QString name, QString value)
 
 void HttpResponse::writeToSocket(QTcpSocket * socket)
 {
+    qlonglong contentLength = data.size();
+
+    if(file != 0) {
+        contentLength += file->size();
+    }
+
+    QString val;
+    val.setNum(contentLength);
+
+    addHeader(HttpHeader::CONTENT_LENGTH, val);
+
     socket->write(("HTTP/1.1 " + codeToString(this->code) + EOL).toStdString().c_str());
 
     if(code == NOT_FOUND) {
@@ -106,6 +117,7 @@ void HttpResponse::writeToSocket(QTcpSocket * socket)
     }
     socket->write(EOL);
     qDebug() << "";
+
 
     if(data.size() > 0) {
         qDebug() << data;

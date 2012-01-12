@@ -1,4 +1,6 @@
 TEMPLATE = subdirs
 SUBDIRS = httplib\
         server\
-        fortune-teller
+        fortune-teller \
+    tests
+

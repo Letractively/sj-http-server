@@ -34,12 +34,12 @@ class AbstractRequestHandler
 public:
     virtual ~AbstractRequestHandler() {}
     virtual QString name() = 0;
-    virtual QString description() {return ""; }
-    virtual QString helpInfo() {return ""; }
+    virtual QString description() { return ""; }
+    virtual QString helpInfo() { return ""; }
     virtual HttpResponse handle(HttpRequest * req, QSettings * settings = 0) = 0;
-    virtual QVector<SettingsItem> supportedSettings() {return QVector<SettingsItem>(0); }
+    virtual QVector<SettingsItem> supportedSettings() { return QVector<SettingsItem>(0); }
 };
 
-Q_DECLARE_INTERFACE(AbstractRequestHandler, "kuba.image-server.AbstractRequestHandler/0.1")
+Q_DECLARE_INTERFACE(AbstractRequestHandler, "sj.http.server.AbstractRequestHandler/0.1")
 
 #endif // ABSTRACTREQUESTHANDLER_H

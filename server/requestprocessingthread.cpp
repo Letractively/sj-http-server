@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "logger.h"
 #include "abstractrequesthandler.h"
 #include "handlermanager.h"
+#include "utils.h"
 
 #include <QFile>
 #include <QImage>
@@ -33,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject * parent)
     :QThread(parent), socket(0), request(0), bytesRead(0),
-      settings(ORGANIZATION_NAME, APPLICATION_NAME)
+      settings(Utils::getSettings())
 {
     socket = new QTcpSocket(this);
     socket->setSocketDescriptor(socketDescriptor);

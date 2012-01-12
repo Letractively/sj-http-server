@@ -28,12 +28,12 @@ class HandlerData
 {
 public:
     HandlerData();
-    HandlerData(const QString & contextPath, AbstractRequestHandler * handler);
+    HandlerData(const QString & contextRoot, AbstractRequestHandler * handler);
     ~HandlerData();
-    QString getContextPath() { return contextPath; }
+    QString getContextRoot() { return contextRoot; }
     AbstractRequestHandler * getHandler() {return handler;}
 private:
-    QString contextPath;
+    QString contextRoot;
     AbstractRequestHandler * handler;
 };
 

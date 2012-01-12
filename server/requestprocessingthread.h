@@ -48,7 +48,7 @@ private:
     QTcpSocket * socket;
     HttpRequest * request;
     quint64 bytesRead;
-    QSettings settings;
+    QSettings & settings;
 
     void processRequest();
     void preparePostRequest();

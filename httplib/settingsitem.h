@@ -21,10 +21,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SETTINGSITEM_H
 #define SETTINGSITEM_H
 
+#include <QString>
+
 class SettingsItem
 {
 public:
+    enum SettingType {INT, BOOL, STRING, DIRECTORY};
+
     SettingsItem();
+    SettingsItem(const QString & name, const SettingType & type);
+    const QString & getName() { return name; }
+    const SettingType & getType() { return type; }
+    void setName(const QString & name) { this->name = name; }
+    void setType(const SettingType & type) { this->type = type; }
+
+private:
+    QString name;
+    SettingType type;
 };
 
 #endif // SETTINGSITEM_H
