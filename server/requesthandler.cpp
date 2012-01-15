@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -25,7 +25,7 @@ RequestHandler::RequestHandler()
 {
 }
 
-HttpResponse RequestHandler::handle(HttpRequest *req, QSettings *settings)
+HttpResponse RequestHandler::handle(HttpRequest *req, QSettings *settings) const
 {
     if(req->getMethod() != HttpRequest::GET) {
         return HttpResponse(HttpResponse::NOT_FOUND);

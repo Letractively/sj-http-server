@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "settingsdialog.h"
-#include "utils.h"
+#include "serverutils.h"
 #include "settingsconstants.h"
 #include <QSettings>
 #include <QDebug>

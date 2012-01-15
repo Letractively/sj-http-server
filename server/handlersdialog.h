@@ -18,27 +18,38 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef FORTUNETELLER_H
-#define FORTUNETELLER_H
+#ifndef HANDLERSDIALOG_H
+#define HANDLERSDIALOG_H
 
-#include <abstractrequesthandler.h>
-#include <QObject>
-#include <QVector>
+#include <QDialog>
+#include "handlerdata.h"
 
-/**
- * @brief Application prints a random fortune cookie quote
- */
-class FortuneTeller : public QObject, public AbstractRequestHandler
+class HandlerEditor : public QWidget
 {
     Q_OBJECT
-    Q_INTERFACES(AbstractRequestHandler)
 public:
-    QString name() const;
-    HttpResponse handle(HttpRequest *req, QSettings *settings) const;
+    explicit HandlerEditor(HandlerData * handler, QWidget * parent = 0);
 private:
-    static QVector<QString> fortunes;
-    static bool fortunesSet;
-    static QString getFortune();
+
+    QString nameToContextRoot(const QString & name);
+
+    HandlerData * handler;
+
+private slots:
+    void contextRootChangedSlot(const QString & contextRoot);
 };
 
-#endif // FORTUNETELLER_H
+
+class HandlersDialog : public QDialog
+{
+    Q_OBJECT
+public:
+    explicit HandlersDialog(QWidget *parent = 0);
+
+signals:
+
+public slots:
+
+};
+
+#endif // HANDLERSDIALOG_H

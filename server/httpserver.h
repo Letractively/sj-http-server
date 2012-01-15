@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,22 +14,32 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef HTTPSERVER_H
+#define HTTPSERVER_H
 
-#include <QString>
-#include <QSettings>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QHostAddress>
 
-class Utils
+class HttpServer : public QTcpServer
 {
+    Q_OBJECT
 public:
-    static QString substring(const QString & str, int beginIndex, int endIndex = -1);
-    static QString version() { return "0.1"; }
-    static QSettings & getSettings();
+    explicit HttpServer(QObject *parent = 0);
+    ~HttpServer();
+    static QHostAddress createAddress(QString interface);
+
+private slots:
+    void threadDestroyedSlot();
+    void threadFinishedSlot();
+
+protected:
+    void incomingConnection(int socketDescriptor);
+
 };
 
-#endif // UTILS_H
+#endif // HTTPSERVER_H

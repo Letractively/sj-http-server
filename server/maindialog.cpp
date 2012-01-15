@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -23,7 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "logger.h"
 #include "settingsconstants.h"
 #include "settingsdialog.h"
-#include "utils.h"
+#include "serverutils.h"
+#include "handlersdialog.h"
 
 #include <QSettings>
 #include <QHostAddress>
@@ -44,8 +45,9 @@ MainDialog::MainDialog(QWidget *parent) :
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(aboutButtonClickedSlot()));
     connect(ui->settingsButton, SIGNAL(clicked()), this, SLOT(settingsButtonClickedSlot()));
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(quitButtonClickedSlot()));
+    connect(ui->handlersButton, SIGNAL(clicked()), this, SLOT(handlersButtonClickedSlot()));
 
-    server = new ImageServer(this);
+    server = new HttpServer(this);
 }
 
 MainDialog::~MainDialog()
@@ -66,7 +68,7 @@ void MainDialog::startButtonClickedSlot()
             QString serverInterface = settings.value(SETTING_LISTEN_INTERFACE).toString();
             quint16 serverPort = settings.value(SETTING_LISTEN_PORT).toInt();
 
-            QHostAddress adr = ImageServer::createAddress(serverInterface);
+            QHostAddress adr = HttpServer::createAddress(serverInterface);
 
             qDebug() << "adr = " << adr << ", port = " << serverPort;
 
@@ -119,5 +121,10 @@ void MainDialog::quitButtonClickedSlot()
 void MainDialog::settingsButtonClickedSlot()
 {
     SettingsDialog dialog;
+    dialog.exec();
+}
+
+void MainDialog::handlersButtonClickedSlot() {
+    HandlersDialog dialog;
     dialog.exec();
 }

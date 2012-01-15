@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,32 +14,22 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef IMAGESERVER_H
-#define IMAGESERVER_H
+#ifndef UTILS_H
+#define UTILS_H
 
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QHostAddress>
+#include <QString>
+#include <QSettings>
 
-class ImageServer : public QTcpServer
+class Utils
 {
-    Q_OBJECT
 public:
-    explicit ImageServer(QObject *parent = 0);
-    ~ImageServer();
-    static QHostAddress createAddress(QString interface);
-
-private slots:
-    void threadDestroyedSlot();
-    void threadFinishedSlot();
-
-protected:
-    void incomingConnection(int socketDescriptor);
-
+    static QString substring(const QString & str, int beginIndex, int endIndex = -1);
+    static QString version() { return "0.1"; }
+    static QSettings & getSettings();
 };
 
-#endif // IMAGESERVER_H
+#endif // UTILS_H

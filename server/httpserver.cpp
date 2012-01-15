@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,11 +14,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#include "imageserver.h"
+#include "httpserver.h"
 #include "logger.h"
 #include "requestprocessingthread.h"
 
@@ -27,17 +27,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "httprequest.h"
 
-ImageServer::ImageServer(QObject *parent) :
+HttpServer::HttpServer(QObject *parent) :
     QTcpServer(parent)
 {
 }
 
-ImageServer::~ImageServer()
+HttpServer::~HttpServer()
 {
     close();
 }
 
-QHostAddress ImageServer::createAddress(QString interface)
+QHostAddress HttpServer::createAddress(QString interface)
 {
     if(interface == "localhost" || interface == "127.0.0.1") {
         return QHostAddress::LocalHost;
@@ -50,7 +50,7 @@ QHostAddress ImageServer::createAddress(QString interface)
     return QHostAddress(interface);
 }
 
-void ImageServer::incomingConnection(int socketDescriptor)
+void HttpServer::incomingConnection(int socketDescriptor)
 {
     RequestProcessingThread * thread = new RequestProcessingThread(socketDescriptor);
     connect(thread, SIGNAL(destroyed()), this, SLOT(threadDestroyedSlot()));
@@ -59,12 +59,12 @@ void ImageServer::incomingConnection(int socketDescriptor)
     return;
 }
 
-void ImageServer::threadDestroyedSlot()
+void HttpServer::threadDestroyedSlot()
 {
     qDebug() << "thread destroyed";
 }
 
-void ImageServer::threadFinishedSlot()
+void HttpServer::threadFinishedSlot()
 {
     qDebug() << "thread finished";
     sender()->deleteLater();

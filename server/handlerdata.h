@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011  Samir Jorina
+Copyright (C) 2011-2012  Samir Jorina
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -30,8 +30,9 @@ public:
     HandlerData();
     HandlerData(const QString & contextRoot, AbstractRequestHandler * handler);
     ~HandlerData();
-    QString getContextRoot() { return contextRoot; }
-    AbstractRequestHandler * getHandler() {return handler;}
+    QString getContextRoot() const { return contextRoot; }
+    AbstractRequestHandler * getHandler() const {return handler;}
+    void setContextRoot(const QString & contextRoot) { this->contextRoot = contextRoot; }
 private:
     QString contextRoot;
     AbstractRequestHandler * handler;

@@ -24,17 +24,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 QVector<QString> FortuneTeller::fortunes;
 bool FortuneTeller::fortunesSet = false;
 
-HttpResponse FortuneTeller::handle(HttpRequest * /* req */, QSettings * /*settings*/)
+HttpResponse FortuneTeller::handle(HttpRequest * /* req */, QSettings * /*settings*/) const
 {
     QString text = "<html><head><title>Fortune cookie</title></head><body><h3>Fortune cookie</h3>" + getFortune() + "<br><br>"
-            "<font size='-2'>Fortune comes from <a href='http://www.fortunecookiemessage.com/'>www.fortunecookiemessage.com</a></font></body></html>";
+            "<font size='-1'>Fortune comes from <a href='http://www.fortunecookiemessage.com/'>www.fortunecookiemessage.com</a></font></body></html>";
     QByteArray a;
     a.append(text);
     HttpResponse resp(&a);
     return resp;
 }
 
-QString FortuneTeller::name() {
+QString FortuneTeller::name() const {
     return "Fortune Teller";
 }
 

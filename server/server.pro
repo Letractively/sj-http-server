@@ -13,22 +13,24 @@ TEMPLATE = app
 SOURCES += main.cpp\
         maindialog.cpp \
     logger.cpp \
-    imageserver.cpp \
+    httpserver.cpp \
     requestprocessingthread.cpp \
     settingsdialog.cpp \
     requesthandler.cpp \
     handlermanager.cpp \
-    handlerdata.cpp
+    handlerdata.cpp \
+    handlersdialog.cpp
 
 HEADERS  += maindialog.h \
     logger.h \
-    imageserver.h \
+    httpserver.h \
     requestprocessingthread.h \
     settingsconstants.h \
     settingsdialog.h \
     requesthandler.h \
     handlermanager.h \
-    handlerdata.h
+    handlerdata.h \
+    handlersdialog.h
 
 FORMS    += maindialog.ui
 
@@ -40,6 +42,8 @@ else:unix|win32: LIBS += -L$$PWD/../httplib/ -lhttplib
 
 INCLUDEPATH += $$PWD/../httplib
 DEPENDPATH += $$PWD/../httplib
+
+
 
 
 

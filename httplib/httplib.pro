@@ -18,7 +18,7 @@ SOURCES +=\
         httprequest.cpp\
         httprequestbinaryfile.cpp\
         httpresponse.cpp\
-        utils.cpp \
+        serverutils.cpp \
     settingsitem.cpp
 
 HEADERS += abstractrequesthandler.h\
@@ -26,7 +26,7 @@ HEADERS += abstractrequesthandler.h\
         httprequest.h\
         httprequestbinaryfile.h\
         httpresponse.h\
-        utils.h \
+        serverutils.h \
     settingsitem.h
 
 symbian {
