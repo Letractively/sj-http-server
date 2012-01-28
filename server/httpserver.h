@@ -24,6 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QHostAddress>
+#include <connectiondispatcher.h>
 
 class HttpServer : public QTcpServer
 {
@@ -32,6 +33,8 @@ public:
     explicit HttpServer(QObject *parent = 0);
     ~HttpServer();
     static QHostAddress createAddress(QString interface);
+private:
+    ConnectionDispatcher * dispatcher;
 
 private slots:
     void threadDestroyedSlot();

@@ -74,7 +74,6 @@ private:
     RequestMethod method;
     QString requestUri;
     QVector<HttpHeader> headers;
-    QTcpSocket * socket;
     QMap<QString, QString> parameters;
     QVector<HttpRequestBinaryFile> binaryFiles;
     bool multipart;

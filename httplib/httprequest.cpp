@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "httprequest.h"
 
 HttpRequest::HttpRequest(QTcpSocket * socket)
-    :socket(socket), multipart(false), contentLength(0),cachingThreshold(0)
+    : multipart(false), contentLength(0),cachingThreshold(0)
 {
     if(socket->canReadLine()) {
         //find the http method

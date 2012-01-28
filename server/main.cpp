@@ -24,14 +24,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "maindialog.h"
 #include "settingsconstants.h"
 #include "serverutils.h"
+#include <httpresponse.h>
+#include <QTcpSocket>
 
 static void setUpSettings();
+static void registerMetaTypes();
 static QString copyrightNote();
 
 int main(int argc, char *argv[])
 {
     qDebug() << copyrightNote();
     setUpSettings();
+    registerMetaTypes();
 
     QApplication a(argc, argv);
 
@@ -86,4 +90,10 @@ QString copyrightNote()
             "along with this program. If not, see <http://www.gnu.org/licenses/>.\n\n";
 
     return copyright;
+}
+
+void registerMetaTypes()
+{
+    qRegisterMetaType<HttpResponse*>("HttpResponse*");
+    qRegisterMetaType<QTcpSocket*>("QTcpSocket*");
 }

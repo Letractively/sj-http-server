@@ -30,10 +30,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 HttpServer::HttpServer(QObject *parent) :
     QTcpServer(parent)
 {
+    dispatcher = new ConnectionDispatcher(this);
+    dispatcher->start();
 }
 
 HttpServer::~HttpServer()
 {
+    dispatcher->quit();
+    dispatcher->wait();
     close();
 }
 
@@ -52,11 +56,11 @@ QHostAddress HttpServer::createAddress(QString interface)
 
 void HttpServer::incomingConnection(int socketDescriptor)
 {
-    RequestProcessingThread * thread = new RequestProcessingThread(socketDescriptor);
-    connect(thread, SIGNAL(destroyed()), this, SLOT(threadDestroyedSlot()));
-    connect(thread, SIGNAL(finished()), this, SLOT(threadFinishedSlot()));
-    thread->start();
-    return;
+    dispatcher->dispatchConnection(socketDescriptor);
+//    RequestProcessingThread * thread = new RequestProcessingThread(socketDescriptor);
+//    connect(thread, SIGNAL(destroyed()), this, SLOT(threadDestroyedSlot()));
+//    connect(thread, SIGNAL(finished()), this, SLOT(threadFinishedSlot()));
+//    thread->start();
 }
 
 void HttpServer::threadDestroyedSlot()

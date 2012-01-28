@@ -19,7 +19,10 @@ SOURCES += main.cpp\
     requesthandler.cpp \
     handlermanager.cpp \
     handlerdata.cpp \
-    handlersdialog.cpp
+    handlersdialog.cpp \
+    requestprocessingrunnable.cpp \
+    processingcontext.cpp \
+    connectiondispatcher.cpp
 
 HEADERS  += maindialog.h \
     logger.h \
@@ -30,7 +33,10 @@ HEADERS  += maindialog.h \
     requesthandler.h \
     handlermanager.h \
     handlerdata.h \
-    handlersdialog.h
+    handlersdialog.h \
+    requestprocessingrunnable.h \
+    processingcontext.h \
+    connectiondispatcher.h
 
 FORMS    += maindialog.ui
 
@@ -42,6 +48,20 @@ else:unix|win32: LIBS += -L$$PWD/../httplib/ -lhttplib
 
 INCLUDEPATH += $$PWD/../httplib
 DEPENDPATH += $$PWD/../httplib
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
