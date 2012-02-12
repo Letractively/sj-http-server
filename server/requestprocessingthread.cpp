@@ -36,15 +36,16 @@ RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject *
     :QThread(parent), socket(0), request(0), bytesRead(0),
       settings(Utils::getSettings())
 {
+    qDebug() << "thread created";
     socket = new QTcpSocket(this);
     socket->setSocketDescriptor(socketDescriptor);
+    connect(socket, SIGNAL(readyRead()), this, SLOT(dataReadySlot()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnectedSlot()));
 }
 
 
 void RequestProcessingThread::run()
 {
-    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnectedSlot()));
-    connect(socket, SIGNAL(readyRead()), this, SLOT(dataReadySlot()));
     exec();
 }
 
@@ -52,7 +53,7 @@ void RequestProcessingThread::dataReadySlot()
 {
     if(request == 0) {
         request = new HttpRequest(socket);
-//        qDebug() << request->toString();
+        qDebug() << request->toString();
     }
 
     if(request->getMethod() == HttpRequest::GET) {
@@ -187,8 +188,10 @@ void RequestProcessingThread::processRequest() {
     qDebug() << "Processing request with" << handler->name();
     HttpResponse response = handler->handle(request, &settings);
     response.writeToSocket(socket);
-    socket->disconnectFromHost();
-    return;
+    delete request;
+    request = 0;
+//    socket->disconnectFromHost();
+//    return;
 
 }
 

@@ -44,7 +44,9 @@ HttpRequest::HttpRequest(QTcpSocket * socket)
     setUpHeaders(headers);
 }
 
-void HttpRequest::setUpMethodAndLocation(const QString & methodLine) {
+void HttpRequest::setUpMethodAndLocation(const QString & methodLine)
+{
+    qDebug() << methodLine;
     QStringList list = methodLine.split(' ', QString::SkipEmptyParts);
 
     if(list.size() < 2) {

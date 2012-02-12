@@ -47,10 +47,12 @@ HttpResponse::HttpResponse(QString filePath, QString contentType)
     :code(OK), file(0)
 {
     setDefaultHeaders();
+    qDebug() << "producing response from file " << filePath;
     file = new QFile(filePath);
     if(!file->exists()) {
         code = NOT_FOUND;
         delete file;
+        file = 0;
         return;
     }
 
@@ -85,6 +87,17 @@ void HttpResponse::addHeader(QString name, QString value)
 
 void HttpResponse::writeToSocket(QTcpSocket * socket)
 {
+    if(code == NOT_FOUND) {
+        socket->write(("HTTP/1.1 " + codeToString(this->code) + EOL).toStdString().c_str());
+        socket->write("ContentType: text/plain");
+        socket->write(EOL);
+        socket->write("Connection: close");
+        socket->write(EOL);
+        socket->write(EOL);
+        socket->write("Resource not found");
+        socket->disconnectFromHost();
+        return;
+    }
     qlonglong contentLength = data.size();
 
     if(file != 0) {
@@ -98,15 +111,6 @@ void HttpResponse::writeToSocket(QTcpSocket * socket)
 
     socket->write(("HTTP/1.1 " + codeToString(this->code) + EOL).toStdString().c_str());
 
-    if(code == NOT_FOUND) {
-        socket->write("ContentType: text/plain");
-        socket->write(EOL);
-        socket->write("Connection: close");
-        socket->write(EOL);
-        socket->write(EOL);
-        socket->write("Resource not found");
-        return;
-    }
 
     qDebug() << "Returning response ";
     qDebug() << "HTTP/1.1 " + codeToString(this->code);
@@ -154,7 +158,8 @@ QString HttpResponse::codeToString(StatusCode code)
 
 void HttpResponse::setDefaultHeaders()
 {
-    addHeader("Connection", "close");
+//    addHeader("Connection", "close");
+    addHeader("Connection", "Keep-Alive");
     addHeader("Server", "SJ-Server v. " + Utils::version());
 }
 

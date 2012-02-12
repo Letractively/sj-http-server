@@ -19,10 +19,7 @@ SOURCES += main.cpp\
     requesthandler.cpp \
     handlermanager.cpp \
     handlerdata.cpp \
-    handlersdialog.cpp \
-    requestprocessingrunnable.cpp \
-    processingcontext.cpp \
-    connectiondispatcher.cpp
+    handlersdialog.cpp
 
 HEADERS  += maindialog.h \
     logger.h \
@@ -33,10 +30,7 @@ HEADERS  += maindialog.h \
     requesthandler.h \
     handlermanager.h \
     handlerdata.h \
-    handlersdialog.h \
-    requestprocessingrunnable.h \
-    processingcontext.h \
-    connectiondispatcher.h
+    handlersdialog.h
 
 FORMS    += maindialog.ui
 
