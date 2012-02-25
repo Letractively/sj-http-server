@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ public:
     explicit HttpServer(QObject *parent = 0);
     ~HttpServer();
     static QHostAddress createAddress(QString interface);
+    void close();
 private:
 
 
@@ -41,6 +42,9 @@ private slots:
 
 protected:
     void incomingConnection(int socketDescriptor);
+
+signals:
+    void serverStoppedSignal();
 
 };
 

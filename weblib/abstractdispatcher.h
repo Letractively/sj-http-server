@@ -18,14 +18,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef SETTINGSCONSTANTS_H
-#define SETTINGSCONSTANTS_H
+#ifndef ABSTRACTDISPATCHER_H
+#define ABSTRACTDISPATCHER_H
 
-#include <QString>
+#include "abstractwebhandler.h"
+#include "httprequest.h"
 
-const QString SETTING_WWW_ROOT_PATH = "www.root.path";
-const QString SETTING_LISTEN_INTERFACE = "server.listen.interface";
-const QString SETTING_LISTEN_PORT = "server.listen.port";
+class AbstractDispatcher {
+public:
+    AbstractDispatcher();
+    virtual ~AbstractDispatcher() {}
+    virtual AbstractWebHandler * dispatchTo(HttpRequest * request) const = 0;
+};
 
-
-#endif // SETTINGSCONSTANTS_H
+#endif // ABSTRACTDISPATCHER_H

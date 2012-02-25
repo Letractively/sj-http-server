@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -91,6 +91,8 @@ void HttpRequest::setUpParameters(const QString &locationLine)
         QStringList singleParameterList = allParametersList[i].split('=');
         if(singleParameterList.size() == 2) {
             parameters.insert(singleParameterList[0], singleParameterList[1]);
+        } else if(singleParameterList.size() == 1) {
+            parameters.insert(singleParameterList[0], "");
         }
     }
 
@@ -131,7 +133,7 @@ QString HttpRequest::parametersToString()
 QString HttpRequest::toString()
 {
     return "HttpRequest: method=["+methodToString()+"]; location=["+requestUri+"]; headers=["
-            +headersToString()+"]; parameters=[" + parametersToString()+"]";
+            +headersToString()+"]; parameters=[" + parametersToString()+"]; relativePath=" + relativePath + "]";
 }
 
 

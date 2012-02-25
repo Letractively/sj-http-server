@@ -45,22 +45,10 @@ DEPENDPATH += $$PWD/../httplib
 
 
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../weblib/release/ -lweblib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../weblib/debug/ -lweblib
+else:symbian: LIBS += -lweblib
+else:unix: LIBS += -L$$OUT_PWD/../weblib/ -lweblib
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INCLUDEPATH += $$PWD/../weblib
+DEPENDPATH += $$PWD/../weblib

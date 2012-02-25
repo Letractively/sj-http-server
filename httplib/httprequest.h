@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,6 +56,9 @@ public:
     void addFile(HttpRequestBinaryFile binaryFile);
     void addParameter(QString paramName, QString paramValue);
 
+    void setRelativePath(const QString & path) {this->relativePath = path;}
+    QString getRelativePath() { return relativePath; }
+
 //private member functions
 private:
     void setUpMethodAndLocation(const QString & methodLine);
@@ -80,6 +83,7 @@ private:
     quint64 contentLength;
     quint64 cachingThreshold;
     QByteArray requestData;
+    QString relativePath;
 
 };
 

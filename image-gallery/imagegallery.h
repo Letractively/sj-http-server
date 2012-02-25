@@ -18,14 +18,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef SETTINGSCONSTANTS_H
-#define SETTINGSCONSTANTS_H
+#ifndef IMAGEGALLERY_H
+#define IMAGEGALLERY_H
 
-#include <QString>
+#include <abstractrequesthandler.h>
+#include <abstractdispatcher.h>
+#include <QObject>
 
-const QString SETTING_WWW_ROOT_PATH = "www.root.path";
-const QString SETTING_LISTEN_INTERFACE = "server.listen.interface";
-const QString SETTING_LISTEN_PORT = "server.listen.port";
+class ImageGallery : public QObject, public AbstractRequestHandler
+{
+    Q_OBJECT
+    Q_INTERFACES(AbstractRequestHandler)
+public:
+    ImageGallery();
+    ~ImageGallery();
+    QString name() const;
+    HttpResponse handle(HttpRequest *req, QSettings *settings) const;
+private:
+    AbstractDispatcher * dispatcher;
+};
 
-
-#endif // SETTINGSCONSTANTS_H
+#endif // IMAGEGALLERY_H

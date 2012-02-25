@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,15 +40,15 @@ HandlerManager::HandlerManager()
 
 QString HandlerManager::registerHandler(const QString & filePath, const QString & contextRoot)
 {
-     AbstractRequestHandler * newHandler = loadPlugin(filePath, contextRoot);
+    AbstractRequestHandler * newHandler = loadPlugin(filePath, contextRoot);
 
-     if(0 != newHandler) {
-         persistHandlerConfig(filePath, contextRoot);
+    if(0 != newHandler) {
+        persistHandlerConfig(filePath, contextRoot);
 
-         return newHandler->name();
-     }
+        return newHandler->name();
+    }
 
-     return "";
+    return "";
 }
 
 
@@ -91,11 +91,13 @@ AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, co
         qDebug() << "creating instance ...";
         newHandler = qobject_cast<AbstractRequestHandler *>(pl.instance());
         if(0 != newHandler) {
-        qDebug() << "instance created";
-        qDebug() << "name " << newHandler->name();
+            qDebug() << "instance created";
+            qDebug() << "name " << newHandler->name();
         } else {
             qDebug() << "cannot creeate an instance";
         }
+    } else {
+        qDebug() << "FAILED to load plugin from " << filepath << ". Reason: " << pl.errorString();
     }
 
     if(newHandler != 0) {
@@ -141,9 +143,19 @@ AbstractRequestHandler * HandlerManager::getHandler(HttpRequest * request)
 {
     QString uri = request->getRequestUri();
 
-    for(int i = 0; i < handlers.size(); ++i) {
-        if(uri.startsWith(handlers[i].getContextRoot())) {
-            return handlers[i].getHandler();
+    QStringList list = uri.split("/", QString::SkipEmptyParts);
+
+    if(!list.isEmpty()) {
+        QString contextRoot = "/" + list[0];
+
+        for(int i = 0; i < handlers.size(); ++i) {
+            qDebug() << "HANDLER MANAGER comparing " << contextRoot << " and " << handlers[i].getContextRoot();
+            if(contextRoot == handlers[i].getContextRoot()) {
+                list.removeAt(0);
+                QString relativePath = "/" + list.join("/");
+                request->setRelativePath(relativePath);
+                return handlers[i].getHandler();
+            }
         }
     }
 

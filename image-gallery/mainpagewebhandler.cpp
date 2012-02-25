@@ -18,14 +18,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef SETTINGSCONSTANTS_H
-#define SETTINGSCONSTANTS_H
+#include "mainpagewebhandler.h"
 
-#include <QString>
-
-const QString SETTING_WWW_ROOT_PATH = "www.root.path";
-const QString SETTING_LISTEN_INTERFACE = "server.listen.interface";
-const QString SETTING_LISTEN_PORT = "server.listen.port";
+MainPageWebHandler::MainPageWebHandler()
+{
+}
 
 
-#endif // SETTINGSCONSTANTS_H
+HttpResponse MainPageWebHandler::handle(HttpRequest * request) const
+{
+    QByteArray response;
+    response.append("<html><body>Welcome to image gallery<br><br>"
+                    "REQUEST:<br>" + request->toString() +
+                    "</body></html>");
+    return HttpResponse(&response);
+}

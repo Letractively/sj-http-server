@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -103,7 +103,7 @@ void MainDialog::startButtonClickedSlot()
 
 void MainDialog::aboutButtonClickedSlot()
 {
-    QMessageBox::information(this, "About Server...", "Http Server written in Qt by Samir Jorina\nhttp://sj-http-server.googlecode.com/");
+    QMessageBox::information(this, "About Server...", "Http Server written in Qt by Jakub Wachowski\nhttp://sj-http-server.googlecode.com/");
 }
 
 void MainDialog::quitButtonClickedSlot()

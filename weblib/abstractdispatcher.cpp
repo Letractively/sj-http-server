@@ -18,14 +18,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef SETTINGSCONSTANTS_H
-#define SETTINGSCONSTANTS_H
-
-#include <QString>
-
-const QString SETTING_WWW_ROOT_PATH = "www.root.path";
-const QString SETTING_LISTEN_INTERFACE = "server.listen.interface";
-const QString SETTING_LISTEN_PORT = "server.listen.port";
+#include "abstractdispatcher.h"
 
 
-#endif // SETTINGSCONSTANTS_H
+AbstractDispatcher::AbstractDispatcher()
+{
+}

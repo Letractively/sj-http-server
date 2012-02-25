@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,6 +38,13 @@ HttpServer::~HttpServer()
     close();
 }
 
+void HttpServer::close()
+{
+    QTcpServer::close();
+    emit serverStoppedSignal();
+}
+
+
 QHostAddress HttpServer::createAddress(QString interface)
 {
     if(interface == "localhost" || interface == "127.0.0.1") {
@@ -56,6 +63,7 @@ void HttpServer::incomingConnection(int socketDescriptor)
     qDebug() << "new connection";
     RequestProcessingThread * thread = new RequestProcessingThread(socketDescriptor);
     connect(thread, SIGNAL(finished()), this, SLOT(threadFinishedSlot()));
+    connect(this, SIGNAL(serverStoppedSignal()), thread, SLOT(serverStoppedSlot()));
     thread->start();
 }
 

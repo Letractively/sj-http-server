@@ -18,14 +18,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef SETTINGSCONSTANTS_H
-#define SETTINGSCONSTANTS_H
+#ifndef ERRORWEBHANDLER_H
+#define ERRORWEBHANDLER_H
 
-#include <QString>
+#include "abstractwebhandler.h"
 
-const QString SETTING_WWW_ROOT_PATH = "www.root.path";
-const QString SETTING_LISTEN_INTERFACE = "server.listen.interface";
-const QString SETTING_LISTEN_PORT = "server.listen.port";
+class ErrorWebHandler : public AbstractWebHandler
+{
+public:
+    ErrorWebHandler();
+    HttpResponse handle(HttpRequest * request) const;
 
+};
 
-#endif // SETTINGSCONSTANTS_H
+#endif // ERRORWEBHANDLER_H

@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -190,9 +190,6 @@ void RequestProcessingThread::processRequest() {
     response.writeToSocket(socket);
     delete request;
     request = 0;
-//    socket->disconnectFromHost();
-//    return;
-
 }
 
 
@@ -201,4 +198,10 @@ void RequestProcessingThread::disconnectedSlot()
     qDebug() << "   SOCKET SIGNAL disconnected";
     disconnect(this);
     this->quit();
+}
+
+void RequestProcessingThread::serverStoppedSlot()
+{
+    qDebug() << "Server stopped, disconnecting from socket";
+    socket->disconnectFromHost();
 }

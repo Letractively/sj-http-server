@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Samir Jorina
+Copyright (C) 2011-2012  Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 #include <QtTest/QtTest>
 #include <QtCore/QSettings>
 
@@ -31,6 +32,7 @@ public:
 
 private Q_SLOTS:
     void testCase1();
+    void testCase2();
 };
 
 TestSettings::TestSettings()
@@ -60,6 +62,34 @@ void TestSettings::testCase1()
 
     settings.sync();
 
+
+}
+
+
+
+void TestSettings::testCase2()
+{
+    QString s1 = "/image-gallery";
+    QStringList list1 = s1.split("/", QString::SkipEmptyParts);
+    qDebug() << "list1 " << list1;
+
+    QString s2 = "image-gallery";
+    QStringList list2 = s2.split("/", QString::SkipEmptyParts);
+    qDebug() << "list2 " << list2;
+
+    QString s3 = "/image-gallery/foo/bar?arg=123";
+    QStringList list3 = s3.split("/", QString::SkipEmptyParts);
+    qDebug() << "list3 " << list3;
+    list3.removeAt(0);
+    QString relativePath3 = "/" + list3.join("/");
+    qDebug() << "relativePath3" << relativePath3;
+
+    QString s4 = "/image-gallery";
+    QStringList list4 = s4.split("/", QString::SkipEmptyParts);
+    qDebug() << "list4 " << list4;
+    list4.removeAt(0);
+    QString relativePath4 = "/" + list4.join("/");
+    qDebug() << "relativePath4" << relativePath4;
 
 }
 
