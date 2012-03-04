@@ -27,7 +27,7 @@ class ErrorWebHandler : public AbstractWebHandler
 {
 public:
     ErrorWebHandler();
-    HttpResponse handle(HttpRequest * request) const;
+    HttpResponse handle(HttpRequest * request, QSettings::SettingsMap *settings) const;
 
 };
 

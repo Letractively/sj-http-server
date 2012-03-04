@@ -27,8 +27,10 @@ class RequestHandler : public AbstractRequestHandler
 {
 public:
     RequestHandler();
-    QString name() const { return "default request handler"; }
-    HttpResponse handle(HttpRequest *req, QSettings *settings) const;
+    QString name() const { return "DefaultRequestHandler"; }
+    HttpResponse handle(HttpRequest *req, QSettings::SettingsMap *settings) const;
+private:
+    QString WWW_ROOT_PATH;
 };
 
 #endif // REQUESTHANDLER_H

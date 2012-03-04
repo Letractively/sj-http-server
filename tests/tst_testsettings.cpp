@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QtCore/QStringList>
 #include <QtTest/QtTest>
 #include <QtCore/QSettings>
+#include <QtCore/QRegExp>
 
 class TestSettings : public QObject
 {
@@ -33,6 +34,7 @@ public:
 private Q_SLOTS:
     void testCase1();
     void testCase2();
+    void testCase3();
 };
 
 TestSettings::TestSettings()
@@ -63,6 +65,8 @@ void TestSettings::testCase1()
     settings.sync();
 
 
+    qDebug() << settings.value("no such key").toString();
+
 }
 
 
@@ -92,6 +96,79 @@ void TestSettings::testCase2()
     qDebug() << "relativePath4" << relativePath4;
 
 }
+
+void TestSettings::testCase3()
+{
+    QRegExp regExp("/upload");
+    regExp.setPatternSyntax(QRegExp::Wildcard);
+    regExp.setCaseSensitivity(Qt::CaseInsensitive);
+    if(!regExp.isValid()) {
+        qDebug() << "regExp is invalid " << regExp.errorString();
+        return;
+    }
+
+    QString str = "/upload";
+    bool matches = regExp.exactMatch(str);
+
+    if(!matches) {
+        qDebug() << str << " does not match " << regExp.pattern();
+    } else {
+        qDebug() << str << " matches" << regExp.pattern();
+    }
+
+
+    str = "/uploadd";
+    matches = regExp.exactMatch(str);
+
+    if(!matches) {
+        qDebug() << str << " does not match " << regExp.pattern();
+    } else {
+        qDebug() << str << " matches" << regExp.pattern();
+    }
+
+
+    str = "/upload/foo";
+    matches = regExp.exactMatch(str);
+
+    if(!matches) {
+        qDebug() << str << " does not match " << regExp.pattern();
+    } else {
+        qDebug() << str << " matches" << regExp.pattern();
+    }
+
+    regExp.setPattern("/upload/*");
+
+
+    str = "/upload";
+    matches = regExp.exactMatch(str);
+
+    if(!matches) {
+        qDebug() << str << " does not match " << regExp.pattern();
+    } else {
+        qDebug() << str << " matches" << regExp.pattern();
+    }
+
+
+    str = "/uploadd";
+    matches = regExp.exactMatch(str);
+
+    if(!matches) {
+        qDebug() << str << " does not match " << regExp.pattern();
+    } else {
+        qDebug() << str << " matches" << regExp.pattern();
+    }
+
+
+    str = "/upload/foo";
+    matches = regExp.exactMatch(str);
+
+    if(!matches) {
+        qDebug() << str << " does not match " << regExp.pattern();
+    } else {
+        qDebug() << str << " matches" << regExp.pattern();
+    }
+}
+
 
 QTEST_APPLESS_MAIN(TestSettings)
 

@@ -33,7 +33,8 @@ public:
     ImageGallery();
     ~ImageGallery();
     QString name() const;
-    HttpResponse handle(HttpRequest *req, QSettings *settings) const;
+    HttpResponse handle(HttpRequest *req, QSettings::SettingsMap *settings) const;
+    virtual QVector<SettingsItem> supportedSettings() const;
 private:
     AbstractDispatcher * dispatcher;
 };

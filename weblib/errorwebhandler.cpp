@@ -25,7 +25,7 @@ ErrorWebHandler::ErrorWebHandler()
 {
 }
 
-HttpResponse ErrorWebHandler::handle(HttpRequest * /*request*/) const
+HttpResponse ErrorWebHandler::handle(HttpRequest * /*request*/, QSettings::SettingsMap * /*settings*/) const
 {
     qDebug() << "ERROR WEB HANDLER returning not found response";
     return HttpResponse(HttpResponse::NOT_FOUND);

@@ -31,6 +31,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QSettings>
 #include <QPluginLoader>
+#include <QStringList>
 
 RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject * parent)
     :QThread(parent), socket(0), request(0), bytesRead(0),
@@ -102,6 +103,25 @@ void RequestProcessingThread::parseRequest() {
 
             parsePart(partsData.mid(prevPos + boundaryLength, pos - prevPos - boundaryLength));
         }
+    } else if(contentType.startsWith("application/x-www-form-urlencoded")){
+        parseFormParameters(request->getData());
+    }
+
+}
+
+void RequestProcessingThread::parseFormParameters(const QByteArray & partData)
+{
+    QString dataString = QString(partData);
+    QStringList paramsWithValues = dataString.split("&", QString::SkipEmptyParts);
+    for(int i = 0; i < paramsWithValues.size(); ++i) {
+        QStringList paramAndValue = paramsWithValues.at(i).split("=", QString::SkipEmptyParts);
+        if(paramAndValue.size() > 0 && paramAndValue.at(0).length() > 0) {
+            if(paramAndValue.size() == 1) {
+                request->addParameter(paramAndValue.at(0), "");
+            } else {
+                request->addParameter(paramAndValue.at(0), paramAndValue.at(1));
+            }
+        }
     }
 }
 
@@ -121,6 +141,7 @@ QByteArray RequestProcessingThread::findData(const QByteArray & data) {
 }
 
 void RequestProcessingThread::parsePart(const QByteArray & partData) {
+    qDebug() << partData;
     if(partData.contains(HttpHeader::CONTENT_TYPE.toAscii())) {
 
         QString originalFileName = findAttributeValue("filename", partData);
@@ -148,48 +169,38 @@ QString RequestProcessingThread::findAttributeValue(const QString & attributeNam
 
 }
 
-//void RequestProcessingThread::saveBinaryFile(HttpRequestBinaryFile * fileToSave)
-//{
-//    QString storePath = settings.value(SETTING_FILE_STORE_PATH).toString();
-//    QString filePath = storePath + fileToSave->getFileName();
-//    QFile file(filePath);
-//    file.open(QFile::WriteOnly);
-//    file.write(fileToSave->getData());
-//    file.flush();
-//    file.close();
-
-//    qDebug() << "file saved to " << filePath;
-//    Logger::instance().debug("File saved to " + filePath);
-
-//    bool miniatureEnabled = settings.value(SETTING_MINIATURE_ENABLED).toBool();
-
-//    if(miniatureEnabled) {
-//        QImage image(filePath);
-
-//        int miniatureSize = settings.value(SETTING_MINIATURE_SIZE).toInt();
-
-//        if(image.width() > image.height()) {
-//            image = image.scaledToWidth(miniatureSize);
-//        } else {
-//            image = image.scaledToHeight(miniatureSize);
-//        }
-//        filePath = storePath +"s" + fileToSave->getFileName();
-//        image.save(filePath);
-//        qDebug() << "miniature saved to" << filePath;
-//        Logger::instance().debug("Miniature saved to " + filePath);
-//    }
-
-//}
 
 void RequestProcessingThread::processRequest() {
-    qDebug() << "processing GET Request: " << request->getRequestUri();
+    qDebug() << "processing " << request->getMethod() << " Request: " << request->getRequestUri();
 
     AbstractRequestHandler * handler = HandlerManager::instance().getHandler(request);
     qDebug() << "Processing request with" << handler->name();
-    HttpResponse response = handler->handle(request, &settings);
+    QSettings::SettingsMap * sets = readHandlerSettings(handler->name());
+    HttpResponse response = handler->handle(request, sets);
+    delete sets;
     response.writeToSocket(socket);
     delete request;
     request = 0;
+}
+
+QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QString & handlerName)
+{
+
+    QSettings::SettingsMap * map = new QSettings::SettingsMap;
+
+    QStringList keys = settings.allKeys();
+
+    qDebug() << keys;
+
+    for(int i = 0; i < keys.length(); ++i) {
+        if(keys.at(i).startsWith(handlerName + "/")) {
+            map->insert(Utils::substring(keys.at(i), handlerName.length() + 1), settings.value(keys.at(i)));
+        }
+    }
+
+    qDebug() << "SETTINGS: returning map " << *map;
+
+    return map;
 }
 
 

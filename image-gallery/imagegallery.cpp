@@ -22,10 +22,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "contextpathdispatcher.h"
 #include "QDebug"
 #include "mainpagewebhandler.h"
+#include "uploadwebhandler.h"
 
 ImageGallery::ImageGallery()
 {
     QList<ContextPathPair> handlersList;
+    handlersList.append(ContextPathPair("/upload", new UploadWebHandler(), true));
     handlersList.append(ContextPathPair("/*", new MainPageWebHandler(), true));
     dispatcher = new ContextPathDispatcher(handlersList);
 }
@@ -40,16 +42,30 @@ ImageGallery::~ImageGallery()
 
 QString ImageGallery::name() const
 {
-    return "Image Gallery";
+    return "ImageGallery";
 }
 
-HttpResponse ImageGallery::handle(HttpRequest *req, QSettings */*settings*/) const
+HttpResponse ImageGallery::handle(HttpRequest *req, QSettings::SettingsMap *settings) const
 {
 //    qDebug() << "IMAGE-GALLERY REQUEST"  << req->toString();
 
 
 
-    return dispatcher->dispatchTo(req)->handle(req);
+    return dispatcher->dispatchRequest(req)->handle(req, settings);
 }
+
+
+
+QVector<SettingsItem> ImageGallery::supportedSettings() const
+{
+    QVector<SettingsItem> vect;
+    vect.push_back(SettingsItem("Temp Directory", SettingsItem::DIRECTORY, "tmp.directory"));
+    return vect;
+}
+
+
+
+
+
 
 Q_EXPORT_PLUGIN2(image-gallery, ImageGallery)

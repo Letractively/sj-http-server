@@ -25,7 +25,7 @@ MainPageWebHandler::MainPageWebHandler()
 }
 
 
-HttpResponse MainPageWebHandler::handle(HttpRequest * request) const
+HttpResponse MainPageWebHandler::handle(HttpRequest * request, QSettings::SettingsMap * /*settings*/) const
 {
     QByteArray response;
     response.append("<html><body>Welcome to image gallery<br><br>"

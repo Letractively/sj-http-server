@@ -22,12 +22,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define MAINPAGEWEBHANDLER_H
 
 #include "abstractwebhandler.h"
+#include <QSettings>
 
 class MainPageWebHandler : public AbstractWebHandler
 {
 public:
     MainPageWebHandler();
-    HttpResponse handle(HttpRequest * request) const;
+    HttpResponse handle(HttpRequest * request, QSettings::SettingsMap *settings) const;
 
 };
 

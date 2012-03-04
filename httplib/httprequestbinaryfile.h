@@ -36,6 +36,7 @@ public:
     QString getFileName() const { return fileName; }
     QString getContentType() const { return contentType; }
     QDateTime getUploadDate() const {return uploadDate; }
+    bool saveToDisc(const QString & destDir) const;
 private:
     QByteArray binaryData;
     QString originalFileName;

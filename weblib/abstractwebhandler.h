@@ -23,13 +23,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "httprequest.h"
 #include "httpresponse.h"
+#include <QSettings>
 
 class AbstractWebHandler
 {
 public:
     AbstractWebHandler();
     virtual ~AbstractWebHandler() {}
-    virtual HttpResponse handle(HttpRequest * request) const = 0;
+    virtual HttpResponse handle(HttpRequest * request, QSettings::SettingsMap *settings) const = 0;
 };
 
 #endif // ABSTRACTWEBHANDLER_H

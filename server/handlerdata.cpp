@@ -26,8 +26,8 @@ HandlerData::HandlerData()
 
 }
 
-HandlerData::HandlerData(const QString & contextPath, AbstractRequestHandler * handler)
-    : contextRoot(contextPath), handler(handler)
+HandlerData::HandlerData(const QString & contextPath, AbstractRequestHandler * handler, const QString & settingsGroup)
+    : contextRoot(contextPath), handler(handler), settingsGroup(settingsGroup)
 {
     if(!contextPath.startsWith("/")) {
         this->contextRoot = "/" + contextPath;

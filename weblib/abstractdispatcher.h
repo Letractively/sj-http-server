@@ -28,7 +28,7 @@ class AbstractDispatcher {
 public:
     AbstractDispatcher();
     virtual ~AbstractDispatcher() {}
-    virtual AbstractWebHandler * dispatchTo(HttpRequest * request) const = 0;
+    virtual AbstractWebHandler * dispatchRequest(HttpRequest * request) const = 0;
 };
 
 #endif // ABSTRACTDISPATCHER_H

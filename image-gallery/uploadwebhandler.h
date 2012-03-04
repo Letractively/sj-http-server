@@ -17,15 +17,24 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "settingsitem.h"
 
-SettingsItem::SettingsItem(const QString & name, const SettingType & type, const QString &key)
-    : name(name), type(type), key(key)
+#ifndef UPLOADWEBHANDLER_H
+#define UPLOADWEBHANDLER_H
+
+#include "abstractwebhandler.h"
+
+#include <QByteArray>
+#include <QSettings>
+
+class UploadWebHandler : public AbstractWebHandler
 {
-}
+public:
+    UploadWebHandler();
+    virtual HttpResponse handle(HttpRequest * request, QSettings::SettingsMap *settings) const;
 
-SettingsItem::SettingsItem()
-    : name(""), type(SettingsItem::STRING)
-{
+private:
+    QByteArray getFormBytes(const QString & requestUri) const;
+    HttpResponse handlePostData(HttpRequest *request, const QString & destDir) const;
+};
 
-}
+#endif // UPLOADWEBHANDLER_H

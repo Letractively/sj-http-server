@@ -34,7 +34,7 @@ class FortuneTeller : public QObject, public AbstractRequestHandler
     Q_INTERFACES(AbstractRequestHandler)
 public:
     QString name() const;
-    HttpResponse handle(HttpRequest *req, QSettings *settings) const;
+    HttpResponse handle(HttpRequest *req, QSettings::SettingsMap *settings) const;
 private:
     static QVector<QString> fortunes;
     static bool fortunesSet;

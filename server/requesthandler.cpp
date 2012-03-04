@@ -20,18 +20,20 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "requesthandler.h"
 #include "settingsconstants.h"
+#include "serverutils.h"
 
 RequestHandler::RequestHandler()
 {
+    WWW_ROOT_PATH = Utils::substring(SETTING_WWW_ROOT_PATH, name().length() + 1);
 }
 
-HttpResponse RequestHandler::handle(HttpRequest *req, QSettings *settings) const
+HttpResponse RequestHandler::handle(HttpRequest *req, QSettings::SettingsMap *settings) const
 {
     if(req->getMethod() != HttpRequest::GET) {
         return HttpResponse(HttpResponse::NOT_FOUND);
     }
 
-    QString wwwRoot = settings->value(SETTING_WWW_ROOT_PATH).toString();
+    QString wwwRoot = settings->value(WWW_ROOT_PATH).toString();
 
     HttpResponse response;
     if("" == wwwRoot) {

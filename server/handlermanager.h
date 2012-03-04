@@ -23,7 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractrequesthandler.h"
 #include "handlerdata.h"
-#include "QVector"
+#include <QVector>
 
 
 class HandlerManager

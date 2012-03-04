@@ -29,15 +29,18 @@ public:
     enum SettingType {INT, BOOL, STRING, DIRECTORY};
 
     SettingsItem();
-    SettingsItem(const QString & name, const SettingType & type);
+    SettingsItem(const QString & name, const SettingType & type, const QString & key);
     const QString & getName() { return name; }
     const SettingType & getType() { return type; }
-    void setName(const QString & name) { this->name = name; }
-    void setType(const SettingType & type) { this->type = type; }
+//    void setName(const QString & name) { this->name = name; }
+//    void setType(const SettingType & type) { this->type = type; }
+
+    const QString & getKey() { return key; }
 
 private:
     QString name;
     SettingType type;
+    QString key;
 };
 
 #endif // SETTINGSITEM_H

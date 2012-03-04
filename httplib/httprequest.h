@@ -41,7 +41,9 @@ public:
     HttpRequest(QTcpSocket * socket);
     QString getRequestUri() {return requestUri;}
     RequestMethod getMethod() {return method;}
-    bool isMultipart() {return multipart; }
+
+    QString getParameter(const QString & paramName) { return parameters.value(paramName); }
+
     QString toString();
 
     QString getHeaderValue(const QString & headerName);
@@ -58,6 +60,8 @@ public:
 
     void setRelativePath(const QString & path) {this->relativePath = path;}
     QString getRelativePath() { return relativePath; }
+    QVector<HttpRequestBinaryFile> & getBinaryFiles() { return binaryFiles; }
+
 
 //private member functions
 private:
@@ -79,7 +83,6 @@ private:
     QVector<HttpHeader> headers;
     QMap<QString, QString> parameters;
     QVector<HttpRequestBinaryFile> binaryFiles;
-    bool multipart;
     quint64 contentLength;
     quint64 cachingThreshold;
     QByteArray requestData;

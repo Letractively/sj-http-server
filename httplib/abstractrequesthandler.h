@@ -39,7 +39,7 @@ public:
     virtual QString name() const = 0;
     virtual QString description() const { return ""; }
     virtual QString helpInfo() const { return ""; }
-    virtual HttpResponse handle(HttpRequest * req, QSettings * settings = 0) const = 0;
+    virtual HttpResponse handle(HttpRequest * req, QSettings::SettingsMap * settings = 0) const = 0;
     virtual QVector<SettingsItem> supportedSettings() const { return QVector<SettingsItem>(0); }
 };
 
