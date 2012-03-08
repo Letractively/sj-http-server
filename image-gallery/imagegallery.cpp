@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "QDebug"
 #include "mainpagewebhandler.h"
 #include "uploadwebhandler.h"
+#include "imagegalleryconstants.h"
 
 ImageGallery::ImageGallery()
 {
@@ -59,7 +60,7 @@ HttpResponse ImageGallery::handle(HttpRequest *req, QSettings::SettingsMap *sett
 QVector<SettingsItem> ImageGallery::supportedSettings() const
 {
     QVector<SettingsItem> vect;
-    vect.push_back(SettingsItem("Temp Directory", SettingsItem::DIRECTORY, "tmp.directory"));
+    vect.push_back(SettingsItem("Temp Directory", SettingsItem::DIRECTORY, SETTING_TMP_DIR));
     return vect;
 }
 

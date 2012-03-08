@@ -61,7 +61,7 @@ private:
     QString findAttributeValue(const QString & attributeName, const QByteArray & partData);
     QString findHeaderValue(const QString & headerName, const QByteArray & data);
     QByteArray findData(const QByteArray & data);
-    QSettings::SettingsMap * readHandlerSettings(const QString & handlerName);
+    QSettings::SettingsMap * readHandlerSettings(const QString & handlerSettingsKey);
 };
 
 #endif // REQUESTPROCESSINGTHREAD_H

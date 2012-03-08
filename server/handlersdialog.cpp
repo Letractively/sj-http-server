@@ -28,6 +28,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 #include <QLabel>
 
+#include "settingwidgetsfactory.h"
+
 HandlerEditor::HandlerEditor(HandlerData * handler, QWidget * parent)
     : QWidget(parent), handler(handler)
 {
@@ -84,6 +86,11 @@ HandlersDialog::HandlersDialog(QWidget *parent) :
     for(int i = 0; i < handlers->size(); ++i) {
         HandlerEditor * e = new HandlerEditor(&(handlers->operator [](i)));
         layout->addWidget(e);
+        QVector<SettingsItem> sets = handlers->at(i).getHandler()->supportedSettings();
+        for(int k = 0; k < sets.size(); ++k) {
+            layout->addWidget(SettingWidgetsFactory::getWidget(sets.at(k).getType(),
+                                    handlers->at(i).getSettingsGroup() + "/" + sets.at(k).getKey(), sets.at(k).getName()));
+        }
     }
 
     layout->addWidget(closeButton);

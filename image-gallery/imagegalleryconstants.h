@@ -18,28 +18,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef IMAGEGALLERYCONSTANTS_H
+#define IMAGEGALLERYCONSTANTS_H
 
-#include <QDialog>
+#include <QString>
 
+const QString SETTING_TMP_DIR = "tmp.directory";
 
-
-
-class SettingsDialog : public QDialog
-{
-    Q_OBJECT
-public:
-    explicit SettingsDialog(QWidget *parent = 0);
-
-signals:
-
-public slots:
-
-private slots:
-    void okSlot();
-
-
-};
-
-#endif // SETTINGSDIALOG_H
+#endif // IMAGEGALLERYCONSTANTS_H

@@ -14,7 +14,8 @@ CONFIG += plugin
 HEADERS += \
     imagegallery.h \
     mainpagewebhandler.h \
-    uploadwebhandler.h
+    uploadwebhandler.h \
+    imagegalleryconstants.h
 
 SOURCES += \
     imagegallery.cpp \

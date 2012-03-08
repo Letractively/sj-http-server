@@ -30,12 +30,12 @@ public:
 
     SettingsItem();
     SettingsItem(const QString & name, const SettingType & type, const QString & key);
-    const QString & getName() { return name; }
-    const SettingType & getType() { return type; }
+    const QString & getName() const { return name; }
+    const SettingType & getType() const { return type; }
 //    void setName(const QString & name) { this->name = name; }
 //    void setType(const SettingType & type) { this->type = type; }
 
-    const QString & getKey() { return key; }
+    const QString & getKey() const { return key; }
 
 private:
     QString name;

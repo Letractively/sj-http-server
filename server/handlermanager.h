@@ -36,12 +36,12 @@ public:
 
     static HandlerManager & instance();
 
-    AbstractRequestHandler * getHandler(HttpRequest * request);
+    HandlerData getHandler(HttpRequest * request);
 
     /**
      * @return Name of the handler (as returned by the plugin)
      */
-    QString registerHandler(const QString & filePath, const QString & contextRoot);
+    QString registerHandler(const QString & filePath, const QString & contextRoot, const QString & settingsKey);
 
     QVector<HandlerData> * getAllHandlers() { return &handlers; }
 
@@ -50,15 +50,16 @@ private:
     static const QString PLUGIN_GROUP_NAME;
     static const QString PLUGIN_FILE_PATH;
     static const QString PLUGIN_CONTEXT_ROOT;
+    static const QString PLUGIN_SETTINGS_KEY;
 
     void loadPluginsFromConfig();
     void persistHandlerConfig(const QString & filepath, const QString & contextRoot);
 
-    AbstractRequestHandler * loadPlugin(const QString & filepath, const QString & contextRoot);
+    AbstractRequestHandler * loadPlugin(const QString & filepath, const QString & contextRoot, const QString & settingsKey);
 
 
 
-    AbstractRequestHandler * defaultHandler;
+    HandlerData defaultHandler;
     QVector<HandlerData> handlers;
 };
 

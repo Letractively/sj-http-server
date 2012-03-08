@@ -62,9 +62,10 @@ void setUpSettings()
     }
 
     qDebug() << "Settings:";
-    qDebug() << SETTING_LISTEN_INTERFACE <<  " = " << settings.value(SETTING_LISTEN_INTERFACE).toString();
-    qDebug() << SETTING_LISTEN_PORT <<  " = " << settings.value(SETTING_LISTEN_PORT).toInt();
-    qDebug() << SETTING_WWW_ROOT_PATH <<  " = " << settings.value(SETTING_WWW_ROOT_PATH).toString();
+    QStringList allKeys = settings.allKeys();
+    for(int i = 0; i < allKeys.size(); ++i) {
+        qDebug() << "key " << allKeys[i] << ". value: " << settings.value(allKeys[i]).toString();
+    }
 }
 
 

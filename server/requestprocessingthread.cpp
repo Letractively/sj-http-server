@@ -173,9 +173,10 @@ QString RequestProcessingThread::findAttributeValue(const QString & attributeNam
 void RequestProcessingThread::processRequest() {
     qDebug() << "processing " << request->getMethod() << " Request: " << request->getRequestUri();
 
-    AbstractRequestHandler * handler = HandlerManager::instance().getHandler(request);
+    HandlerData handlerData = HandlerManager::instance().getHandler(request);
+    AbstractRequestHandler * handler = handlerData.getHandler();
     qDebug() << "Processing request with" << handler->name();
-    QSettings::SettingsMap * sets = readHandlerSettings(handler->name());
+    QSettings::SettingsMap * sets = readHandlerSettings(handlerData.getSettingsGroup());
     HttpResponse response = handler->handle(request, sets);
     delete sets;
     response.writeToSocket(socket);
@@ -183,18 +184,21 @@ void RequestProcessingThread::processRequest() {
     request = 0;
 }
 
-QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QString & handlerName)
+QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QString & handlerSettingsKey)
 {
 
     QSettings::SettingsMap * map = new QSettings::SettingsMap;
+    if("" == handlerSettingsKey) {
+        return map;
+    }
 
     QStringList keys = settings.allKeys();
 
-    qDebug() << keys;
+    qDebug() << "SETTINGS: all keys are " << keys;
 
     for(int i = 0; i < keys.length(); ++i) {
-        if(keys.at(i).startsWith(handlerName + "/")) {
-            map->insert(Utils::substring(keys.at(i), handlerName.length() + 1), settings.value(keys.at(i)));
+        if(keys.at(i).startsWith(handlerSettingsKey + "/")) {
+            map->insert(Utils::substring(keys.at(i), handlerSettingsKey.length() + 1), settings.value(keys.at(i)));
         }
     }
 

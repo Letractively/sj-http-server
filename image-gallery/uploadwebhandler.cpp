@@ -21,6 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "uploadwebhandler.h"
 #include <QDebug>
 
+#include "imagegalleryconstants.h"
+
 UploadWebHandler::UploadWebHandler()
 {
 }
@@ -38,7 +40,7 @@ HttpResponse UploadWebHandler::handle(HttpRequest * request, QSettings::Settings
     }
     case HttpRequest::POST:
     {
-        return handlePostData(request, settings->value("temp.directory").toString());
+        return handlePostData(request, settings->value(SETTING_TMP_DIR).toString());
     }
 
     default:
