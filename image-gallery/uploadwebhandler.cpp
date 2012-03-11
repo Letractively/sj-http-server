@@ -79,8 +79,10 @@ HttpResponse UploadWebHandler::handlePostData(HttpRequest *request, const QStrin
         a.append("<br>thank you for uploading the following files:\n");
         a.append("<ul>");
         for(int i = 0; i < request->getBinaryFiles().size(); i++) {
-            a.append("<li>" + request->getBinaryFiles()[i].getOriginalFileName() + "</li>\n");
-            request->getBinaryFiles()[i].saveToDisc(destDir);
+            HttpRequestBinaryFile binFile = request->getBinaryFiles()[i];
+            a.append("<li>" + binFile.getOriginalFileName() + "</li>\n");
+            binFile.saveToDisc(destDir);
+            a.append("<img src=\"show?file=" + binFile.getFileName() + "\"> ");
         }
         a.append("</ul>");
     }

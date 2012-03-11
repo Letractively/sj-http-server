@@ -15,12 +15,14 @@ HEADERS += \
     imagegallery.h \
     mainpagewebhandler.h \
     uploadwebhandler.h \
-    imagegalleryconstants.h
+    imagegalleryconstants.h \
+    imageviewwebhandler.h
 
 SOURCES += \
     imagegallery.cpp \
     mainpagewebhandler.cpp \
-    uploadwebhandler.cpp
+    uploadwebhandler.cpp \
+    imageviewwebhandler.cpp
 
 
 

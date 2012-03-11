@@ -18,12 +18,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef IMAGEGALLERYCONSTANTS_H
-#define IMAGEGALLERYCONSTANTS_H
+#ifndef IMAGEVIEWER_H
+#define IMAGEVIEWER_H
 
-#include <QString>
+#include "abstractwebhandler.h"
 
-const QString SETTING_TMP_DIR = "tmp.directory";
-const QString FILE_ID_PARAM = "file";
+class ImageViewWebHandler : public AbstractWebHandler
+{
+public:
+    ImageViewWebHandler();
+    virtual HttpResponse handle(HttpRequest * request, QSettings::SettingsMap *settings) const;
 
-#endif // IMAGEGALLERYCONSTANTS_H
+};
+
+#endif // IMAGEVIEWER_H

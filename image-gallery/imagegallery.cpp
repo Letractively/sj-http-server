@@ -23,12 +23,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "QDebug"
 #include "mainpagewebhandler.h"
 #include "uploadwebhandler.h"
+#include "imageviewwebhandler.h"
 #include "imagegalleryconstants.h"
 
 ImageGallery::ImageGallery()
 {
     QList<ContextPathPair> handlersList;
     handlersList.append(ContextPathPair("/upload", new UploadWebHandler(), true));
+    handlersList.append(ContextPathPair("/show", new ImageViewWebHandler(), true));
     handlersList.append(ContextPathPair("/*", new MainPageWebHandler(), true));
     dispatcher = new ContextPathDispatcher(handlersList);
 }

@@ -18,12 +18,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef IMAGEGALLERYCONSTANTS_H
-#define IMAGEGALLERYCONSTANTS_H
+#include "imageviewwebhandler.h"
+#include "imagegalleryconstants.h"
 
-#include <QString>
+#include <QDebug>
 
-const QString SETTING_TMP_DIR = "tmp.directory";
-const QString FILE_ID_PARAM = "file";
+ImageViewWebHandler::ImageViewWebHandler()
+{
+}
 
-#endif // IMAGEGALLERYCONSTANTS_H
+HttpResponse ImageViewWebHandler::handle(HttpRequest * request, QSettings::SettingsMap *settings) const
+{
+    qDebug() << "Image Viewr REQUEST: " << request->toString();
+
+    QString imagePath = settings->value(SETTING_TMP_DIR).toString() +  request->getParameter(FILE_ID_PARAM);
+    qDebug() << " image path " << imagePath;
+
+    return HttpResponse(imagePath);
+
+
+}
