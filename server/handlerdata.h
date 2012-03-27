@@ -28,14 +28,12 @@ class HandlerData
 {
 public:
     HandlerData();
-    HandlerData(const QString & contextRoot, AbstractRequestHandler * handler, const QString & settingsGroup);
+    HandlerData(AbstractRequestHandler * handler, const QString & settingsGroup);
     ~HandlerData();
-    QString getContextRoot() const { return contextRoot; }
+    QString getContextRoot() const;
     AbstractRequestHandler * getHandler() const {return handler;}
     QString getSettingsGroup() const { return settingsGroup; }
-    void setContextRoot(const QString & contextRoot) { this->contextRoot = contextRoot; }
 private:
-    QString contextRoot;
     AbstractRequestHandler * handler;
     QString settingsGroup;
 };

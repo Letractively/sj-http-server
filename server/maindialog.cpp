@@ -65,8 +65,8 @@ void MainDialog::startButtonClickedSlot()
             Logger::instance().debug("Starting server...");
 
             QSettings & settings = Utils::getSettings();
-            QString serverInterface = settings.value(SETTING_LISTEN_INTERFACE).toString();
-            quint16 serverPort = settings.value(SETTING_LISTEN_PORT).toInt();
+            QString serverInterface = settings.value(ServerSettings::SETTING_LISTEN_INTERFACE).toString();
+            quint16 serverPort = settings.value(ServerSettings::SETTING_LISTEN_PORT).toInt();
 
             QHostAddress adr = HttpServer::createAddress(serverInterface);
 
@@ -80,7 +80,7 @@ void MainDialog::startButtonClickedSlot()
             } else {
                 ui->startButton->setText("Stop server");
                 serverStarted = true;
-                Logger::instance().debug("Server listening on " + serverInterface + ":" + settings.value(SETTING_LISTEN_PORT).toString());
+                Logger::instance().debug("Server listening on " + serverInterface + ":" + settings.value(ServerSettings::SETTING_LISTEN_PORT).toString());
             }
         } else {
             Logger::instance().debug("Stopping server...");

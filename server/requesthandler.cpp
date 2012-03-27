@@ -24,7 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 RequestHandler::RequestHandler()
 {
-    WWW_ROOT_PATH = Utils::substring(SETTING_WWW_ROOT_PATH, name().length() + 1);
+    WWW_ROOT_PATH = Utils::substring(ServerSettings::SETTING_WWW_ROOT_PATH, name().length() + 1);
 }
 
 HttpResponse RequestHandler::handle(HttpRequest *req, QSettings::SettingsMap *settings) const

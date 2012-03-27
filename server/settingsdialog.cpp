@@ -61,7 +61,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 //    connect(okButton, SIGNAL(clicked()), fileStoreDir, SLOT(saveSetting()));
 //    layout->addWidget(fileStoreDir);
 
-    AbstractSetting * wwwRootDir = new DirectorySetting("WWW root directory", SETTING_WWW_ROOT_PATH);
+    AbstractSetting * wwwRootDir = new DirectorySetting("WWW root directory", ServerSettings::SETTING_WWW_ROOT_PATH);
     connect(okButton, SIGNAL(clicked()), wwwRootDir, SLOT(saveSetting()));
     layout->addWidget(wwwRootDir);
 
@@ -70,11 +70,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 //    connect(okButton, SIGNAL(clicked()), miniatureSize, SLOT(saveSetting()));
 //    layout->addWidget(miniatureSize);
 
-    AbstractSetting * interfaceHost = new HostSetting("Listening host", SETTING_LISTEN_INTERFACE);
+    AbstractSetting * interfaceHost = new HostSetting("Listening host", ServerSettings::SETTING_LISTEN_INTERFACE);
     connect(okButton, SIGNAL(clicked()), interfaceHost, SLOT(saveSetting()));
     layout->addWidget(interfaceHost);
 
-    IntSetting * interfacePort = new IntSetting("Listening port", SETTING_LISTEN_PORT);
+    IntSetting * interfacePort = new IntSetting("Listening port", ServerSettings::SETTING_LISTEN_PORT);
     interfacePort->setMin(1);
     interfacePort->setMax(99999);
     connect(okButton, SIGNAL(clicked()), interfacePort, SLOT(saveSetting()));

@@ -19,6 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "handlerdata.h"
+#include "settingsconstants.h"
+#include "serverutils.h"
 
 HandlerData::HandlerData()
     :handler(0)
@@ -26,11 +28,20 @@ HandlerData::HandlerData()
 
 }
 
-HandlerData::HandlerData(const QString & contextPath, AbstractRequestHandler * handler, const QString & settingsGroup)
-    : contextRoot(contextPath), handler(handler), settingsGroup(settingsGroup)
+HandlerData::HandlerData(AbstractRequestHandler * handler, const QString & settingsGroup)
+    : handler(handler), settingsGroup(settingsGroup)
 {
-    if(!contextPath.startsWith("/")) {
-        this->contextRoot = "/" + contextPath;
+
+}
+
+QString HandlerData::getContextRoot() const
+{
+    QString contextPath = Utils::getSettings().value(settingsGroup + "/" + PluginSettings::PLUGIN_CONTEXT_ROOT).toString();
+
+    if(contextPath.startsWith("/")) {
+        return contextPath;
+    } else {
+        return "/" + contextPath;
     }
 }
 

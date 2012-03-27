@@ -23,20 +23,27 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 #include "handlerdata.h"
+#include "settingwidgetsfactory.h"
 
 class HandlerEditor : public QWidget
 {
     Q_OBJECT
 public:
     explicit HandlerEditor(HandlerData * handler, QWidget * parent = 0);
+    ~HandlerEditor();
 private:
 
-    QString nameToContextRoot(const QString & name);
+//    QString nameToContextRoot(const QString & name);
 
     HandlerData * handler;
+    StringSetting * contextPathSetting;
+    QVector<AbstractSetting *> allSettings;
+
 
 private slots:
-    void contextRootChangedSlot(const QString & contextRoot);
+    void okSlot();
+signals:
+    void okSignal();
 };
 
 

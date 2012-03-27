@@ -21,68 +21,62 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "handlermanager.h"
 #include "requesthandler.h"
 #include "serverutils.h"
+#include "settingsconstants.h"
 
 #include <QPluginLoader>
 
 
-const QString HandlerManager::PLUGIN_GROUP_NAME="plugins";
-const QString HandlerManager::PLUGIN_FILE_PATH = "file.path";
-const QString HandlerManager::PLUGIN_CONTEXT_ROOT = "context.root";
-const QString HandlerManager::PLUGIN_SETTINGS_KEY = "settings.key";
-
-
-
 HandlerManager::HandlerManager()
 {
-    defaultHandler = HandlerData("", new RequestHandler, "DefaultRequestHandler");
+    defaultHandler = HandlerData(new RequestHandler, "DefaultRequestHandler");
     loadPluginsFromConfig();
 }
 
 
-QString HandlerManager::registerHandler(const QString & filePath, const QString & contextRoot, const QString & settingsKey)
-{
-    AbstractRequestHandler * newHandler = loadPlugin(filePath, contextRoot, settingsKey);
+//QString HandlerManager::registerHandler(const QString & filePath, const QString & settingsKey)
+//{
+//    AbstractRequestHandler * newHandler = loadPlugin(filePath, settingsKey);
 
-    if(0 != newHandler) {
-        persistHandlerConfig(filePath, contextRoot);
+//    if(0 != newHandler) {
+//        persistHandlerConfig(filePath, contextRoot);
 
-        return newHandler->name();
-    }
+//        return newHandler->name();
+//    }
 
-    return "";
-}
+//    return "";
+//}
 
 
 void HandlerManager::loadPluginsFromConfig()
 {
     QSettings & settings = Utils::getSettings();
 
-    int size = settings.beginReadArray(PLUGIN_GROUP_NAME);
+    int size = settings.beginReadArray(PluginSettings::PLUGIN_GROUP_NAME);
 
     for(int i = 0; i < size; ++i) {
         settings.setArrayIndex(i);
-        loadPlugin(settings.value(PLUGIN_FILE_PATH).toString(), settings.value(PLUGIN_CONTEXT_ROOT).toString(), settings.value(PLUGIN_SETTINGS_KEY).toString());
+        loadPlugin(settings.value(PluginSettings::PLUGIN_FILE_PATH).toString(), settings.value(PluginSettings::PLUGIN_SETTINGS_KEY).toString());
     }
 
     settings.endArray();
 }
 
-void HandlerManager::persistHandlerConfig(const QString & filepath, const QString & contextRoot)
-{
-    QSettings & settings = Utils::getSettings();
+//void HandlerManager::persistHandlerConfig(const QString & filepath)
+//{
+//    QSettings & settings = Utils::getSettings();
 
-    int size = settings.beginReadArray(PLUGIN_GROUP_NAME);
-    settings.endArray();
+//    int size = settings.beginReadArray(PluginSettings::PLUGIN_GROUP_NAME);
+//    settings.endArray();
 
-    settings.beginWriteArray(PLUGIN_GROUP_NAME);
-    settings.setArrayIndex(size);
-    settings.setValue(PLUGIN_FILE_PATH, filepath);
-    settings.setValue(PLUGIN_CONTEXT_ROOT, contextRoot);
-    settings.endArray();
-    settings.sync();
-}
+//    settings.beginWriteArray(PluginSettings::PLUGIN_GROUP_NAME);
+//    settings.setArrayIndex(size);
+//    settings.setValue(PluginSettings::PLUGIN_FILE_PATH, filepath);
+//    settings.setValue(PluginSettings::PLUGIN_CONTEXT_ROOT, contextRoot);
+//    settings.endArray();
+//    settings.sync();
+//}
 
-AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, const QString & contextRoot, const QString & settingsKey)
+AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, const QString & settingsKey)
 {
     AbstractRequestHandler * newHandler = 0;
     QPluginLoader pl(filepath);
@@ -102,24 +96,8 @@ AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, co
     }
 
     if(newHandler != 0) {
-
-        //check if plugin is already loaded
-        bool alreadySet = false;
-
-        for(int i = 0; i < handlers.size(); ++i) {
-            if(newHandler->name() == handlers[i].getHandler()->name()
-                    && contextRoot == handlers[i].getContextRoot() ) {
-                alreadySet = true;
-                break;
-            }
-        }
-
-        if(!alreadySet) {
-            qDebug() << "Plugin " << newHandler->name() << " added to the handlers; Context root is " << contextRoot;
-            handlers.push_back(HandlerData(contextRoot, newHandler, settingsKey));
-        } else {
-            qDebug() << "Plugin already set: "<< newHandler->name() << "for context root " << contextRoot;
-        }
+        qDebug() << "Plugin " << newHandler->name() << " added to the handlers; Settings stored under key " << settingsKey;
+        handlers.push_back(HandlerData(newHandler, settingsKey));
     }
 
     return newHandler;

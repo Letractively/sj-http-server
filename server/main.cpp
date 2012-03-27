@@ -49,16 +49,16 @@ void setUpSettings()
 
     //setup default values
 
-    if(!settings.contains(SETTING_LISTEN_INTERFACE)) {
-        settings.setValue(SETTING_LISTEN_INTERFACE, "localhost");
+    if(!settings.contains(ServerSettings::SETTING_LISTEN_INTERFACE)) {
+        settings.setValue(ServerSettings::SETTING_LISTEN_INTERFACE, "localhost");
     }
 
-    if(!settings.contains(SETTING_LISTEN_PORT)) {
-        settings.setValue(SETTING_LISTEN_PORT, 9090);
+    if(!settings.contains(ServerSettings::SETTING_LISTEN_PORT)) {
+        settings.setValue(ServerSettings::SETTING_LISTEN_PORT, 9090);
     }
 
-    if(!settings.contains(SETTING_WWW_ROOT_PATH)) {
-        settings.setValue(SETTING_WWW_ROOT_PATH, "/var/www/");
+    if(!settings.contains(ServerSettings::SETTING_WWW_ROOT_PATH)) {
+        settings.setValue(ServerSettings::SETTING_WWW_ROOT_PATH, "/var/www/");
     }
 
     qDebug() << "Settings:";
