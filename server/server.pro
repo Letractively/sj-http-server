@@ -9,7 +9,6 @@ QT       += core gui network
 TARGET = sj-http-server
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         maindialog.cpp \
     logger.cpp \

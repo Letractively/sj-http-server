@@ -10,6 +10,7 @@ QT       -= gui
 
 TARGET = httplib
 TEMPLATE = lib
+VERSION = 0.1
 
 DEFINES += HTTPLIB_LIBRARY
 

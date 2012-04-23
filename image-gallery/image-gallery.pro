@@ -10,7 +10,6 @@ TARGET = image-gallery
 TEMPLATE = lib
 CONFIG += plugin
 
-
 HEADERS += \
     imagegallery.h \
     mainpagewebhandler.h \
