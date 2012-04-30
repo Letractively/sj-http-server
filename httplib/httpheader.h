@@ -27,20 +27,81 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class HttpHeader
 {
 public:
+    // set of known http headers
     static const QString CONTENT_TYPE;
     static const QString ACCEPT_CHARSET;
     static const QString CONTENT_DISPOSITION;
     static const QString CONTENT_LENGTH;
 
 
+    /**
+     * @brief Searches for a header in a vector of headers and returns its value
+     *
+     * If vector of headers contains more than one header with a given name, then a first one is returned.
+     * If vector does not contain such a header, an empty string is returned
+     *
+     * @param headerName name of the header
+     * @param headers vector of headers
+     * @return header value or empty string if header not found
+     */
     static QString getHeaderValue(const QString & headerName, const QVector<HttpHeader> & headers);
 
+
+
+    /**
+     * @brief Searches for a header in a vector of headers and returns its values
+     *
+     * If vector of headers contains more than one header with a given name, then all velues are returnd.
+     * If vector does not contain such a header, an empty vector is returned
+     *
+     * @param headerName name of the header
+     * @param headers vector of headers
+     * @return header vector of values or empty vector if header not found
+     */
+    static QVector<QString> getHeaderValues(const QString & headerName, const QVector<HttpHeader> & headers);
+
+
+    /**
+     * @brief Creates an empty http header
+     */
     HttpHeader();
+
+    /**
+     * @brief Creates an http header with given name and value
+     * @param name name of the header
+     * @param value header value
+     */
     HttpHeader(const QString & name, const QString & value);
+
+    /**
+     * @brief Parses a line of HTTP header and creates a header object
+     *
+     * Line to be parsed should be like in the http protocol, for example
+     * @verbatim
+     * Content-Type: text/html
+     * @endverbatim
+     * produces a header with name 'Content-Type' and value 'text/html'
+     *
+     * @param line http protocol line to be parsed
+     */
     HttpHeader(const QString & line);
+
+    /**
+     * @brief returns a header ain the form 'name: value"
+     * @return http header line
+     */
     QString toString();
 
+    /**
+     * Returns name of the header
+     * @return name of the header
+     */
     QString getName() const { return name; }
+
+    /**
+     * Returns value of the header
+     * @return value of the header
+     */
     QString getValue() const {return value; }
 
 private:

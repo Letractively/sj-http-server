@@ -24,7 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 QVector<QString> FortuneTeller::fortunes;
 bool FortuneTeller::fortunesSet = false;
 
-HttpResponse FortuneTeller::handle(HttpRequest * /* req */, QSettings::SettingsMap * /*settings*/) const
+HttpResponse FortuneTeller::handle(HttpRequest * /* request */, QSettings::SettingsMap * /*settings*/) const
 {
     QString text = "<html><head><title>Fortune cookie</title></head><body><h3>Fortune cookie</h3>" + getFortune() + "<br><br>"
             "<font size='-1'>Fortune comes from <a href='http://www.fortunecookiemessage.com/'>www.fortunecookiemessage.com</a></font></body></html>";

@@ -42,6 +42,18 @@ QString HttpHeader::getHeaderValue(const QString & headerName, const QVector<Htt
     return "";
 }
 
+QVector<QString> HttpHeader::getHeaderValues(const QString & headerName, const QVector<HttpHeader> & headers)
+{
+    QVector<QString> vect;
+    for(int i = 0; i < headers.size(); i++) {
+        if(headers[i].getName() == headerName)
+        {
+            vect.push_back(headers[i].getValue());
+        }
+    }
+    return vect;
+}
+
 HttpHeader::HttpHeader(const QString & name, const QString & value)
     : name(name), value(value)
 {
@@ -52,8 +64,6 @@ HttpHeader::HttpHeader(const QString & line)
     name = line.left(line.indexOf(':'));
     value = line.right(line.length() - line.indexOf(':') - 1).trimmed();
 }
-
-
 
 
 QString HttpHeader::toString() {

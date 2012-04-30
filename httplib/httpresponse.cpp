@@ -82,7 +82,10 @@ void HttpResponse::setStatusCode(StatusCode code)
 
 void HttpResponse::addHeader(QString name, QString value)
 {
-    headers.push_back(HttpHeader(name, value));
+    //TODO: now empty headers are silently ignored -add some way signalizing an error
+    if(! name.isEmpty() && ! value.isEmpty()) {
+        headers.push_back(HttpHeader(name, value));
+    }
 }
 
 void HttpResponse::writeToSocket(QTcpSocket * socket)

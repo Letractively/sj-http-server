@@ -27,6 +27,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @brief Application prints a random fortune cookie quote
+ *
+ * @see AbstractRequestHandler
  */
 class FortuneTeller : public QObject, public AbstractRequestHandler
 {
@@ -34,7 +36,7 @@ class FortuneTeller : public QObject, public AbstractRequestHandler
     Q_INTERFACES(AbstractRequestHandler)
 public:
     QString name() const;
-    HttpResponse handle(HttpRequest *req, QSettings::SettingsMap *settings) const;
+    HttpResponse handle(HttpRequest *request, QSettings::SettingsMap *settings) const;
 private:
     static QVector<QString> fortunes;
     static bool fortunesSet;
