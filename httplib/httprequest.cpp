@@ -54,6 +54,7 @@ void HttpRequest::setUpMethodAndLocation(const QString & methodLine)
         return;
     }
 
+    //TODO parse all available methods
     if("GET" == list[0]) {
         method = GET;
     } else if("POST" == list[0]) {
@@ -68,6 +69,8 @@ void HttpRequest::setUpMethodAndLocation(const QString & methodLine)
     } else {
         requestUri = locationString;
     }
+
+    //TODO parse requestUri and serverUrl properly
 
 }
 
@@ -101,9 +104,14 @@ void HttpRequest::setUpParameters(const QString &locationLine)
 QString HttpRequest::methodToString()
 {
     switch(method) {
-    case ERROR: return "ERROR";
     case GET: return "GET";
     case POST: return "POST";
+    case OPTIONS: return "OPTIONS";
+    case HEAD: return "HEAD";
+    case CONNECT: return "CONNECT";
+    case PUT: return "PUT";
+    case DELETE: return "DELETE";
+    case TRACE: return "TRACE";
     }
     return "";
 }

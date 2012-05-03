@@ -42,11 +42,15 @@ RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject *
     socket->setSocketDescriptor(socketDescriptor);
     connect(socket, SIGNAL(readyRead()), this, SLOT(dataReadySlot()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnectedSlot()));
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(persistentConnTimeoutSlot()));
 }
 
 
 void RequestProcessingThread::run()
 {
+    timer->start(30000);
     exec();
 }
 
@@ -80,7 +84,6 @@ void RequestProcessingThread::preparePostRequest() {
     if(bytesRead >= request->getContentLength() || readData.length() == 0) {
         parseRequest();
         processRequest();
-
     }
 }
 
@@ -207,6 +210,11 @@ QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QStr
     return map;
 }
 
+void RequestProcessingThread::persistentConnTimeoutSlot()
+{
+    qDebug() << "  PERSISTENT CONNECTION TIMED OUT";
+    socket->disconnectFromHost();
+}
 
 void RequestProcessingThread::disconnectedSlot()
 {

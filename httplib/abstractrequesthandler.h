@@ -31,7 +31,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
- * @brief Class represents a request handler, i.e. a plugin that can process an http request and produce an http response
+ * @brief Class represents a request handler, i.e. a plugin that can process an http request
+ *  and produce an http response
  *
  * This abstract class needs to be inherited by all the plugins. All its member functions are virtual.
  */

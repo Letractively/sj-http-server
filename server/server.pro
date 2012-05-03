@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     handlermanager.cpp \
     handlerdata.cpp \
     handlersdialog.cpp \
-    settingwidgetsfactory.cpp
+    settingwidgetsfactory.cpp \
+    httprequestimpl.cpp
 
 HEADERS  += maindialog.h \
     logger.h \
@@ -31,7 +32,8 @@ HEADERS  += maindialog.h \
     handlermanager.h \
     handlerdata.h \
     handlersdialog.h \
-    settingwidgetsfactory.h
+    settingwidgetsfactory.h \
+    httprequestimpl.h
 
 FORMS    += maindialog.ui
 

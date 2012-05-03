@@ -116,7 +116,7 @@ void HttpResponse::writeToSocket(QTcpSocket * socket)
 
 
     qDebug() << "Returning response ";
-    qDebug() << "HTTP/1.1 " + codeToString(this->code);
+    qDebug() << "HTTP/1. " + codeToString(this->code);
 
     for(int i = 0; i < headers.size(); ++i) {
         socket->write((headers[i].toString() + EOL).toStdString().c_str());

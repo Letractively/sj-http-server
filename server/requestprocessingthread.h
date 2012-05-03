@@ -24,6 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QThread>
 #include <QTcpSocket>
 #include <QSettings>
+#include <QTimer>
 
 #include "httprequest.h"
 
@@ -45,6 +46,7 @@ public slots:
 private slots:
     void dataReadySlot();
     void disconnectedSlot();
+    void persistentConnTimeoutSlot();
 
 private:
     QByteArray * dataArray;
@@ -52,8 +54,11 @@ private:
     HttpRequest * request;
     quint64 bytesRead;
     QSettings & settings;
+    QTimer * timer;
     void processRequest();
     void preparePostRequest();
+
+
 
     void parseRequest();
     void parsePart(const QByteArray & partData);
