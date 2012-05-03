@@ -16,7 +16,6 @@ DEFINES += HTTPLIB_LIBRARY
 
 SOURCES +=\
         httpheader.cpp\
-        httprequest.cpp\
         httprequestbinaryfile.cpp\
         httpresponse.cpp\
         serverutils.cpp \

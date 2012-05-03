@@ -18,29 +18,46 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef FORTUNETELLER_H
-#define FORTUNETELLER_H
+#include <QtCore>
+#include <QtTest>
+#include <QString>
+#include "httprequestimpl.h"
+#include "tcpsocketmock.h"
 
-#include <abstractrequesthandler.h>
-#include <QObject>
-#include <QVector>
-
-/**
- * @brief Application prints a random fortune cookie quote
- *
- * @see AbstractRequestHandler
- */
-class FortuneTeller : public QObject, public AbstractRequestHandler
+using namespace SJSERVER;
+class HttpRequestTest : public QObject
 {
     Q_OBJECT
-    Q_INTERFACES(AbstractRequestHandler)
+
 public:
-    QString name() const;
-    HttpResponse handle(HttpRequest *request, QSettings::SettingsMap *settings) const;
-private:
-    static QVector<QString> fortunes;
-    static bool fortunesSet;
-    static QString getFortune();
+    HttpRequestTest();
+
+private Q_SLOTS:
+    void testCase1();
 };
 
-#endif // FORTUNETELLER_H
+HttpRequestTest::HttpRequestTest()
+{
+
+}
+
+
+
+void HttpRequestTest::testCase1()
+{
+    QByteArray data;
+    data.append("GET / HTTP/1.1\n");
+    data.append("Host: localhost:9090\n");
+    data.append("\n");
+
+    TcpSocketMock * socket = new TcpSocketMock(data);
+
+    HttpRequestImpl * request = new HttpRequestImpl(socket);
+
+    qDebug(request->toString().toStdString().c_str());
+}
+
+
+QTEST_APPLESS_MAIN(HttpRequestTest)
+
+#include "tst_httprequest.moc"

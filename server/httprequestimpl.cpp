@@ -6,11 +6,11 @@ Copyright (C) 2011-2012  Jakub Wachowski
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -18,10 +18,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#include "httprequest.h"
+#include "httprequestimpl.h"
+#include "serverutils.h"
 
-HttpRequest::HttpRequest(QTcpSocket * socket)
-    : contentLength(0),cachingThreshold(0)
+#include <QDebug>
+
+namespace SJSERVER {
+
+HttpRequestImpl::HttpRequestImpl(QTcpSocket * socket)
+    : contentLength(0),
+      requestUri(""),
+      requestUrl(""),
+      cachingThreshold(0)
 {
     if(socket->canReadLine()) {
         //find the http method
@@ -44,7 +52,68 @@ HttpRequest::HttpRequest(QTcpSocket * socket)
     setUpHeaders(headers);
 }
 
-void HttpRequest::setUpMethodAndLocation(const QString & methodLine)
+HttpRequestImpl::HttpRequestImpl()
+{
+
+}
+
+QString HttpRequestImpl::getRequestUri() const
+{
+    if(requestUri == "") {
+        // not yet parsed
+        if(location.startsWith("/")) {
+            requestUri = location;
+        } else {
+            int protocolPos = location.indexOf("://");
+            if(protocolPos < 0) {
+                protocolPos = 0;
+            }
+            requestUri = Utils::substring(location, location.indexOf("/", protocolPos));
+        }
+    }
+    return requestUri;
+}
+
+QString HttpRequestImpl::getRequestUrl() const
+{
+    if(requestUrl == "") {
+        //not yet parsed
+        if(location.startsWith("http:://")) {
+            requestUrl = location;
+        } else {
+            requestUrl = "http://" + getHeaderValue("Host") + getRequestUri();
+        }
+    }
+    return requestUrl;
+}
+
+HttpRequest::RequestMethod HttpRequestImpl::getMethod() const
+{
+    return method;
+}
+
+QString HttpRequestImpl::getParameter(const QString & paramName) const
+{
+    return parameters.value(paramName);
+}
+
+QString HttpRequestImpl::getHeaderValue(const QString & headerName) const
+{
+    return HttpHeader::getHeaderValue(headerName, headers);
+}
+
+QVector<HttpHeader> HttpRequestImpl::getHeaders() const
+{
+    return headers;
+}
+
+QVector<HttpRequestBinaryFile> HttpRequestImpl::getBinaryFiles() const
+{
+    return binaryFiles;
+}
+
+
+void HttpRequestImpl::setUpMethodAndLocation(const QString & methodLine)
 {
     qDebug() << methodLine;
     QStringList list = methodLine.split(' ', QString::SkipEmptyParts);
@@ -64,24 +133,22 @@ void HttpRequest::setUpMethodAndLocation(const QString & methodLine)
     QString locationString = list[1];
 
     if(locationString.contains('?')) {
-        requestUri = locationString.left(locationString.indexOf('?'));
+        location = locationString.left(locationString.indexOf('?'));
         setUpParameters(locationString);
     } else {
-        requestUri = locationString;
+        location = locationString;
     }
-
-    //TODO parse requestUri and serverUrl properly
 
 }
 
-void HttpRequest::setUpHeaders(const QStringList & headersList)
+void HttpRequestImpl::setUpHeaders(const QStringList & headersList)
 {
     for(int i = 0; i < headersList.size(); i++) {
         headers.push_back(HttpHeader(headersList[i]));
     }
 }
 
-void HttpRequest::setUpParameters(const QString &locationLine)
+void HttpRequestImpl::setUpParameters(const QString &locationLine)
 {
     int pos = locationLine.indexOf('?');
     if(pos < 0) return;
@@ -101,7 +168,7 @@ void HttpRequest::setUpParameters(const QString &locationLine)
 
 }
 
-QString HttpRequest::methodToString()
+QString HttpRequestImpl::methodToString()
 {
     switch(method) {
     case GET: return "GET";
@@ -116,7 +183,7 @@ QString HttpRequest::methodToString()
     return "";
 }
 
-QString HttpRequest::headersToString()
+QString HttpRequestImpl::headersToString()
 {
     QString ret = "";
     for(int i = 0; i < headers.size(); i++) {
@@ -125,32 +192,35 @@ QString HttpRequest::headersToString()
     return ret;
 }
 
-QString HttpRequest::parametersToString()
+QString HttpRequestImpl::parametersToString()
 {
     QString ret = "";
 
     QList<QString> keys = parameters.keys();
 
     for(int i = 0; i < keys.size(); i++) {
-        ret += keys[i]+"="+parameters[keys[i]]+"\n";
+        ret += keys[i]+"="+parameters[keys[i]]+"; ";
     }
-
     return ret;
 }
 
-QString HttpRequest::toString()
+QString HttpRequestImpl::toString()
 {
-    return "HttpRequest: method=["+methodToString()+"]; location=["+requestUri+"]; headers=["
-            +headersToString()+"]; parameters=[" + parametersToString()+"]; relativePath=" + relativePath + "]";
+    QString s("");
+
+    s += "HttpRequest:\n";
+    s += "          method      [" + methodToString() + "];\n";
+    s += "          requestUri  [" + getRequestUri() + "];\n";
+    s += "          requestUrl  [" + getRequestUrl()+ "];\n";
+    s += "          parameters  [" + parametersToString() + "];\n";
+    s += "          headers     [" + headersToString() +"];\n";
+    return s;
 }
 
 
-QString HttpRequest::getHeaderValue(const QString & headerName)
-{
-    return HttpHeader::getHeaderValue(headerName, headers);
-}
 
-quint64 HttpRequest::getContentLength()
+
+quint64 HttpRequestImpl::getContentLength()
 {
     if(contentLength == 0) {
         QString contentLengthString = getHeaderValue(HttpHeader::CONTENT_LENGTH);
@@ -166,25 +236,28 @@ quint64 HttpRequest::getContentLength()
     return contentLength;
 }
 
-void HttpRequest::appendData(const QByteArray & data)
+void HttpRequestImpl::appendData(const QByteArray & data)
 {
     requestData.append(data);
 }
 
-QByteArray & HttpRequest::getData()
+QByteArray & HttpRequestImpl::getData()
 {
     return requestData;
 }
 
 
-void HttpRequest::addFile(HttpRequestBinaryFile binaryFile)
+void HttpRequestImpl::addFile(HttpRequestBinaryFile binaryFile)
 {
     binaryFiles.push_back(binaryFile);
     qDebug() << "Adding file " << binaryFile.getOriginalFileName();
     qDebug() << "Now having " << binaryFiles.size() << " files";
 }
 
-void HttpRequest::addParameter(QString paramName, QString paramValue)
+void HttpRequestImpl::addParameter(QString paramName, QString paramValue)
 {
     parameters.insert(paramName, paramValue);
 }
+
+
+} // namespace SJSERVER

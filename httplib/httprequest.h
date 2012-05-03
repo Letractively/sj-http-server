@@ -21,36 +21,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
 
-#include <QByteArray>
-#include <QTcpSocket>
-#include <QStringList>
-#include <QVector>
-#include <QMap>
-
 #include "httpheader.h"
 #include "httprequestbinaryfile.h"
 
+#include <QVector>
+
+
+/**
+ * @brief Abstract class representing an http request
+ */
 class HttpRequest
 {
-//piblic types
+
 public:
     /**
      * @brief Method of the request, as defined in RFC 2616 sections 9.2 - 9.9
      */
     enum RequestMethod {OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT};
-
-//public member functions
-public:
-
-    /**
-     * @brief Reads data from socket and creates a request object
-     *
-     * It can handle 'usual' requests, as well as multipart requests with attached files
-     *
-     * @param socket tcp socket from which request data is to be read
-     */
-    HttpRequest(QTcpSocket * socket);
-
 
     /**
      * @brief Returns a relative URI of a resource
@@ -61,7 +48,7 @@ public:
      *
      * @return resource uri
      */
-    QString getRequestUri() {return requestUri;}
+    virtual QString getRequestUri() const = 0;
 
     /**
      * @brief Returns a URL of a resource (as idicated by a client)
@@ -72,83 +59,41 @@ public:
      *
      * @return resource url as indicated by the client
      */
-    QString getRequestUrl() { return serverUrl + requestUri; }
+    virtual QString getRequestUrl() const = 0;
 
 
     /**
      * @brief Returns the http method of the request
      * @return http mehod
      */
-    RequestMethod getMethod() {return method;}
+    virtual RequestMethod getMethod() const = 0;
 
     /**
      * @brief Returns a request parameter
      * @param paramName name of the parameter
      * @return parameter value, or an aempty string if paramter is not defined in the request
      */
-    QString getParameter(const QString & paramName) { return parameters.value(paramName); }
+    virtual QString getParameter(const QString & paramName) const = 0;
 
-    /**
-     * @brief Creates a string representation of a request. Used for debugging
-     * @return request a string
-     */
-    QString toString();
 
     /**
      * @brief Returns value of an http header
      * @param headerName name of the header
      * @return header value or an empty string if header was not declared in the request
      */
-    QString getHeaderValue(const QString & headerName);
+    virtual QString getHeaderValue(const QString & headerName) const = 0;
 
     /**
      * @brief Returns all http headers
      * @return http headers declared in the request
      */
-    QVector<HttpHeader> getHeaders() {return headers;}
+    virtual QVector<HttpHeader> getHeaders() const = 0;
 
     /**
-     * @brief Returns lenght of the content
-     * @return content length
+     * @brief Returns a set of files that have been uploaded
+     * @return uploaded files
      */
-    quint64 getContentLength();
-
-    void appendData(const QByteArray & data);
-    QByteArray & getData();
-
-    void addFile(HttpRequestBinaryFile binaryFile);
-    void addParameter(QString paramName, QString paramValue);
-
-    void setRelativePath(const QString & path) {this->relativePath = path;}
-    QString getRelativePath() { return relativePath; }
-    QVector<HttpRequestBinaryFile> & getBinaryFiles() { return binaryFiles; }
-
-
-//private member functions
-private:
-    void setUpMethodAndLocation(const QString & methodLine);
-    void setUpHeaders(const QStringList & tokensList);
-    void setUpParameters(const QString & locationLine);
-    QString methodToString();
-    QString headersToString();
-    QString parametersToString();
-
-    void parseData(QByteArray & data);
-    void parsePart(const QByteArray & part);
-
-
-//private fields
-private:
-    RequestMethod method;
-    QString requestUri;
-    QString serverUrl;
-    QVector<HttpHeader> headers;
-    QMap<QString, QString> parameters;
-    QVector<HttpRequestBinaryFile> binaryFiles;
-    quint64 contentLength;
-    quint64 cachingThreshold;
-    QByteArray requestData;
-    QString relativePath;
+    virtual QVector<HttpRequestBinaryFile> getBinaryFiles() const = 0;
 
 };
 

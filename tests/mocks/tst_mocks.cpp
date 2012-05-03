@@ -18,29 +18,47 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef FORTUNETELLER_H
-#define FORTUNETELLER_H
+#include <QtCore>
+#include <QtTest>
+#include <QString>
+#include "tcpsocketmock.h"
 
-#include <abstractrequesthandler.h>
-#include <QObject>
-#include <QVector>
+using namespace SJSERVER;
 
-/**
- * @brief Application prints a random fortune cookie quote
- *
- * @see AbstractRequestHandler
- */
-class FortuneTeller : public QObject, public AbstractRequestHandler
+class MockTest : public QObject
 {
     Q_OBJECT
-    Q_INTERFACES(AbstractRequestHandler)
+
 public:
-    QString name() const;
-    HttpResponse handle(HttpRequest *request, QSettings::SettingsMap *settings) const;
-private:
-    static QVector<QString> fortunes;
-    static bool fortunesSet;
-    static QString getFortune();
+    MockTest();
+
+private Q_SLOTS:
+    void testTcpSocketMock();
 };
 
-#endif // FORTUNETELLER_H
+MockTest::MockTest()
+{
+
+}
+
+
+
+void MockTest::testTcpSocketMock()
+{
+    QByteArray data;
+    data.append("GET / HTTP/1.1\n");
+    data.append("Host: localhost:9090\n");
+    data.append("\n");
+
+    TcpSocketMock * socket = new TcpSocketMock(data);
+
+    while(socket->canReadLine()) {
+        qDebug() << socket->readLine();
+    }
+
+}
+
+
+QTEST_APPLESS_MAIN(MockTest)
+
+#include "tst_mocks.moc"

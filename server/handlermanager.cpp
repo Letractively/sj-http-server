@@ -24,6 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "settingsconstants.h"
 
 #include <QPluginLoader>
+#include <QStringList>
 
 
 HandlerManager::HandlerManager()
@@ -132,7 +133,7 @@ HandlerData HandlerManager::getHandler(HttpRequest * request)
             if(contextRoot == handlers[i].getContextRoot()) {
                 list.removeAt(0);
                 QString relativePath = "/" + list.join("/");
-                request->setRelativePath(relativePath);
+//                request->setRelativePath(relativePath);
                 return handlers[i];
             }
         }

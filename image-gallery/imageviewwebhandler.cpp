@@ -29,7 +29,7 @@ ImageViewWebHandler::ImageViewWebHandler()
 
 HttpResponse ImageViewWebHandler::handle(HttpRequest * request, QSettings::SettingsMap *settings) const
 {
-    qDebug() << "Image Viewr REQUEST: " << request->toString();
+    qDebug() << "Image Viewr REQUEST: ";
 
     QString imagePath = settings->value(SETTING_TMP_DIR).toString() +  request->getParameter(FILE_ID_PARAM);
     qDebug() << " image path " << imagePath;

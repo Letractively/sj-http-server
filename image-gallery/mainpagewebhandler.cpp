@@ -29,7 +29,6 @@ HttpResponse MainPageWebHandler::handle(HttpRequest * request, QSettings::Settin
 {
     QByteArray response;
     response.append("<html><body>Welcome to image gallery<br><br>"
-                    "REQUEST:<br>" + request->toString() +
                     "</body></html>");
     return HttpResponse(&response);
 }

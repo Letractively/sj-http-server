@@ -26,8 +26,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QSettings>
 #include <QTimer>
 
-#include "httprequest.h"
+#include "httprequestimpl.h"
 
+using namespace SJSERVER;
 
 class RequestProcessingThread : public QThread
 {
@@ -51,7 +52,7 @@ private slots:
 private:
     QByteArray * dataArray;
     QTcpSocket * socket;
-    HttpRequest * request;
+    HttpRequestImpl * request;
     quint64 bytesRead;
     QSettings & settings;
     QTimer * timer;

@@ -33,6 +33,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QPluginLoader>
 #include <QStringList>
 
+using namespace SJSERVER;
+
 RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject * parent)
     :QThread(parent), socket(0), request(0), bytesRead(0),
       settings(Utils::getSettings())
@@ -57,7 +59,7 @@ void RequestProcessingThread::run()
 void RequestProcessingThread::dataReadySlot()
 {
     if(request == 0) {
-        request = new HttpRequest(socket);
+        request = new HttpRequestImpl(socket);
         qDebug() << request->toString();
     }
 

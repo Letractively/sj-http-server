@@ -45,16 +45,16 @@ ContextPathDispatcher::~ContextPathDispatcher()
 AbstractWebHandler * ContextPathDispatcher::dispatchRequest(HttpRequest * request) const
 {
 
-    for(int i = 0; i < paths.size(); ++i) {
-        QRegExp regExp(paths[i].getPath(), Qt::CaseInsensitive, QRegExp::Wildcard);
+//    for(int i = 0; i < paths.size(); ++i) {
+//        QRegExp regExp(paths[i].getPath(), Qt::CaseInsensitive, QRegExp::Wildcard);
 
-        if(regExp.exactMatch(request->getRelativePath())) {
-            qDebug() << "ContextPathDispatcher: " << request->getRelativePath() << " matches " << regExp.pattern();
-            return paths[i].getHandler();
-        } else {
-            qDebug() << "ContextPathDispatcher: " << request->getRelativePath() << " does not match " << regExp.pattern();
-        }
-    }
+//        if(regExp.exactMatch(request->getRelativePath())) {
+//            qDebug() << "ContextPathDispatcher: " << request->getRelativePath() << " matches " << regExp.pattern();
+//            return paths[i].getHandler();
+//        } else {
+//            qDebug() << "ContextPathDispatcher: " << request->getRelativePath() << " does not match " << regExp.pattern();
+//        }
+//    }
 
     return errorWebHandler;
 }
