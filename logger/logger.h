@@ -68,7 +68,7 @@ public:
     void setLevel(const LoggingLevel::Level & level);
     void addAppender(AbstractAppender * appender, bool shouldDelete = false);
 
-//private: //methods
+private: //methods
     void doLog(const LoggingLevel::Level & level, const QString &msg, const char *filename, int lineNumber);
     bool isLevelEnabled(const LoggingLevel::Level &level) const;
     QString timestamp();

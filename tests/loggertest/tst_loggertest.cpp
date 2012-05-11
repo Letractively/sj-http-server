@@ -22,28 +22,30 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest/QtTest>
 
 #include "logger.h"
+#include "loggerfactory.h"
 #include "testcommon.h"
 #include "consoleappender.h"
 
 using namespace SJ;
 using namespace SJSERVER;
 
-class LoggertestTest : public QObject
+class LoggerTest : public QObject
 {
     Q_OBJECT
     
 public:
-    LoggertestTest();
+    LoggerTest();
     
 private Q_SLOTS:
     void testCase1();
+    void testCase2();
 };
 
-LoggertestTest::LoggertestTest()
+LoggerTest::LoggerTest()
 {
 }
 
-void LoggertestTest::testCase1()
+void LoggerTest::testCase1()
 {
     Logger logger;
     logger.addAppender(new ConsoleAppender, true);
@@ -75,6 +77,14 @@ void LoggertestTest::testCase1()
 
 }
 
-QTEST_APPLESS_MAIN(LoggertestTest)
+void LoggerTest::testCase2()
+{
+    Logger & logger = LoggerFactory::instance().getLogger();
+    logger.info("logger factory can produce loggers :)");
+    logger.debug("by default info level is enabled");
+    ASSERT(logger.isDebugEnabled() == false);
+}
 
-#include "tst_loggertesttest.moc"
+QTEST_APPLESS_MAIN(LoggerTest)
+
+#include "tst_loggertest.moc"

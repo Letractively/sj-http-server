@@ -11,7 +11,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         maindialog.cpp \
-    logger.cpp \
     httpserver.cpp \
     requestprocessingthread.cpp \
     settingsdialog.cpp \
@@ -23,7 +22,6 @@ SOURCES += main.cpp\
     httprequestimpl.cpp
 
 HEADERS  += maindialog.h \
-    logger.h \
     httpserver.h \
     requestprocessingthread.h \
     settingsconstants.h \
@@ -55,3 +53,11 @@ else:unix: LIBS += -L$$OUT_PWD/../weblib/ -lweblib
 
 INCLUDEPATH += $$PWD/../weblib
 DEPENDPATH += $$PWD/../weblib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../logger/release/ -llogger
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../logger/debug/ -llogger
+else:symbian: LIBS += -llogger
+else:unix: LIBS += -L$$OUT_PWD/../logger/ -llogger
+
+INCLUDEPATH += $$PWD/../logger
+DEPENDPATH += $$PWD/../logger

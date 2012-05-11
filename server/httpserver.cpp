@@ -19,11 +19,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "httpserver.h"
-#include "logger.h"
+//#include "logger.h"
 #include "requestprocessingthread.h"
 
 #include <QFile>
-#include <QDebug>
+//#include <QDebug>
 
 #include "httprequest.h"
 
@@ -60,7 +60,7 @@ QHostAddress HttpServer::createAddress(QString interface)
 
 void HttpServer::incomingConnection(int socketDescriptor)
 {
-    qDebug() << "new connection";
+//    qDebug() << "new connection";
     RequestProcessingThread * thread = new RequestProcessingThread(socketDescriptor);
     connect(thread, SIGNAL(finished()), this, SLOT(threadFinishedSlot()));
     connect(this, SIGNAL(serverStoppedSignal()), thread, SLOT(serverStoppedSlot()));
@@ -70,7 +70,7 @@ void HttpServer::incomingConnection(int socketDescriptor)
 
 void HttpServer::threadFinishedSlot()
 {
-    qDebug() << "thread finished";
+//    qDebug() << "thread finished";
     sender()->deleteLater();
 }
 

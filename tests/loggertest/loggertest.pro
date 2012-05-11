@@ -8,7 +8,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_loggertesttest
+TARGET = tst_loggertest
 CONFIG   += console
 CONFIG   -= app_bundle
 
@@ -17,6 +17,6 @@ TEMPLATE = app
 INCLUDEPATH += ../../logger \
                 ../common
 
-SOURCES += tst_loggertesttest.cpp \
+SOURCES += tst_loggertest.cpp \
             $$files(../../logger/*.cpp)
 DEFINES += SRCDIR=\\\"$$PWD/\\\"

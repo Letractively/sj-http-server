@@ -6,11 +6,11 @@ Copyright (C) 2011-2012  Jakub Wachowski
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -21,14 +21,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "requestprocessingthread.h"
 #include "httpresponse.h"
 #include "settingsconstants.h"
-#include "logger.h"
+//#include "logger.h"
 #include "abstractrequesthandler.h"
 #include "handlermanager.h"
 #include "serverutils.h"
 
 #include <QFile>
 #include <QImage>
-#include <QDebug>
+//#include <QDebug>
 #include <QSettings>
 #include <QPluginLoader>
 #include <QStringList>
@@ -39,7 +39,7 @@ RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject *
     :QThread(parent), socket(0), request(0), bytesRead(0),
       settings(Utils::getSettings())
 {
-    qDebug() << "thread created";
+//    qDebug() << "thread created";
     socket = new QTcpSocket(this);
     socket->setSocketDescriptor(socketDescriptor);
     connect(socket, SIGNAL(readyRead()), this, SLOT(dataReadySlot()));
@@ -71,13 +71,13 @@ void RequestProcessingThread::dataReadySlot()
 }
 
 void RequestProcessingThread::preparePostRequest() {
-    qDebug() << "processing POST Request";
+//    qDebug() << "processing POST Request";
     QByteArray readData = socket->readAll();
-    qDebug() << "Read " << readData.length() << " bytes";
+//    qDebug() << "Read " << readData.length() << " bytes";
 
     bytesRead += readData.length();
 
-    qDebug() << "Read " << bytesRead << " of " << request->getContentLength() << " bytes";
+//    qDebug() << "Read " << bytesRead << " of " << request->getContentLength() << " bytes";
 
     if(readData.length() > 0) {
         request->appendData(readData);
@@ -146,7 +146,7 @@ QByteArray RequestProcessingThread::findData(const QByteArray & data) {
 }
 
 void RequestProcessingThread::parsePart(const QByteArray & partData) {
-    qDebug() << partData;
+//    qDebug() << partData;
     if(partData.contains(HttpHeader::CONTENT_TYPE.toAscii())) {
 
         QString originalFileName = findAttributeValue("filename", partData);
@@ -176,11 +176,11 @@ QString RequestProcessingThread::findAttributeValue(const QString & attributeNam
 
 
 void RequestProcessingThread::processRequest() {
-    qDebug() << "processing " << request->getMethod() << " Request: " << request->getRequestUri();
+//    qDebug() << "processing " << request->getMethod() << " Request: " << request->getRequestUri();
 
     HandlerData handlerData = HandlerManager::instance().getHandler(request);
     AbstractRequestHandler * handler = handlerData.getHandler();
-    qDebug() << "Processing request with" << handler->name();
+//    qDebug() << "Processing request with" << handler->name();
     QSettings::SettingsMap * sets = readHandlerSettings(handlerData.getSettingsGroup());
     HttpResponse response = handler->handle(request, sets);
     delete sets;
@@ -199,7 +199,7 @@ QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QStr
 
     QStringList keys = settings.allKeys();
 
-    qDebug() << "SETTINGS: all keys are " << keys;
+//    qDebug() << "SETTINGS: all keys are " << keys;
 
     for(int i = 0; i < keys.length(); ++i) {
         if(keys.at(i).startsWith(handlerSettingsKey + "/")) {
@@ -207,26 +207,26 @@ QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QStr
         }
     }
 
-    qDebug() << "SETTINGS: returning map " << *map;
+//    qDebug() << "SETTINGS: returning map " << *map;
 
     return map;
 }
 
 void RequestProcessingThread::persistentConnTimeoutSlot()
 {
-    qDebug() << "  PERSISTENT CONNECTION TIMED OUT";
+//    qDebug() << "  PERSISTENT CONNECTION TIMED OUT";
     socket->disconnectFromHost();
 }
 
 void RequestProcessingThread::disconnectedSlot()
 {
-    qDebug() << "   SOCKET SIGNAL disconnected";
+//    qDebug() << "   SOCKET SIGNAL disconnected";
     disconnect(this);
     this->quit();
 }
 
 void RequestProcessingThread::serverStoppedSlot()
 {
-    qDebug() << "Server stopped, disconnecting from socket";
+//    qDebug() << "Server stopped, disconnecting from socket";
     socket->disconnectFromHost();
 }

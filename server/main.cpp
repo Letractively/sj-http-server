@@ -20,18 +20,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui/QApplication>
 #include <QSettings>
-#include <QDebug>
 #include "maindialog.h"
 #include "settingsconstants.h"
 #include "serverutils.h"
 
+#include "loggerfactory.h"
+#include "logbuilder.h"
 
 static void setUpSettings();
 static QString copyrightNote();
 
 int main(int argc, char *argv[])
 {
-    qDebug() << copyrightNote();
+    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger();
+    logger.setLevel(SJ::LoggingLevel::DEBUG);
+
+    LOG_INFO(logger,copyrightNote());
     setUpSettings();
 
     QApplication a(argc, argv);
@@ -61,10 +65,15 @@ void setUpSettings()
         settings.setValue(ServerSettings::SETTING_WWW_ROOT_PATH, "/var/www/");
     }
 
-    qDebug() << "Settings:";
-    QStringList allKeys = settings.allKeys();
-    for(int i = 0; i < allKeys.size(); ++i) {
-        qDebug() << "key " << allKeys[i] << ". value: " << settings.value(allKeys[i]).toString();
+    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger();
+    if(logger.isDebugEnabled()) {
+        SJ::LogBuilder lb("Settings:\n");
+        QStringList allKeys = settings.allKeys();
+        for(int i = 0; i < allKeys.size(); ++i) {
+            lb.append("key ").append(allKeys[i]).append(". value: ");
+            lb.append(settings.value(allKeys[i]).toString()).append("\n");
+        }
+        LOG_DEBUG(logger, lb);
     }
 }
 

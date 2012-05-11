@@ -19,7 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "serverutils.h"
-#include <QDebug>
+#include "loggerfactory.h"
+#include "logbuilder.h"
 #include <QStringList>
 
 
@@ -35,6 +36,6 @@ QString Utils::substring(const QString & str, int beginIndex, int endIndex)
 QSettings & Utils::getSettings()
 {
     static QSettings settings("sj-http-server.ini", QSettings::IniFormat);
-    qDebug() << settings.allKeys();
+    SJ::LoggerFactory::instance().getLogger().trace(SJ::LogBuilder(settings.allKeys()));
     return settings;
 }

@@ -29,11 +29,23 @@ LogBuilder::LogBuilder(const QString &msg)
     }
 }
 
+LogBuilder::LogBuilder(const QStringList & stringList)
+{
+    append(stringList);
+}
+
 LogBuilder & LogBuilder::append(const QString & s)
 {
     list.append(s);
     return *this;
 }
+
+LogBuilder & LogBuilder::append(const QStringList & stringList)
+{
+    list.append(stringList);
+    return *this;
+}
+
 
 LogBuilder & LogBuilder::append(const char * s)
 {

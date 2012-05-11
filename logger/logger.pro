@@ -14,13 +14,15 @@ DEFINES += LOGGER_LIBRARY
 SOURCES += logger.cpp \
     logginglevel.cpp \
     logbuilder.cpp \
-    consoleappender.cpp
+    consoleappender.cpp \
+    loggerfactory.cpp
 
 HEADERS += logger.h\
     logginglevel.h \
     logbuilder.h \
     abstractappender.h \
-    consoleappender.h
+    consoleappender.h \
+    loggerfactory.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

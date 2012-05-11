@@ -18,42 +18,35 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef LOGBUILDER_H
-#define LOGBUILDER_H
+#ifndef LOGGERFACTORY_H
+#define LOGGERFACTORY_H
 
 #include <QString>
-#include <QVariant>
-#include <QStringList>
+#include <QMap>
+#include <QMutex>
+#include "logger.h"
 
 namespace SJ {
 
-class LogBuilder
+class LoggerFactory
 {
+
 public:
-    LogBuilder(const QString & msg = "");
-    LogBuilder(const QStringList & stringList);
-
-    LogBuilder & append(const QStringList & stringList);
-    LogBuilder & append(const QString & s);
-    LogBuilder & append(const char * s);
-
-    template <typename T> LogBuilder & append(T t)
-    {
-        QVariant v = t;
-        list.append(v.toString());
-        return *this;
-    }
-
-
-    QString toString() const;
-    operator QString() const;
-
-    void clear();
+    ~LoggerFactory();
+    static LoggerFactory & instance();
+    void loadConfig(const QString & confFile = "sjlog.xml");
+    Logger & getLogger(const QString & loggerName = "sj-default-logger");
 
 private:
-    QStringList list;
+    //LoggerFactory is a singleton, make the constructor private
+    LoggerFactory();
+    void doLoadConfig(const QString & confFile);
+
+    QMap<QString, Logger *> loggers;
+    bool configLoaded;
+    QMutex mutex;
 };
 
 } // namespace SJ
 
-#endif // LOGBUILDER_H
+#endif // LOGGERFACTORY_H
