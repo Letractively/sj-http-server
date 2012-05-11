@@ -18,18 +18,20 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef TESTCOMMON_H
-#define TESTCOMMON_H
+#ifndef ABSTRACTAPPENDER_H
+#define ABSTRACTAPPENDER_H
 
 #include <QString>
 
-namespace SJSERVER {
+namespace SJ {
 
-#define ASSERT(condition) QVERIFY(condition)
-#define ASSERT2(condition, msg) QVERIFY2(condition, msg.toStdString().c_str())
+class AbstractAppender
+{
+public:
+    AbstractAppender() {}
+    virtual ~AbstractAppender() {}
+    virtual void appendLine(const QString & line) = 0;
+};
 
-
-
-} //namespace SJSSERVER
-
-#endif // TESTCOMMON_H
+}
+#endif // ABSTRACTAPPENDER_H

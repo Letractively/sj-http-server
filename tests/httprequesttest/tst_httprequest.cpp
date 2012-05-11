@@ -54,14 +54,24 @@ void HttpRequestTest::testCase1()
     TcpSocketMock * socket = new TcpSocketMock(data);
     HttpRequestImpl * request = new HttpRequestImpl(socket);
 
-    assert(request->getMethod() == HttpRequest::GET);
-    assert(request->getHeaderValue("Host") == "localhost:9090");
-    assert(request->getRequestUri() == "/", request->getRequestUri());
-    assert(request->getRequestUrl() == "http://localhost:9090/", request->getRequestUrl());
+    ASSERT(request->getMethod() == HttpRequest::GET);
+    ASSERT(request->getHeaderValue("Host") == "localhost:9090");
+    ASSERT2(request->getRequestUri() == "/", request->getRequestUri());
+    ASSERT2(request->getRequestUrl() == "http://localhost:9090/", request->getRequestUrl());
 
 
     socket->deleteLater();
     delete request;
+
+
+    QBENCHMARK {
+        socket = new TcpSocketMock(data);
+        request = new HttpRequestImpl(socket);
+        socket->deleteLater();
+        delete request;
+    }
+
+
 
 }
 

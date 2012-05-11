@@ -18,18 +18,40 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef TESTCOMMON_H
-#define TESTCOMMON_H
+#ifndef LOGBUILDER_H
+#define LOGBUILDER_H
 
 #include <QString>
+#include <QVariant>
+#include <QStringList>
 
-namespace SJSERVER {
+namespace SJ {
 
-#define ASSERT(condition) QVERIFY(condition)
-#define ASSERT2(condition, msg) QVERIFY2(condition, msg.toStdString().c_str())
+class LogBuilder
+{
+public:
+    LogBuilder(const QString & msg = "");
+
+    LogBuilder & append(const QString & s);
+    LogBuilder & append(const char * s);
+
+    template <typename T> LogBuilder & append(T t)
+    {
+        QVariant v = t;
+        list.append(v.toString());
+        return *this;
+    }
 
 
+    QString toString() const;
+    operator QString() const;
 
-} //namespace SJSSERVER
+    void clear();
 
-#endif // TESTCOMMON_H
+private:
+    QStringList list;
+};
+
+} // namespace SJ
+
+#endif // LOGBUILDER_H

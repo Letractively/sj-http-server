@@ -18,18 +18,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef TESTCOMMON_H
-#define TESTCOMMON_H
+#include "consoleappender.h"
+#include <QDebug>
+#include <QMutexLocker>
 
-#include <QString>
+namespace SJ {
 
-namespace SJSERVER {
+QMutex ConsoleAppender::mutex;
 
-#define ASSERT(condition) QVERIFY(condition)
-#define ASSERT2(condition, msg) QVERIFY2(condition, msg.toStdString().c_str())
+ConsoleAppender::ConsoleAppender()
+{
+}
 
+void ConsoleAppender::appendLine(const QString &line)
+{
+    QMutexLocker locker(&mutex);
+    qDebug() << line;
+}
 
-
-} //namespace SJSSERVER
-
-#endif // TESTCOMMON_H
+}

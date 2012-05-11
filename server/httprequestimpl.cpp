@@ -115,7 +115,7 @@ QVector<HttpRequestBinaryFile> HttpRequestImpl::getBinaryFiles() const
 
 void HttpRequestImpl::setUpMethodAndLocation(const QString & methodLine)
 {
-    qDebug() << methodLine;
+//    qDebug() << methodLine;
     QStringList list = methodLine.split(' ', QString::SkipEmptyParts);
 
     if(list.size() < 2) {

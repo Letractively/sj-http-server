@@ -18,18 +18,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef TESTCOMMON_H
-#define TESTCOMMON_H
+#ifndef LOGGINGLEVEL_H
+#define LOGGINGLEVEL_H
 
 #include <QString>
 
-namespace SJSERVER {
+namespace SJ {
 
-#define ASSERT(condition) QVERIFY(condition)
-#define ASSERT2(condition, msg) QVERIFY2(condition, msg.toStdString().c_str())
+class LoggingLevel
+{
+public:
+    LoggingLevel();
 
+    enum Level {ALL, TRACE, DEBUG, INFO, WARN, ERROR, NONE};
 
+    static QString levelToString(Level level);
+    static Level stringToLevel(const QString & level);
 
-} //namespace SJSSERVER
+};
 
-#endif // TESTCOMMON_H
+} // namespace SJ
+
+#endif // LOGGINGLEVEL_H
