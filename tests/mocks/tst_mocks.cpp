@@ -45,16 +45,38 @@ MockTest::MockTest()
 
 void MockTest::testTcpSocketMock()
 {
-    QByteArray data;
-    data.append("GET / HTTP/1.1\n");
-    data.append("Host: localhost:9090\n");
-    data.append("\n");
+    QByteArray data1;
+    data1.append("GET / HTTP/1.1\r\n");
+    data1.append("Host: localhost:9090\r\n");
+    data1.append("\r\n");
 
-    TcpSocketMock * socket = new TcpSocketMock(data);
+    TcpSocketMock * socket1 = new TcpSocketMock(data1);
 
-    while(socket->canReadLine()) {
-        qDebug() << socket->readLine();
+    while(socket1->canReadLine()) {
+        qDebug() << socket1->readLine();
     }
+
+    socket1->deleteLater();
+    qDebug() << "socket1 test OK";
+
+    TcpSocketMock * socket2 = new TcpSocketMock(QByteArray());
+
+    QVERIFY(socket2->bytesAvailable() == 0);
+    QVERIFY(socket2->canReadLine() == false);
+    socket2->deleteLater();
+    qDebug() << "socket2 test OK";
+
+    TcpSocketMock * socket3 = new TcpSocketMock(QByteArray("a"));
+
+    QVERIFY(socket3->bytesAvailable() == 1);
+    QVERIFY(socket3->canReadLine()== true);
+    QByteArray data3read = socket3->readLine();
+    QVERIFY2(data3read.size() == 1, QString::number(data3read.size()).toStdString().c_str());
+    QVERIFY(socket3->bytesAvailable() == 0);
+
+    socket3->deleteLater();
+    qDebug() << "socket3 test OK";
+
 
 }
 

@@ -12,6 +12,7 @@ TEMPLATE = app
 INCLUDEPATH += ../../server
 INCLUDEPATH += ../../httplib
 INCLUDEPATH += ../mocks
+INCLUDEPATH += ../common
 
 SOURCES += tst_httprequest.cpp \
           ../../server/httprequestimpl.cpp \

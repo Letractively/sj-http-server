@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QString>
 #include "httprequestimpl.h"
 #include "tcpsocketmock.h"
+#include "testcommon.h"
 
 using namespace SJSERVER;
 class HttpRequestTest : public QObject
@@ -46,15 +47,22 @@ HttpRequestTest::HttpRequestTest()
 void HttpRequestTest::testCase1()
 {
     QByteArray data;
-    data.append("GET / HTTP/1.1\n");
-    data.append("Host: localhost:9090\n");
-    data.append("\n");
+    data.append("GET / HTTP/1.1\r\n");
+    data.append("Host: localhost:9090\r\n");
+    data.append("\r\n");
 
     TcpSocketMock * socket = new TcpSocketMock(data);
-
     HttpRequestImpl * request = new HttpRequestImpl(socket);
 
-    qDebug(request->toString().toStdString().c_str());
+    assert(request->getMethod() == HttpRequest::GET);
+    assert(request->getHeaderValue("Host") == "localhost:9090");
+    assert(request->getRequestUri() == "/", request->getRequestUri());
+    assert(request->getRequestUrl() == "http://localhost:9090/", request->getRequestUrl());
+
+
+    socket->deleteLater();
+    delete request;
+
 }
 
 

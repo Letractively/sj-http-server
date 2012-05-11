@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 SUBDIRS = httprequesttest \
           varioustest \
-    mocks
+    mocks \
+    common

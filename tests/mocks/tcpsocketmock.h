@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QTcpSocket>
 #include <QByteArray>
+#include <QDebug>
 
 namespace SJSERVER {
 
@@ -30,8 +31,9 @@ class TcpSocketMock : public QTcpSocket
 {
 
 public:
-    TcpSocketMock(const QByteArray & data);
+    TcpSocketMock(const QByteArray & data, bool verbose = false);
     virtual bool canReadLine() const;
+    virtual qint64 bytesAvailable() const;
 
 protected:
     virtual qint64	readData ( char * data, qint64 maxSize );
@@ -41,23 +43,36 @@ protected:
 private:
     QByteArray _data;
     qint64 _readBytes;
-
-
+    bool _verbose;
 };
 
-TcpSocketMock::TcpSocketMock(const QByteArray & data)
-    : _data(data), _readBytes(0)
+TcpSocketMock::TcpSocketMock(const QByteArray & data, bool verbose)
+    : _data(data), _readBytes(0), _verbose(verbose)
 {
 }
 
 
 bool TcpSocketMock::canReadLine() const
 {
-    return _readBytes < _data.size();
+    if(_verbose) {
+        qDebug() << "canReadLine: _readBytes=" << _readBytes << ", _data.size=" << _data.size();
+    }
+
+    bool ret = _readBytes < _data.size();
+
+    if(_verbose) {
+        qDebug() << "return: " << ret;
+    }
+
+    return ret;
 }
 
 qint64 TcpSocketMock::readData(char *data, qint64 maxSize)
 {
+    if(_verbose) {
+        qDebug() << "readData: _readBytes=" << _readBytes << ", _data.size=" << _data.size() << ", maxSize=" << maxSize;
+    }
+
     qint64 i;
     for(i = 0;
         (maxSize == 0 || i < maxSize)
@@ -66,12 +81,21 @@ qint64 TcpSocketMock::readData(char *data, qint64 maxSize)
     {
         data[i] = _data.at(_readBytes + i);
     }
-    _readBytes += i +1;
-    return i + 1;
+    qint64 ret = i;
+    _readBytes += ret;
+
+    if(_verbose) {
+        qDebug() << "return: " << ret << ", _readBytes=" << _readBytes;
+    }
+
+    return ret;
 }
 
 qint64 TcpSocketMock::readLineData ( char * data, qint64 maxlen)
 {
+    if(_verbose) {
+        qDebug() << "readLineData: _readBytes=" << _readBytes << ", _data.size=" << _data.size() << ", maxSize=" << maxlen;
+    }
     qint64 i;
     for(i = 0;
         (maxlen == 0 || i < maxlen)
@@ -79,12 +103,19 @@ qint64 TcpSocketMock::readLineData ( char * data, qint64 maxlen)
         ++i)
     {
         data[i] = _data.at(_readBytes + i);
-        if(_data.at(_readBytes + i) == '\n') {
+        if(data[i] == '\n') {
+            i++;
             break;
         }
     }
-    _readBytes += i + 1;
-    return i + 1;
+    qint64 ret = i;
+    _readBytes += ret;
+
+    if(_verbose) {
+        qDebug() << "return: " << ret << ", _readBytes=" << _readBytes;
+    }
+
+    return ret;
 }
 
 
@@ -92,6 +123,12 @@ qint64	TcpSocketMock::writeData ( const char * /* data */, qint64 size )
 {
     return size;
 }
+
+qint64 TcpSocketMock::bytesAvailable() const
+{
+    return _data.size() - _readBytes;
+}
+
 
 } //namespace SJSERVER
 
