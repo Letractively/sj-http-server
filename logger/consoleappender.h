@@ -22,6 +22,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define CONSOLEAPPENDER_H
 
 #include "abstractappender.h"
+
+#include <QString>
+#include <QStringList>
 #include <QMutex>
 
 namespace SJ {
@@ -29,9 +32,12 @@ namespace SJ {
 class ConsoleAppender : public AbstractAppender
 {
 public:
-    ConsoleAppender();
+    static QString type();
+    static QStringList supportedParams();
 
+    ConsoleAppender();
     void appendLine(const QString &line);
+
 private:
     static QMutex mutex;
 

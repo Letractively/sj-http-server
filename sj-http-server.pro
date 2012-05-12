@@ -1,9 +1,9 @@
 TEMPLATE = subdirs
 VERSION = 0.2
-SUBDIRS = httplib\
+SUBDIRS = logger\
+        httplib\
         weblib\
         server\
         fortune-teller \
-    image-gallery \
-    logger
+        image-gallery
 

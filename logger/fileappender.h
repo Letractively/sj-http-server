@@ -18,26 +18,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef ABSTRACTAPPENDER_H
-#define ABSTRACTAPPENDER_H
+#ifndef FILEAPPENDER_H
+#define FILEAPPENDER_H
 
-#include <QString>
+#include "abstractappender.h"
 
 namespace SJ {
 
-class AbstractAppender
+class FileAppender : public AbstractAppender
 {
 public:
-    AbstractAppender() {}
-    virtual ~AbstractAppender() {}
-    virtual void appendLine(const QString & line) = 0;
-    /**
-     * @brief Applies a given property to an appender.
-     * @return true if appender applied the property successfully, false otherwise
-     *   (for example when property name is not recognized or value is incorrect)
-     */
-    virtual bool setProperty(const QString & /*name*/, const QString & /*value*/) { return false; }
+    FileAppender();
+
+    static QString type();
+    static QStringList supportedParams();
+
+    void appendLine(const QString &line);
 };
 
-}
-#endif // ABSTRACTAPPENDER_H
+} // namespace SJ
+
+#endif // FILEAPPENDER_H

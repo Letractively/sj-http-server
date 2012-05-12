@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += testlib
+QT       += xml
 
 QT       -= gui
 
@@ -20,3 +21,6 @@ INCLUDEPATH += ../../logger \
 SOURCES += tst_loggertest.cpp \
             $$files(../../logger/*.cpp)
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
+
+OTHER_FILES += \
+    sjlog.xml

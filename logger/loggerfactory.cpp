@@ -23,6 +23,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QMutexLocker>
 #include <QList>
+#include <QFile>
+#include <QDebug>
+#include <QXmlInputSource>
+#include <QXmlSimpleReader>
+#include <loggerconffileparsehandler.h>
+
 namespace SJ {
 
 LoggerFactory & LoggerFactory::instance() {
@@ -56,7 +62,25 @@ void LoggerFactory::loadConfig(const QString & confFile)
 
 void LoggerFactory::doLoadConfig(const QString & confFile)
 {
-    //TODO: read file and load logger settings
+    //read logger settings from a file
+    QFile file(confFile);
+    if(!file.exists()) {
+        qWarning() << "File " + confFile + " not found, no loggers configured";
+        return;
+    }
+
+    QXmlInputSource source(&file);
+    LoggerConfFileParseHandler handler(loggers);
+    QXmlSimpleReader reader;
+    reader.setContentHandler(&handler);
+    reader.setErrorHandler(&handler);
+    bool parseResult = reader.parse(source);
+    if(!parseResult) {
+        loggers.clear();
+        qWarning() << "Unable to parse logger config from file " << confFile << ". Error: " << handler.errorString();
+    }
+
+
 }
 
 Logger & LoggerFactory::getLogger(const QString & loggerName)

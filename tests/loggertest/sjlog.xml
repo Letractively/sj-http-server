@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sj:loggers xmlns:sj="http://sj-http-server.googlecode.com">
+    <sj:logger name="mylogger" level="DEBUG">
+        <sj:appenders>
+            <sj:appender type="console"/>
+            <sj:appender type="file">
+                <sj:appenderParam name="filename">mylog.log</sj:appenderParam>
+            </sj:appender>
+        </sj:appenders>
+    </sj:logger>
+</sj:loggers>

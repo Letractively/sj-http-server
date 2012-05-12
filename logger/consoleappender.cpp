@@ -19,12 +19,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "consoleappender.h"
-#include <QDebug>
 #include <QMutexLocker>
+#include <QDebug>
+
 
 namespace SJ {
 
 QMutex ConsoleAppender::mutex;
+
+QString ConsoleAppender::type()
+{
+    return "console";
+}
+
+QStringList ConsoleAppender::supportedParams()
+{
+    return QStringList();
+}
 
 ConsoleAppender::ConsoleAppender()
 {

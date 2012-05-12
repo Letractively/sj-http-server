@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       -= gui
+QT       += xml
 
 TARGET = logger
 TEMPLATE = lib
@@ -15,14 +16,18 @@ SOURCES += logger.cpp \
     logginglevel.cpp \
     logbuilder.cpp \
     consoleappender.cpp \
-    loggerfactory.cpp
+    loggerfactory.cpp \
+    loggerconffileparsehandler.cpp \
+    fileappender.cpp
 
 HEADERS += logger.h\
     logginglevel.h \
     logbuilder.h \
     abstractappender.h \
     consoleappender.h \
-    loggerfactory.h
+    loggerfactory.h \
+    loggerconffileparsehandler.h \
+    fileappender.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
