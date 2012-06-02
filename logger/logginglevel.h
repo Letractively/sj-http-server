@@ -25,14 +25,46 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+
+/**
+  @brief Level of logging used by Logger to control which messages are going to be printed and which not
+  */
 class LoggingLevel
 {
 public:
-    LoggingLevel();
 
+    /**
+      @brief logging levels
+
+      ALL - all messages are printed (equivalent to TRACE)
+      TRACE - all messages will be printed
+      DEBUG - all messages except TRACE will be printed
+      INFO - all messages except TRACE and DEBUG will be printed
+      WARN - only WARN and ERROR messages will be pritned
+      ERROR - only ERROR messages will be printd
+      NONE - no messages will be printed
+      */
     enum Level {ALL, TRACE, DEBUG, INFO, WARN, ERROR, NONE};
 
+
+    /**
+      @brief returns string representation of a log level
+
+      For ALL and NONE empty string is returned
+
+      @param level level to be transformed into string
+      @return string representation
+      */
     static QString levelToString(Level level);
+
+    /**
+      @brief transforms string representation of a log level into Level
+
+      Case insensitive. Levels are not supported by this method. If unable to recognize string, NONE is returned
+
+      @param level string to be transformed into Level
+      @return Level represented by string
+      */
     static Level stringToLevel(const QString & level);
 
 };

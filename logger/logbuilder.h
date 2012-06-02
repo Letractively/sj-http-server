@@ -27,16 +27,64 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+
+/**
+  @brief LogBuilder facilitates creation of log messages. Can be used to produce a QString object from different
+  types (like ints or doubles)
+  */
 class LogBuilder
 {
 public:
-    LogBuilder(const QString & msg = "");
-    LogBuilder(const QStringList & stringList);
 
-    LogBuilder & append(const QStringList & stringList);
+    /**
+      @brief Constructs LogBuilder and optionally initializes it with given QString
+
+      @param msg Initial content of LogBuilder
+      */
+    LogBuilder(const QString & msg = "");
+
+    /**
+      @brief Constructs LogBuilder and adds all strings from list to its content
+
+      By defautl strings from list are concatinated without any separator (controllable by the second argument)
+
+      @param stringList list of strings used as initial content of LogBuilder
+      @param separator string that would separate each string from list when appending to LogBuilder (empty by default)
+      */
+    LogBuilder(const QStringList & stringList, const QString & separator = "");
+
+
+    /**
+      @brief appends a string list to LogBuilder
+      @param stringList list of strings to be appended
+      @param separator string that would separate each string from list when appending to LogBuilder (empty by default)
+      @return reference to the same LogBuilder
+      */
+    LogBuilder & append(const QStringList & stringList, const QString & separator = "");
+
+    /**
+      @brief appends a string to LogBuilder
+      @param string string to be appended
+      @return reference to the same LogBuilder
+      */
     LogBuilder & append(const QString & s);
+
+    /**
+      @brief appends a C-string to LogBuilder
+      @param s C-string to be appended
+      @return reference to the same LogBuilder
+      */
     LogBuilder & append(const char * s);
 
+
+    /**
+      @brief appends any type to LogBuilder
+
+      It is required that type is supported by the QVariant object
+
+      @param t variale to be appended
+      @return reference to the same LogBuilder
+      */
     template <typename T> LogBuilder & append(T t)
     {
         QVariant v = t;
@@ -45,9 +93,20 @@ public:
     }
 
 
+    /**
+      @brief Returns string representation of a LogBuilder (i.e. all appended values)
+      @return log message as a string
+      */
     QString toString() const;
+
+    /**
+      @breif conversion function - automatically converts LogBuilder to QString
+      */
     operator QString() const;
 
+    /**
+      @brief removes all content of a LogBuilder
+      */
     void clear();
 
 private:

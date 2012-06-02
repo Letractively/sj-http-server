@@ -29,9 +29,9 @@ LogBuilder::LogBuilder(const QString &msg)
     }
 }
 
-LogBuilder::LogBuilder(const QStringList & stringList)
+LogBuilder::LogBuilder(const QStringList & stringList, const QString &separator)
 {
-    append(stringList);
+    append(stringList, separator);
 }
 
 LogBuilder & LogBuilder::append(const QString & s)
@@ -40,9 +40,13 @@ LogBuilder & LogBuilder::append(const QString & s)
     return *this;
 }
 
-LogBuilder & LogBuilder::append(const QStringList & stringList)
+LogBuilder & LogBuilder::append(const QStringList & stringList, const QString &separator)
 {
-    list.append(stringList);
+    if(separator.isEmpty()) {
+        list.append(stringList);
+    } else {
+        list.append(stringList.join(separator));
+    }
     return *this;
 }
 

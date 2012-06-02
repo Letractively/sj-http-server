@@ -28,10 +28,6 @@ FileAppender::FileAppender()
 {
 }
 
-QString FileAppender::type()
-{
-    return "file";
-}
 
 QStringList FileAppender::supportedParams()
 {
@@ -40,9 +36,18 @@ QStringList FileAppender::supportedParams()
     return list;
 }
 
-void FileAppender::appendLine(const QString &line)
+void FileAppender::appendLine(const QString & /*line*/)
 {
 //TODO implement this appender
+}
+
+bool FileAppender::setProperty(const QString &name, const QString &value) {
+    if(name == "filename") {
+        filename = value;
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace SJ

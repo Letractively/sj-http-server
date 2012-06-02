@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "loggerfactory.h"
 #include "testcommon.h"
 #include "consoleappender.h"
+#include "logbuilder.h"
 
 using namespace SJ;
 using namespace SJSERVER;
@@ -39,6 +40,7 @@ public:
 private Q_SLOTS:
     void testCase1();
     void testCase2();
+    void testCase3();
 };
 
 LoggerTest::LoggerTest()
@@ -83,6 +85,16 @@ void LoggerTest::testCase2()
     logger.info("logger factory can produce loggers :)");
     logger.debug("by default info level is enabled");
     ASSERT(logger.isDebugEnabled() == false);
+
+    logger.info(LogBuilder(LoggerFactory::instance().configuredLoggers(), " "));
+}
+
+void LoggerTest::testCase3()
+{
+    SJ::LogBuilder lb("Hello to LogBuilder.");
+    lb.append(" This is a string, then goes an int ").append(12);
+    lb.append(" and finally a double ").append(3.14);
+    qDebug() << lb.toString();
 }
 
 QTEST_APPLESS_MAIN(LoggerTest)

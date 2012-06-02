@@ -29,13 +29,28 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+/**
+  @brief Prints log messages to console
+
+  Multiple objects of this class can be created, and all of them are thread safe
+  */
 class ConsoleAppender : public AbstractAppender
 {
 public:
-    static QString type();
-    static QStringList supportedParams();
 
-    ConsoleAppender();
+    /**
+      @brief returns type of the appender ("console"). Used when reading logger configuration from file
+     */
+    static QString type() { return "console"; }
+
+    /**
+      @brief returns list of parameters that can be applied to this class of appenders.
+      Used when reading logger configuration from file
+
+      ConsoleAppender does not support any parameters
+     */
+    static QStringList supportedParams() { return QStringList(); }
+
     void appendLine(const QString &line);
 
 private:

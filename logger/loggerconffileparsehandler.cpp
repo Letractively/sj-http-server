@@ -25,7 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
-const QString LoggerConfFileParseHandler::NS = "http://sj-http-server.googlecode.com";
+const QString LoggerConfFileParseHandler::NS = "http://sj-http-server.googlecode.com/logger";
 const QString LoggerConfFileParseHandler::ELEMENT_LOGGERS = "loggers";
 const QString LoggerConfFileParseHandler::ELEMENT_LOGGER = "logger";
 const QString LoggerConfFileParseHandler::ELEMENT_APPENDERS = "appenders";
@@ -67,9 +67,9 @@ bool LoggerConfFileParseHandler::startElement(const QString &namespaceURI, const
 {
 //    qDebug() << Q_FUNC_INFO;
 //    qDebug() << "namespaceURI=" << namespaceURI << " localName=" << localName;
-    for(int i = 0; i < atts.count(); ++i) {
-        qDebug() << atts.qName(i) << "=" << atts.value(i) << " [" << atts.type(i) << "]";
-    }
+//    for(int i = 0; i < atts.count(); ++i) {
+//        qDebug() << atts.qName(i) << "=" << atts.value(i) << " [" << atts.type(i) << "]";
+//    }
 
     if(namespaceURI != NS) {
         errorInfo = "expected namespace is [" + NS + "] but got [" + namespaceURI + "]";
@@ -181,6 +181,7 @@ bool LoggerConfFileParseHandler::endElement(const QString &namespaceURI,
     case STATE_LOGGERS:
         if(localName == ELEMENT_LOGGERS) {
             state = STATE_DONE;
+//            qDebug() << "loaded config for following loggers: " << loggers.keys();
         }  else {
             errorInfo = "expected [" + ELEMENT_LOGGERS + "]  but got [" + localName + "]";
             return false;
@@ -212,10 +213,11 @@ bool LoggerConfFileParseHandler::characters(const QString &ch)
 
 bool LoggerConfFileParseHandler::processStateStartLogger(const QXmlAttributes &atts)
 {
-    QString loggerName = atts.value("", ATTRIBUTE_LOGGER_NAME);
+    qDebug() << Q_FUNC_INFO;
+    currentLoggerName = atts.value("", ATTRIBUTE_LOGGER_NAME);
     QString logLevel = atts.value("", ATTRIBUTE_LOGGER_LEVEL);
 
-    if(loggerName.isEmpty()) {
+    if(currentLoggerName.isEmpty()) {
         errorInfo = "logger name cannot be empty";
         return false;
     }
@@ -234,6 +236,7 @@ bool LoggerConfFileParseHandler::processStateStartLogger(const QXmlAttributes &a
 
 bool LoggerConfFileParseHandler::processStateStartAppender(const QXmlAttributes &atts)
 {
+//    qDebug() << Q_FUNC_INFO;
     currentAppenderType = atts.value("", ATTRIBUTE_APPENDER_TYPE);
 
     if(currentAppenderType == ConsoleAppender::type()) {
@@ -250,20 +253,23 @@ bool LoggerConfFileParseHandler::processStateStartAppender(const QXmlAttributes 
 
 bool LoggerConfFileParseHandler::processStateStartAppenderParam(const QXmlAttributes &atts)
 {
+//    qDebug() << Q_FUNC_INFO;
     currentPropertyName = atts.value("", ATTRIBUTE_APPENDER_PARAM_NAME);
-
     return true;
 }
 
 bool LoggerConfFileParseHandler::processStateEndLogger()
 {
+//    qDebug() << Q_FUNC_INFO;
     loggers.insert(currentLoggerName, currentLogger);
+//    qDebug() << loggers.keys();
     resetCurrentVariables();
     return true;
 }
 
 bool LoggerConfFileParseHandler::processStateEndAppender()
 {
+//    qDebug() << Q_FUNC_INFO;
     currentLogger->addAppender(currentAppender, true);
     return true;
 }
@@ -289,7 +295,7 @@ void LoggerConfFileParseHandler::setAppenderProperty(const QString &name, const 
         }
     }
 
-    qWarning() << "Unable to set property " + name + " to appender of type " + currentAppenderType;
+    qWarning() << "Unable to set property '" + name + "'' to appender of type [" + currentAppenderType + "]";
 }
 
 bool LoggerConfFileParseHandler::error ( const QXmlParseException & exception )

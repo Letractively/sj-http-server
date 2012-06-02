@@ -22,18 +22,40 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define FILEAPPENDER_H
 
 #include "abstractappender.h"
+#include <QString>
 
 namespace SJ {
 
+
+/**
+  @brief Writes log messages to a file
+
+  Not supported yet
+  */
 class FileAppender : public AbstractAppender
 {
 public:
     FileAppender();
 
-    static QString type();
+
+    /**
+      @brief returns type of the appender ("console"). Used when reading logger configuration from file
+     */
+    static QString type() { return "file"; }
+
+    /**
+      @brief returns list of parameters that can be applied to this class of appenders.
+      Used when reading logger configuration from file
+
+      Supported parameters are: filename
+     */
     static QStringList supportedParams();
 
     void appendLine(const QString &line);
+    virtual bool setProperty(const QString & name, const QString & value);
+
+private:
+    QString filename;
 };
 
 } // namespace SJ

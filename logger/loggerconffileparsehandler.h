@@ -29,6 +29,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+
+/**
+  @brief Class responsible for parsing logger configuration file
+
+  Used as a callback class by SAX parser
+  */
 class LoggerConfFileParseHandler : public QXmlDefaultHandler
 {
 public:

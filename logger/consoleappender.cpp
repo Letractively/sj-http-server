@@ -27,20 +27,6 @@ namespace SJ {
 
 QMutex ConsoleAppender::mutex;
 
-QString ConsoleAppender::type()
-{
-    return "console";
-}
-
-QStringList ConsoleAppender::supportedParams()
-{
-    return QStringList();
-}
-
-ConsoleAppender::ConsoleAppender()
-{
-}
-
 void ConsoleAppender::appendLine(const QString &line)
 {
     QMutexLocker locker(&mutex);

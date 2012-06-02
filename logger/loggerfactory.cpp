@@ -100,6 +100,9 @@ Logger & LoggerFactory::getLogger(const QString & loggerName)
     return *logger;
 }
 
-
+QStringList LoggerFactory::configuredLoggers()
+{
+    return QStringList(loggers.keys());
+}
 
 } // namespace SJ

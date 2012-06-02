@@ -25,14 +25,29 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+
+/**
+  @brief Abstract class representing appenders that can be used by Logger to write log messages)
+ */
 class AbstractAppender
 {
 public:
-    AbstractAppender() {}
-    virtual ~AbstractAppender() {}
-    virtual void appendLine(const QString & line) = 0;
+
     /**
-     * @brief Applies a given property to an appender.
+      @brief virtual destructor
+     */
+    virtual ~AbstractAppender() {}
+
+    /**
+      @brief Writes a log message to the destinantion (for example console or file)
+
+      @param line message to be written
+
+     */
+    virtual void appendLine(const QString & line) = 0;
+
+    /**
+     * @brief Applies a given property to appender.
      * @return true if appender applied the property successfully, false otherwise
      *   (for example when property name is not recognized or value is incorrect)
      */
