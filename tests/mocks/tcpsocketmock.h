@@ -25,7 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QByteArray>
 #include <QDebug>
 
-namespace SJSERVER {
+namespace SJ {
 
 class TcpSocketMock : public QTcpSocket
 {
@@ -130,7 +130,7 @@ qint64 TcpSocketMock::bytesAvailable() const
 }
 
 
-} //namespace SJSERVER
+} //namespace SJ
 
 
 

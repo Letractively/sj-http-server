@@ -19,14 +19,27 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "fortuneteller.h"
-#include <QtGui>
+#include "loggerfactory.h"
+#include "logbuilder.h"
+#include <QString>
+#include <QByteArray>
 
-QVector<QString> FortuneTeller::fortunes;
+namespace SJ {
+
+QStringList FortuneTeller::fortunes;
 bool FortuneTeller::fortunesSet = false;
+
+const Logger & FortuneTeller::logger = LoggerFactory::instance().getLogger("sj-fortune-teller-logger");
 
 HttpResponse FortuneTeller::handle(HttpRequest * /* request */, QSettings::SettingsMap * /*settings*/) const
 {
-    QString text = "<html><head><title>Fortune cookie</title></head><body><h3>Fortune cookie</h3>" + getFortune() + "<br><br>"
+    QString cookie = getFortune();
+
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, (LogBuilder("Returning new cookie: ").append(cookie)));
+    }
+
+    QString text = "<html><head><title>Fortune cookie</title></head><body><h3>Fortune cookie</h3>" + cookie + "<br><br>"
             "<font size='-1'>Fortune comes from <a href='http://www.fortunecookiemessage.com/'>www.fortunecookiemessage.com</a></font></body></html>";
     QByteArray a;
     a.append(text);
@@ -95,9 +108,17 @@ QString FortuneTeller::getFortune()
 
         qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
         fortunesSet = true;
+
+        if(logger.isDebugEnabled()) {
+            LogBuilder lb("LoadedCookies are: ");
+            lb.append(fortunes,"\n\t ");
+            LOG_DEBUG(logger, lb.toString());
+        }
     }
 
     return fortunes[qrand() % fortunes.size()];
 }
 
-Q_EXPORT_PLUGIN2(fortune-teller, FortuneTeller)
+} //namespace SJ
+
+Q_EXPORT_PLUGIN2(fortune-teller, SJ::FortuneTeller)

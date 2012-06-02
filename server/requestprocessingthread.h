@@ -25,10 +25,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QTcpSocket>
 #include <QSettings>
 #include <QTimer>
+#include "loggerall.h"
 
 #include "httprequestimpl.h"
 
-using namespace SJSERVER;
+namespace SJ {
 
 class RequestProcessingThread : public QThread
 {
@@ -56,6 +57,9 @@ private:
     quint64 bytesRead;
     QSettings & settings;
     QTimer * timer;
+
+    static const Logger & logger;
+
     void processRequest();
     void preparePostRequest();
 
@@ -70,4 +74,5 @@ private:
     QSettings::SettingsMap * readHandlerSettings(const QString & handlerSettingsKey);
 };
 
+} //namespace SJ
 #endif // REQUESTPROCESSINGTHREAD_H

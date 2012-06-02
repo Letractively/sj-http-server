@@ -213,7 +213,7 @@ bool LoggerConfFileParseHandler::characters(const QString &ch)
 
 bool LoggerConfFileParseHandler::processStateStartLogger(const QXmlAttributes &atts)
 {
-    qDebug() << Q_FUNC_INFO;
+//    qDebug() << Q_FUNC_INFO;
     currentLoggerName = atts.value("", ATTRIBUTE_LOGGER_NAME);
     QString logLevel = atts.value("", ATTRIBUTE_LOGGER_LEVEL);
 

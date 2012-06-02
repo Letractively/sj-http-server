@@ -23,7 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDebug>
 
-namespace SJSERVER {
+namespace SJ {
 
 HttpRequestImpl::HttpRequestImpl(QTcpSocket * socket)
     : contentLength(0),
@@ -260,4 +260,4 @@ void HttpRequestImpl::addParameter(QString paramName, QString paramValue)
 }
 
 
-} // namespace SJSERVER
+} // namespace SJ

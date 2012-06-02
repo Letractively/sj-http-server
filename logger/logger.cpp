@@ -37,27 +37,27 @@ Logger::~Logger()
     }
 }
 
-void Logger::trace(const QString & msg, const char * filename, int lineNumber)
+void Logger::trace(const QString & msg, const char * filename, int lineNumber) const
 {
     doLog(LoggingLevel::TRACE, msg, filename, lineNumber);
 }
 
-void Logger::debug(const QString & msg, const char * filename, int lineNumber)
+void Logger::debug(const QString & msg, const char * filename, int lineNumber) const
 {
     doLog(LoggingLevel::DEBUG, msg, filename, lineNumber);
 }
 
-void Logger::info(const QString & msg, const char * filename, int lineNumber)
+void Logger::info(const QString & msg, const char * filename, int lineNumber) const
 {
     doLog(LoggingLevel::INFO, msg, filename, lineNumber);
 }
 
-void Logger::warn(const QString & msg, const char * filename, int lineNumber)
+void Logger::warn(const QString & msg, const char * filename, int lineNumber) const
 {
     doLog(LoggingLevel::WARN, msg, filename, lineNumber);
 }
 
-void Logger::error(const QString & msg, const char * filename, int lineNumber)
+void Logger::error(const QString & msg, const char * filename, int lineNumber) const
 {
     doLog(LoggingLevel::ERROR, msg, filename, lineNumber);
 }
@@ -103,7 +103,7 @@ void Logger::addAppender(AbstractAppender * appender, bool shouldDelete)
     }
 }
 
-void Logger::doLog(const LoggingLevel::Level &level, const QString & msg, const char * filename, int lineNumber)
+void Logger::doLog(const LoggingLevel::Level &level, const QString & msg, const char * filename, int lineNumber) const
 {
     if(isLevelEnabled(level)) {
         LogBuilder lb;

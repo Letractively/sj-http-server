@@ -28,7 +28,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "logbuilder.h"
 
 using namespace SJ;
-using namespace SJSERVER;
 
 class LoggerTest : public QObject
 {
@@ -36,12 +35,18 @@ class LoggerTest : public QObject
     
 public:
     LoggerTest();
+
+private:
+    static const Logger & scLogger;
     
 private Q_SLOTS:
     void testCase1();
     void testCase2();
     void testCase3();
+    void testCase4();
 };
+
+const Logger & LoggerTest::scLogger = LoggerFactory::instance().getLogger("scLogger");
 
 LoggerTest::LoggerTest()
 {
@@ -95,6 +100,15 @@ void LoggerTest::testCase3()
     lb.append(" This is a string, then goes an int ").append(12);
     lb.append(" and finally a double ").append(3.14);
     qDebug() << lb.toString();
+
+    scLogger.info(lb);
+}
+
+void LoggerTest::testCase4()
+{
+    const Logger & logger = LoggerFactory::instance().getLogger("mylogger");
+    logger.debug("test123");
+    LOG_DEBUG(logger, "test321");
 }
 
 QTEST_APPLESS_MAIN(LoggerTest)

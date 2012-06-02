@@ -25,7 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "tcpsocketmock.h"
 #include "testcommon.h"
 
-using namespace SJSERVER;
+using namespace SJ;
 class HttpRequestTest : public QObject
 {
     Q_OBJECT

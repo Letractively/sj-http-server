@@ -23,7 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
 
-namespace SJSERVER {
+namespace SJ {
 
 #define ASSERT(condition) QVERIFY(condition)
 #define ASSERT2(condition, msg) QVERIFY2(condition, msg.toStdString().c_str())

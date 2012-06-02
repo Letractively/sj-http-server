@@ -30,6 +30,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QHostAddress>
 #include <QMessageBox>
 
+namespace SJ {
+
 MainDialog::MainDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MainDialog),
@@ -128,3 +130,5 @@ void MainDialog::handlersButtonClickedSlot() {
     HandlersDialog dialog;
     dialog.exec();
 }
+
+} // namespace SJ

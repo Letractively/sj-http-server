@@ -22,8 +22,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define FORTUNETELLER_H
 
 #include <abstractrequesthandler.h>
+#include <loggerfactory.h>
 #include <QObject>
-#include <QVector>
+#include <QStringList>
+
+namespace SJ {
 
 /**
  * @brief Application prints a random fortune cookie quote
@@ -38,9 +41,12 @@ public:
     QString name() const;
     HttpResponse handle(HttpRequest *request, QSettings::SettingsMap *settings) const;
 private:
-    static QVector<QString> fortunes;
+    static QStringList fortunes;
     static bool fortunesSet;
     static QString getFortune();
+
+    static const Logger & logger;
 };
 
+} // namespace SJ
 #endif // FORTUNETELLER_H

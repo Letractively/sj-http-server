@@ -6,7 +6,7 @@ Copyright (C) 2011-2012  Jakub Wachowski
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -32,15 +32,14 @@ static QString copyrightNote();
 
 int main(int argc, char *argv[])
 {
-    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger();
-    logger.setLevel(SJ::LoggingLevel::DEBUG);
+    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger("sj-server-logger");
 
     LOG_INFO(logger,copyrightNote());
     setUpSettings();
 
     QApplication a(argc, argv);
 
-    MainDialog w;
+    SJ::MainDialog w;
     w.show();
 
     return a.exec();
@@ -65,7 +64,7 @@ void setUpSettings()
         settings.setValue(ServerSettings::SETTING_WWW_ROOT_PATH, "/var/www/");
     }
 
-    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger();
+    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger("sj-server-logger");
     if(logger.isDebugEnabled()) {
         SJ::LogBuilder lb("Settings:\n");
         QStringList allKeys = settings.allKeys();
@@ -98,4 +97,3 @@ QString copyrightNote()
 
     return copyright;
 }
-

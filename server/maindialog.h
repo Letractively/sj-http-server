@@ -28,6 +28,8 @@ namespace Ui {
     class MainDialog;
 }
 
+namespace SJ {
+
 class MainDialog : public QDialog
 {
     Q_OBJECT
@@ -48,5 +50,7 @@ private slots:
     void settingsButtonClickedSlot();
     void handlersButtonClickedSlot();
 };
+
+} //namespace SJ
 
 #endif // MAINDIALOG_H

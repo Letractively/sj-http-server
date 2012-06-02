@@ -21,25 +21,30 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "requestprocessingthread.h"
 #include "httpresponse.h"
 #include "settingsconstants.h"
-//#include "logger.h"
 #include "abstractrequesthandler.h"
 #include "handlermanager.h"
 #include "serverutils.h"
 
 #include <QFile>
 #include <QImage>
-//#include <QDebug>
 #include <QSettings>
 #include <QPluginLoader>
 #include <QStringList>
+#include <QHostAddress>
 
-using namespace SJSERVER;
+namespace SJ {
+
+const Logger & RequestProcessingThread::logger = LoggerFactory::instance().getLogger("sj-req-proc-thread-logger");
 
 RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject * parent)
     :QThread(parent), socket(0), request(0), bytesRead(0),
       settings(Utils::getSettings())
 {
-//    qDebug() << "thread created";
+    if(logger.isTraceEnabled()) {
+        LOG_TRACE(logger, LogBuilder("Creating new RequestProcessingThread for socket descriptor [")
+                  .append(socketDescriptor).append("]"));
+    }
+
     socket = new QTcpSocket(this);
     socket->setSocketDescriptor(socketDescriptor);
     connect(socket, SIGNAL(readyRead()), this, SLOT(dataReadySlot()));
@@ -47,6 +52,11 @@ RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject *
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(persistentConnTimeoutSlot()));
+
+    if(logger.isTraceEnabled()) {
+        LOG_TRACE(logger, LogBuilder("socket details: localAdress=").append(socket->localAddress().toString()).append("; localPort=").append(socket->localPort()).append("; peerAddress=").append(socket->peerAddress().toString()).append("; peerPort=").append(socket->peerPort()).append("; peerName=").append(socket->peerName()));
+    }
+
 }
 
 
@@ -60,7 +70,7 @@ void RequestProcessingThread::dataReadySlot()
 {
     if(request == 0) {
         request = new HttpRequestImpl(socket);
-        qDebug() << request->toString();
+//        qDebug() << request->toString();
     }
 
     if(request->getMethod() == HttpRequest::GET) {
@@ -214,19 +224,27 @@ QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QStr
 
 void RequestProcessingThread::persistentConnTimeoutSlot()
 {
-//    qDebug() << "  PERSISTENT CONNECTION TIMED OUT";
+    if(logger.isTraceEnabled()) {
+        LOG_TRACE(logger, "PERSISTENT CONNECTION TIMED OUT");
+    }
     socket->disconnectFromHost();
 }
 
 void RequestProcessingThread::disconnectedSlot()
 {
-//    qDebug() << "   SOCKET SIGNAL disconnected";
+    if(logger.isTraceEnabled()) {
+        LOG_TRACE(logger, " SOCKET SIGNAL disconnected");
+    }
     disconnect(this);
     this->quit();
 }
 
 void RequestProcessingThread::serverStoppedSlot()
 {
-//    qDebug() << "Server stopped, disconnecting from socket";
+    if(logger.isTraceEnabled()) {
+        LOG_TRACE(logger, "Server stopped, disconnecting from socket");
+    }
     socket->disconnectFromHost();
 }
+
+} //namespace SJ

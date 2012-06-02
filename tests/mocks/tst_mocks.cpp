@@ -23,7 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QString>
 #include "tcpsocketmock.h"
 
-using namespace SJSERVER;
+using namespace SJ;
 
 class MockTest : public QObject
 {

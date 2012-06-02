@@ -27,7 +27,8 @@ HEADERS += logger.h\
     consoleappender.h \
     loggerfactory.h \
     loggerconffileparsehandler.h \
-    fileappender.h
+    fileappender.h \
+    loggerall.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

@@ -32,7 +32,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QMap>
 #include <QVector>
 
-namespace SJSERVER {
+namespace SJ {
 
 class HttpRequestImpl : public HttpRequest
 {

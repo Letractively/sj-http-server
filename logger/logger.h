@@ -84,7 +84,7 @@ public:
       @param filename name of a source code file (by default - do not print)
       @param lineNumber numer of a source code line in which message was printed (by default - do not priint)
       */
-    void trace(const QString & msg, const char * filename = 0, int lineNumber = 0);
+    void trace(const QString & msg, const char * filename = 0, int lineNumber = 0) const;
 
 
     /**
@@ -96,7 +96,7 @@ public:
       @param filename name of a source code file (by default - do not print)
       @param lineNumber numer of a source code line in which message was printed (by default - do not priint)
       */
-    void debug(const QString & msg, const char * filename = 0, int lineNumber = 0);
+    void debug(const QString & msg, const char * filename = 0, int lineNumber = 0) const;
 
 
     /**
@@ -108,7 +108,7 @@ public:
       @param filename name of a source code file (by default - do not print)
       @param lineNumber numer of a source code line in which message was printed (by default - do not priint)
       */
-    void info(const QString & msg, const char * filename = 0, int lineNumber = 0);
+    void info(const QString & msg, const char * filename = 0, int lineNumber = 0) const;
 
 
     /**
@@ -120,7 +120,7 @@ public:
       @param filename name of a source code file (by default - do not print)
       @param lineNumber numer of a source code line in which message was printed (by default - do not priint)
       */
-    void warn(const QString & msg, const char * filename = 0, int lineNumber = 0);
+    void warn(const QString & msg, const char * filename = 0, int lineNumber = 0) const;
 
 
     /**
@@ -132,7 +132,7 @@ public:
       @param filename name of a source code file (by default - do not print)
       @param lineNumber numer of a source code line in which message was printed (by default - do not priint)
       */
-    void error(const QString & msg, const char * filename = 0, int lineNumber = 0);
+    void error(const QString & msg, const char * filename = 0, int lineNumber = 0) const;
 
 
     /**
@@ -183,13 +183,13 @@ public:
     void addAppender(AbstractAppender * appender, bool shouldDelete = false);
 
 private: //methods
-    void doLog(const LoggingLevel::Level & level, const QString &msg, const char *filename, int lineNumber);
+    void doLog(const LoggingLevel::Level & level, const QString &msg, const char *filename, int lineNumber) const;
     bool isLevelEnabled(const LoggingLevel::Level &level) const;
-    QString timestamp();
+    static QString timestamp();
 
 private: //fields
     LoggingLevel::Level logLevel;
-    QVector<AbstractAppender *> appenders;
+    mutable QVector<AbstractAppender *> appenders;
     QVector<AbstractAppender *> appendersToDelete;
 };
 
