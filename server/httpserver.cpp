@@ -19,15 +19,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "httpserver.h"
-//#include "logger.h"
+#include "logger.h"
 #include "requestprocessingthread.h"
 
 #include <QFile>
-//#include <QDebug>
 
 #include "httprequest.h"
 
 namespace SJ {
+
+const Logger & HttpServer::logger = LoggerFactory::instance().getLogger("sj-server-logger");
 
 HttpServer::HttpServer(QObject *parent) :
     QTcpServer(parent)
@@ -42,37 +43,46 @@ HttpServer::~HttpServer()
 
 void HttpServer::close()
 {
-    QTcpServer::close();
-    emit serverStoppedSignal();
+    if(isListening()) {
+        if(logger.isInfoEnabled()) {
+            LOG_INFO(logger, "Server stopped");
+        }
+
+        QTcpServer::close();
+        emit serverStoppedSignal();
+    }
 }
 
-
-QHostAddress HttpServer::createAddress(QString interface)
+bool HttpServer::listen(const QHostAddress &address, quint16 port)
 {
-    if(interface == "localhost" || interface == "127.0.0.1") {
-        return QHostAddress::LocalHost;
+    if(logger.isInfoEnabled()) {
+        LOG_INFO(logger, LogBuilder("Server started. Listening on ").append(address.toString())
+                 .append(" port ").append(port));
     }
-
-    if(interface == "any") {
-        return QHostAddress::Any;
-    }
-
-    return QHostAddress(interface);
+    return QTcpServer::listen(address, port);
 }
 
 void HttpServer::incomingConnection(int socketDescriptor)
 {
-//    qDebug() << "new connection";
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, LogBuilder("New connection on socket descriptor ").append(socketDescriptor));
+    }
     RequestProcessingThread * thread = new RequestProcessingThread(socketDescriptor);
     connect(thread, SIGNAL(finished()), this, SLOT(threadFinishedSlot()));
     connect(this, SIGNAL(serverStoppedSignal()), thread, SLOT(serverStoppedSlot()));
+
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, "RequestProcessingThread execution started");
+    }
     thread->start();
 }
 
 
 void HttpServer::threadFinishedSlot()
 {
-//    qDebug() << "thread finished";
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, "RequestProcessingThread execution finished");
+    }
     sender()->deleteLater();
 }
 

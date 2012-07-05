@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "httpresponse.h"
-#include "serverutils.h"
+//#include "serverutils.h"
 
 const char * HttpResponse::EOL = "\r\n";
 
@@ -163,7 +163,7 @@ void HttpResponse::setDefaultHeaders()
 {
 //    addHeader("Connection", "close");
     addHeader("Connection", "Keep-Alive");
-    addHeader("Server", "SJ-Server v. " + Utils::version());
+    addHeader("Server", "SJ-Server");
 }
 
 

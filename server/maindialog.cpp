@@ -32,6 +32,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+const Logger & MainDialog::logger = LoggerFactory::instance().getLogger("sj-server-logger");
+
 MainDialog::MainDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MainDialog),
@@ -40,8 +42,6 @@ MainDialog::MainDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("SJ-Server v. " + Utils::version());
-//    Logger::init(ui->listWidget);
-//    Logger::instance().debug("Logger initialized correctly");
 
     connect(ui->startButton, SIGNAL(clicked()), this, SLOT(startButtonClickedSlot()));
     connect(ui->aboutButton, SIGNAL(clicked()), this, SLOT(aboutButtonClickedSlot()));
@@ -64,42 +64,30 @@ void MainDialog::startButtonClickedSlot()
 
     if(server != 0) {
         if(!serverStarted) {
-//            Logger::instance().debug("Starting server...");
-
             QSettings & settings = Utils::getSettings();
             QString serverInterface = settings.value(ServerSettings::SETTING_LISTEN_INTERFACE).toString();
             quint16 serverPort = settings.value(ServerSettings::SETTING_LISTEN_PORT).toInt();
 
-            QHostAddress adr = HttpServer::createAddress(serverInterface);
+            QHostAddress adr = Utils::createAddress(serverInterface);
 
-//            qDebug() << "adr = " << adr << ", port = " << serverPort;
-
-            server->listen(adr, serverPort);
-            if(!server->isListening())
-            {
-//                Logger::instance().debug("Cannot start the server");
-//                Logger::instance().debug(server->errorString());
+            bool status = server->listen(adr, serverPort);
+            if(!status || !server->isListening()) {
+                LOG_ERROR(logger, LogBuilder("Cannot start server, reason: ").append(server->errorString()));
             } else {
                 ui->startButton->setText("Stop server");
                 serverStarted = true;
-//                Logger::instance().debug("Server listening on " + serverInterface + ":" + settings.value(ServerSettings::SETTING_LISTEN_PORT).toString());
             }
         } else {
-//            Logger::instance().debug("Stopping server...");
             server->close();
-            if(server->isListening())
-            {
-//                Logger::instance().debug("Cannot stop the server");
-//                Logger::instance().debug(server->errorString());
+            if(server->isListening()) {
+                LOG_ERROR(logger, LogBuilder("Cannot stop server, reason: ").append(server->errorString()));
             } else {
                 ui->startButton->setText("Start server");
                 serverStarted = false;
-//                Logger::instance().debug("Server stopped");
             }
-
         }
     } else {
-//        Logger::instance().debug("Error - cannot run the server. Please restart the application");
+        LOG_ERROR(logger, "Cannot run the server. Please restart the application");
     }
 }
 

@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 #include "httpserver.h"
+#include "loggerall.h"
 
 namespace Ui {
     class MainDialog;
@@ -42,6 +43,7 @@ private:
     Ui::MainDialog *ui;
     HttpServer * server;
     bool serverStarted;
+    static const Logger & logger;
 
 private slots:
     void startButtonClickedSlot();

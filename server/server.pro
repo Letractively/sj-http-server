@@ -20,6 +20,7 @@ SOURCES += main.cpp\
     handlersdialog.cpp \
     settingwidgetsfactory.cpp \
     httprequestimpl.cpp \
+        serverutils.cpp \
     httpresponseimpl.cpp
 
 HEADERS  += maindialog.h \
@@ -33,6 +34,7 @@ HEADERS  += maindialog.h \
     handlersdialog.h \
     settingwidgetsfactory.h \
     httprequestimpl.h \
+        serverutils.h \
     httpresponseimpl.h
 
 FORMS    += maindialog.ui

@@ -6,7 +6,7 @@ Copyright (C) 2011-2012  Jakub Wachowski
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-any later version.
+(at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,24 +18,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#include "serverutils.h"
-#include "loggerfactory.h"
-#include "logbuilder.h"
-#include <QStringList>
+#ifndef SERVER_UTILS_H
+#define SERVER_UTILS_H
+
+#include <QString>
+#include <QSettings>
+#include <QHostAddress>
 
 
-QString Utils::substring(const QString & str, int beginIndex, int endIndex)
+class Utils
 {
-    if(endIndex == -1) {
-        return str.mid(beginIndex, endIndex);
-    } else {
-        return str.mid(beginIndex, str.length() - beginIndex - endIndex);
-    }
-}
+public:
+    static QString substring(const QString & str, int beginIndex, int endIndex = -1);
+    static QString version() { return "0.2"; }
+    static QSettings & getSettings();
+    static QHostAddress createAddress(QString interface);
 
-QSettings & Utils::getSettings()
-{
-    static QSettings settings("sj-http-server.ini", QSettings::IniFormat);
-    SJ::LoggerFactory::instance().getLogger().trace(SJ::LogBuilder(settings.allKeys()));
-    return settings;
-}
+};
+
+#endif // SERVER_UTILS_H

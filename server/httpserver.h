@@ -24,6 +24,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QHostAddress>
+#include "loggerall.h"
+
 
 namespace SJ {
 
@@ -33,10 +35,11 @@ class HttpServer : public QTcpServer
 public:
     explicit HttpServer(QObject *parent = 0);
     ~HttpServer();
-    static QHostAddress createAddress(QString interface);
     void close();
-private:
+    bool listen(const QHostAddress &address, quint16 port);
 
+private:
+    static const Logger & logger;
 
 private slots:
     void threadFinishedSlot();

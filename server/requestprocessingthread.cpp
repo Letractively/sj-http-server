@@ -40,8 +40,8 @@ RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject *
     :QThread(parent), socket(0), request(0), bytesRead(0),
       settings(Utils::getSettings())
 {
-    if(logger.isTraceEnabled()) {
-        LOG_TRACE(logger, LogBuilder("Creating new RequestProcessingThread for socket descriptor [")
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, LogBuilder("Creating new RequestProcessingThread for socket descriptor [")
                   .append(socketDescriptor).append("]"));
     }
 
@@ -54,7 +54,10 @@ RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject *
     connect(timer, SIGNAL(timeout()), this, SLOT(persistentConnTimeoutSlot()));
 
     if(logger.isTraceEnabled()) {
-        LOG_TRACE(logger, LogBuilder("socket details: localAdress=").append(socket->localAddress().toString()).append("; localPort=").append(socket->localPort()).append("; peerAddress=").append(socket->peerAddress().toString()).append("; peerPort=").append(socket->peerPort()).append("; peerName=").append(socket->peerName()));
+        LOG_TRACE(logger, LogBuilder("socket details: localAdress=").append(socket->localAddress().toString())
+                  .append("; localPort=").append(socket->localPort()).append("; peerAddress=")
+                  .append(socket->peerAddress().toString()).append("; peerPort=").append(socket->peerPort())
+                  .append("; peerName=").append(socket->peerName()));
     }
 
 }
@@ -70,7 +73,9 @@ void RequestProcessingThread::dataReadySlot()
 {
     if(request == 0) {
         request = new HttpRequestImpl(socket);
-//        qDebug() << request->toString();
+        if(logger.isTraceEnabled()) {
+            LOG_TRACE(logger, LogBuilder("Creating new request object: [").append(request->toString()).append("]"));
+        }
     }
 
     if(request->getMethod() == HttpRequest::GET) {
@@ -81,13 +86,14 @@ void RequestProcessingThread::dataReadySlot()
 }
 
 void RequestProcessingThread::preparePostRequest() {
-//    qDebug() << "processing POST Request";
     QByteArray readData = socket->readAll();
-//    qDebug() << "Read " << readData.length() << " bytes";
+    if(logger.isTraceEnabled()) {
+        LOG_TRACE(logger, LogBuilder("reading data for POST request, read bytes: ").append(readData.length())
+                  .append("Already read ").append(bytesRead).append(" out of ").append(request->getContentLength())
+                  .append(" bytes"));
+    }
 
     bytesRead += readData.length();
-
-//    qDebug() << "Read " << bytesRead << " of " << request->getContentLength() << " bytes";
 
     if(readData.length() > 0) {
         request->appendData(readData);
@@ -156,7 +162,6 @@ QByteArray RequestProcessingThread::findData(const QByteArray & data) {
 }
 
 void RequestProcessingThread::parsePart(const QByteArray & partData) {
-//    qDebug() << partData;
     if(partData.contains(HttpHeader::CONTENT_TYPE.toAscii())) {
 
         QString originalFileName = findAttributeValue("filename", partData);
@@ -181,16 +186,13 @@ QString RequestProcessingThread::findAttributeValue(const QString & attributeNam
     int paramBegin = partData.indexOf(attributeName + "=\"");
     int paramEnd = partData.indexOf("\"", paramBegin + attributeNameLength);
     return QString(partData.mid(paramBegin + attributeNameLength, paramEnd - paramBegin - attributeNameLength));
-
 }
 
 
 void RequestProcessingThread::processRequest() {
-//    qDebug() << "processing " << request->getMethod() << " Request: " << request->getRequestUri();
-
     HandlerData handlerData = HandlerManager::instance().getHandler(request);
     AbstractRequestHandler * handler = handlerData.getHandler();
-//    qDebug() << "Processing request with" << handler->name();
+    LOG_TRACE(logger, LogBuilder("Processing request with ").append(handler->name()));
     QSettings::SettingsMap * sets = readHandlerSettings(handlerData.getSettingsGroup());
     HttpResponse response = handler->handle(request, sets);
     delete sets;
@@ -209,31 +211,29 @@ QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QStr
 
     QStringList keys = settings.allKeys();
 
-//    qDebug() << "SETTINGS: all keys are " << keys;
-
     for(int i = 0; i < keys.length(); ++i) {
         if(keys.at(i).startsWith(handlerSettingsKey + "/")) {
             map->insert(Utils::substring(keys.at(i), handlerSettingsKey.length() + 1), settings.value(keys.at(i)));
         }
     }
 
-//    qDebug() << "SETTINGS: returning map " << *map;
-
     return map;
 }
 
 void RequestProcessingThread::persistentConnTimeoutSlot()
 {
-    if(logger.isTraceEnabled()) {
-        LOG_TRACE(logger, "PERSISTENT CONNECTION TIMED OUT");
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, LogBuilder("Persistent connection timed out for socket descriptor ")
+                  .append(socket->socketDescriptor()));
     }
     socket->disconnectFromHost();
 }
 
 void RequestProcessingThread::disconnectedSlot()
 {
-    if(logger.isTraceEnabled()) {
-        LOG_TRACE(logger, " SOCKET SIGNAL disconnected");
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, LogBuilder("Disconnecting socket with socket descriptor ")
+                  .append(socket->socketDescriptor()));
     }
     disconnect(this);
     this->quit();
@@ -241,8 +241,9 @@ void RequestProcessingThread::disconnectedSlot()
 
 void RequestProcessingThread::serverStoppedSlot()
 {
-    if(logger.isTraceEnabled()) {
-        LOG_TRACE(logger, "Server stopped, disconnecting from socket");
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, LogBuilder("Server stopped, disconnecting socket with descriptor ")
+                  .append(socket->socketDescriptor()));
     }
     socket->disconnectFromHost();
 }
