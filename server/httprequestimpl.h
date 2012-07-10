@@ -118,6 +118,6 @@ private:
 
 
 };
-}
+} //namespace SJ
 
 #endif // HTTPREQUESTIMPL_H

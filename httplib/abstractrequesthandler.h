@@ -29,6 +29,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QSettings>
 #include <QtPlugin>
 
+namespace SJ {
 
 /**
  * @brief Class represents a request handler, i.e. a plugin that can process an http request
@@ -78,11 +79,11 @@ public:
      * (those configured for this handler) and is supposed to return a http response. This is purly virtual function
      * and needs to be overriden by derived classes.
      *
-     * @param request http request for which response should be returned
+     * @param request http request for which response should be created
+     * @param response http response to return
      * @param settings configuration of the handler
-     * @return response to the request
      */
-    virtual HttpResponse handle(HttpRequest * request, QSettings::SettingsMap * settings = 0) const = 0;
+    virtual void handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap * settings = 0) const = 0;
 
     /**
      * @brief return which settings are supported by the handler
@@ -95,6 +96,8 @@ public:
     virtual QVector<SettingsItem> supportedSettings() const { return QVector<SettingsItem>(0); }
 };
 
-Q_DECLARE_INTERFACE(AbstractRequestHandler, "sj.http.server.AbstractRequestHandler/0.1")
+} //namespace SJ
+
+Q_DECLARE_INTERFACE(SJ::AbstractRequestHandler, "sj.http.server.AbstractRequestHandler/0.1")
 
 #endif // ABSTRACTREQUESTHANDLER_H

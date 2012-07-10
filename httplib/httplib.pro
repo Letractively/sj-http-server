@@ -17,7 +17,6 @@ DEFINES += HTTPLIB_LIBRARY
 SOURCES +=\
         httpheader.cpp\
         httprequestbinaryfile.cpp\
-        httpresponse.cpp\
     settingsitem.cpp
 
 HEADERS += abstractrequesthandler.h\

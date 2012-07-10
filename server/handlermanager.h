@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "handlerdata.h"
 #include <QVector>
 
+namespace SJ {
 
 class HandlerManager
 {
@@ -57,5 +58,7 @@ private:
     HandlerData defaultHandler;
     QVector<HandlerData> handlers;
 };
+
+} // namespace SJ
 
 #endif // HANDLERMANAGER_H

@@ -26,6 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QPluginLoader>
 #include <QStringList>
 
+namespace SJ {
 
 HandlerManager::HandlerManager()
 {
@@ -142,3 +143,4 @@ HandlerData HandlerManager::getHandler(HttpRequest * request)
     return defaultHandler;
 }
 
+} // namespace SJ

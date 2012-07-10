@@ -21,32 +21,42 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "requesthandler.h"
 #include "settingsconstants.h"
 #include "serverutils.h"
+#include "httpresponseimpl.h"
+
+namespace SJ {
 
 RequestHandler::RequestHandler()
 {
     WWW_ROOT_PATH = Utils::substring(ServerSettings::SETTING_WWW_ROOT_PATH, name().length() + 1);
 }
 
-HttpResponse RequestHandler::handle(HttpRequest *req, QSettings::SettingsMap *settings) const
+void RequestHandler::handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const
 {
-    if(req->getMethod() != HttpRequest::GET) {
-        return HttpResponse(HttpResponse::NOT_FOUND);
+    if(request->getMethod() != HttpRequest::GET) {
+        response->setStatusCode(HttpResponse::NOT_FOUND);
+        return;
     }
 
     QString wwwRoot = settings->value(WWW_ROOT_PATH).toString();
 
-    HttpResponse response;
     if("" == wwwRoot) {
-        response = HttpResponse(HttpResponse::NOT_FOUND);
-    } else {
-
-        QString uri = req->getRequestUri();
-
-        if(uri == "/") {
-            uri = "index.html";
-        }
-
-        response = HttpResponse(wwwRoot + uri);
+        response->setStatusCode(HttpResponse::NOT_FOUND);
+        return;
     }
-    return response;
+
+    HttpResponseImpl * resImpl = dynamic_cast<HttpResponseImpl*>(response);
+    if(!resImpl) {
+        //should never happen
+        response->setStatusCode(HttpResponse::NOT_FOUND);
+        return;
+    }
+
+    QString uri = request->getRequestUri();
+
+    if(uri == "/") {
+        uri = "index.html";
+    }
+    resImpl->fromFile(wwwRoot + uri);
 }
+
+} // namespace SJ

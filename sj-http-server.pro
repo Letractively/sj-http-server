@@ -4,6 +4,6 @@ SUBDIRS = logger\
         httplib\
         weblib\
         server\
-        fortune-teller \
+        fortune-teller\
         image-gallery
 

@@ -18,6 +18,7 @@ INCLUDEPATH += ../common
 
 SOURCES += tst_httprequest.cpp \
           ../../server/httprequestimpl.cpp \
+          ../../server/serverutils.cpp \
           $$files(../../httplib/*.cpp) \
           $$files(../../logger/*.cpp)
 

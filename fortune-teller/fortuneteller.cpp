@@ -31,7 +31,7 @@ bool FortuneTeller::fortunesSet = false;
 
 const Logger & FortuneTeller::logger = LoggerFactory::instance().getLogger("sj-fortune-teller-logger");
 
-HttpResponse FortuneTeller::handle(HttpRequest * /* request */, QSettings::SettingsMap * /*settings*/) const
+void FortuneTeller::handle(HttpRequest * /* request */, HttpResponse * response, QSettings::SettingsMap * /*settings*/) const
 {
     QString cookie = getFortune();
 
@@ -43,8 +43,8 @@ HttpResponse FortuneTeller::handle(HttpRequest * /* request */, QSettings::Setti
             "<font size='-1'>Fortune comes from <a href='http://www.fortunecookiemessage.com/'>www.fortunecookiemessage.com</a></font></body></html>";
     QByteArray a;
     a.append(text);
-    HttpResponse resp(&a);
-    return resp;
+    response->setContentType("text/html");
+    response->writeData(a);
 }
 
 QString FortuneTeller::name() const {

@@ -23,14 +23,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <abstractrequesthandler.h>
 
+namespace SJ {
+
 class RequestHandler : public AbstractRequestHandler
 {
 public:
     RequestHandler();
     QString name() const { return "DefaultRequestHandler"; }
-    HttpResponse handle(HttpRequest *req, QSettings::SettingsMap *settings) const;
+    void handle(HttpRequest *request, HttpResponse * response, QSettings::SettingsMap *settings) const;
 private:
     QString WWW_ROOT_PATH;
+    QByteArray fromFile(const QString & filePath);
 };
 
+
+} // namespace SJ
 #endif // REQUESTHANDLER_H

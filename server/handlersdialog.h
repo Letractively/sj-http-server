@@ -25,6 +25,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "handlerdata.h"
 #include "settingwidgetsfactory.h"
 
+namespace SJ {
+
 class HandlerEditor : public QWidget
 {
     Q_OBJECT
@@ -58,5 +60,7 @@ signals:
 public slots:
 
 };
+
+} //namespace SJ
 
 #endif // HANDLERSDIALOG_H

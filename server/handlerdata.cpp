@@ -22,6 +22,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "settingsconstants.h"
 #include "serverutils.h"
 
+namespace SJ {
+
 HandlerData::HandlerData()
     :handler(0)
 {
@@ -48,3 +50,5 @@ QString HandlerData::getContextRoot() const
 HandlerData::~HandlerData()
 {
 }
+
+} //namespace SJ

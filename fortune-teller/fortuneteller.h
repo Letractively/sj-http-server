@@ -36,10 +36,10 @@ namespace SJ {
 class FortuneTeller : public QObject, public AbstractRequestHandler
 {
     Q_OBJECT
-    Q_INTERFACES(AbstractRequestHandler)
+    Q_INTERFACES(SJ::AbstractRequestHandler)
 public:
     QString name() const;
-    HttpResponse handle(HttpRequest *request, QSettings::SettingsMap *settings) const;
+    void handle(HttpRequest *request, HttpResponse * response, QSettings::SettingsMap *settings) const;
 private:
     static QStringList fortunes;
     static bool fortunesSet;

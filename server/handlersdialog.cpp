@@ -29,6 +29,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QLabel>
 #include "settingsconstants.h"
 
+namespace SJ {
 
 HandlerEditor::HandlerEditor(HandlerData * handler, QWidget * parent)
     : QWidget(parent), handler(handler)
@@ -117,3 +118,5 @@ HandlersDialog::HandlersDialog(QWidget *parent) :
     connect(closeButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(okButton, SIGNAL(clicked()), this, SLOT(close()));
 }
+
+} // namespace SJ

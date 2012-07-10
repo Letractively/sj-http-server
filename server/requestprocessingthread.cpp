@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "requestprocessingthread.h"
 #include "httpresponse.h"
+#include "httpresponseimpl.h"
 #include "settingsconstants.h"
 #include "abstractrequesthandler.h"
 #include "handlermanager.h"
@@ -194,9 +195,11 @@ void RequestProcessingThread::processRequest() {
     AbstractRequestHandler * handler = handlerData.getHandler();
     LOG_TRACE(logger, LogBuilder("Processing request with ").append(handler->name()));
     QSettings::SettingsMap * sets = readHandlerSettings(handlerData.getSettingsGroup());
-    HttpResponse response = handler->handle(request, sets);
+    HttpResponseImpl * response = new HttpResponseImpl();
+    handler->handle(request, response, sets);
     delete sets;
-    response.writeToSocket(socket);
+    response->writeToSocket(socket);
+    delete response;
     delete request;
     request = 0;
 }

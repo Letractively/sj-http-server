@@ -26,6 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QVector>
 
+namespace SJ {
 
 /**
  * @brief Abstract class representing an http request
@@ -97,4 +98,5 @@ public:
 
 };
 
+} //namespace SJ
 #endif // HTTPREQUEST_H
