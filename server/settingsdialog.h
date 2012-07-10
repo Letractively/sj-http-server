@@ -23,7 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 
-
+namespace SJ {
 
 
 class SettingsDialog : public QDialog
@@ -41,5 +41,7 @@ private slots:
 
 
 };
+
+}
 
 #endif // SETTINGSDIALOG_H

@@ -26,6 +26,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QVector>
 
+namespace SJ {
+
 #if defined(__FILE__) && defined(__LINE__)
 #define LOG_TRACE(logger,msg) logger.trace(msg, __FILE__, __LINE__)
 #define LOG_DEBUG(logger,msg) logger.debug(msg, __FILE__, __LINE__)
@@ -46,7 +48,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define LOG_ERROR(logger,msg) logger.error(msg, 0, 0)
 #endif
 
-namespace SJ {
 
 /**
   @brief Logger class is used to log different events in an application.

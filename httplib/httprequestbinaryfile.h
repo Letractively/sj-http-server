@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QDateTime>
 #include <QByteArray>
 
+namespace SJ {
 
 class HttpRequestBinaryFile
 {
@@ -44,5 +45,7 @@ private:
     QDateTime uploadDate;
     QString contentType;
 };
+
+} //namespace SJ
 
 #endif // HTTPREQUESTBINARYFILE_H

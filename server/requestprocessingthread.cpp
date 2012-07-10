@@ -195,6 +195,7 @@ void RequestProcessingThread::processRequest() {
     AbstractRequestHandler * handler = handlerData.getHandler();
     LOG_TRACE(logger, LogBuilder("Processing request with ").append(handler->name()));
     QSettings::SettingsMap * sets = readHandlerSettings(handlerData.getSettingsGroup());
+    sets->insert("ContextRoot", handlerData.getContextRoot());
     HttpResponseImpl * response = new HttpResponseImpl();
     handler->handle(request, response, sets);
     delete sets;

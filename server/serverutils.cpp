@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "logbuilder.h"
 #include <QStringList>
 
+namespace SJ {
 
 QString Utils::substring(const QString & str, int beginIndex, int endIndex)
 {
@@ -52,3 +53,5 @@ QHostAddress Utils::createAddress(QString interface)
 
     return QHostAddress(interface);
 }
+
+} //namespace SJ

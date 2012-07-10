@@ -34,7 +34,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QFileDialog>
 #include <QHostAddress>
 
-
+namespace SJ {
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent)
@@ -93,7 +93,7 @@ void SettingsDialog::okSlot()
     close();
 }
 
-
+} //namespace SJ
 
 
 

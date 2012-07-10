@@ -32,10 +32,13 @@ public:
 
     enum StatusCode {OK = 200, NOT_FOUND = 404};
 
+    HttpResponse() {}
+    virtual ~HttpResponse() {}
     virtual void setStatusCode(StatusCode code) = 0;
     virtual void addHeader(QString name, QString value) = 0;
     virtual void setContentType(const QString & contentType) = 0;
     virtual void writeData(const QByteArray & data) = 0;
+    virtual void fromFile(const QString & filePath) = 0;
 };
 
 } // namespace SJ

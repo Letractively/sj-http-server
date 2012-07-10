@@ -35,6 +35,10 @@ class HttpRequest
 {
 
 public:
+
+    HttpRequest() {}
+    virtual ~HttpRequest() {}
+
     /**
      * @brief Method of the request, as defined in RFC 2616 sections 9.2 - 9.9
      */

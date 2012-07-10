@@ -19,6 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "settingsitem.h"
 
+namespace SJ {
+
 SettingsItem::SettingsItem(const QString & name, const SettingType & type, const QString &key)
     : name(name), type(type), key(key)
 {
@@ -29,3 +31,5 @@ SettingsItem::SettingsItem()
 {
 
 }
+
+} //namespace SJ

@@ -20,6 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "httpheader.h"
 
+namespace SJ {
+
 const QString HttpHeader::CONTENT_TYPE = "Content-Type";
 const QString HttpHeader::ACCEPT_CHARSET = "Accept-Charset";
 const QString HttpHeader::CONTENT_DISPOSITION = "Content-Disposition";
@@ -70,4 +72,4 @@ QString HttpHeader::toString() {
     return name + ": " + value;
 }
 
-
+} //namespace SJ

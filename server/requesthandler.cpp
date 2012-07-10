@@ -44,19 +44,12 @@ void RequestHandler::handle(HttpRequest * request, HttpResponse * response, QSet
         return;
     }
 
-    HttpResponseImpl * resImpl = dynamic_cast<HttpResponseImpl*>(response);
-    if(!resImpl) {
-        //should never happen
-        response->setStatusCode(HttpResponse::NOT_FOUND);
-        return;
-    }
-
     QString uri = request->getRequestUri();
 
     if(uri == "/") {
         uri = "index.html";
     }
-    resImpl->fromFile(wwwRoot + uri);
+    response->fromFile(wwwRoot + uri);
 }
 
 } // namespace SJ

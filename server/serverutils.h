@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QSettings>
 #include <QHostAddress>
 
+namespace SJ {
 
 class Utils
 {
@@ -35,5 +36,7 @@ public:
     static QHostAddress createAddress(QString interface);
 
 };
+
+} //namespace SJ
 
 #endif // SERVER_UTILS_H

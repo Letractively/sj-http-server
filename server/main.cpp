@@ -48,20 +48,20 @@ int main(int argc, char *argv[])
 
 void setUpSettings()
 {
-    QSettings & settings = Utils::getSettings();
+    QSettings & settings = SJ::Utils::getSettings();
 
     //setup default values
 
-    if(!settings.contains(ServerSettings::SETTING_LISTEN_INTERFACE)) {
-        settings.setValue(ServerSettings::SETTING_LISTEN_INTERFACE, "localhost");
+    if(!settings.contains(SJ::ServerSettings::SETTING_LISTEN_INTERFACE)) {
+        settings.setValue(SJ::ServerSettings::SETTING_LISTEN_INTERFACE, "localhost");
     }
 
-    if(!settings.contains(ServerSettings::SETTING_LISTEN_PORT)) {
-        settings.setValue(ServerSettings::SETTING_LISTEN_PORT, 9090);
+    if(!settings.contains(SJ::ServerSettings::SETTING_LISTEN_PORT)) {
+        settings.setValue(SJ::ServerSettings::SETTING_LISTEN_PORT, 9090);
     }
 
-    if(!settings.contains(ServerSettings::SETTING_WWW_ROOT_PATH)) {
-        settings.setValue(ServerSettings::SETTING_WWW_ROOT_PATH, "/var/www/");
+    if(!settings.contains(SJ::ServerSettings::SETTING_WWW_ROOT_PATH)) {
+        settings.setValue(SJ::ServerSettings::SETTING_WWW_ROOT_PATH, "/var/www/");
     }
 
     SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger("sj-server-logger");

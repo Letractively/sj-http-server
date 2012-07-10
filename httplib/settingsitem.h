@@ -23,6 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
 
+namespace SJ {
+
 class SettingsItem
 {
 public:
@@ -42,5 +44,7 @@ private:
     SettingType type;
     QString key;
 };
+
+} //namespace SJ
 
 #endif // SETTINGSITEM_H

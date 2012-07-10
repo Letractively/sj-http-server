@@ -23,6 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
 
+namespace SJ {
+
 namespace ServerSettings {
 const QString SETTING_WWW_ROOT_PATH = "DefaultRequestHandler/www.root.path";
 const QString SETTING_LISTEN_INTERFACE = "server.listen.interface";
@@ -35,5 +37,7 @@ const QString PLUGIN_FILE_PATH = "file.path";
 const QString PLUGIN_CONTEXT_ROOT = "context.root";
 const QString PLUGIN_SETTINGS_KEY = "settings.key";
 }
+
+} //namespace SJ
 
 #endif // SETTINGSCONSTANTS_H

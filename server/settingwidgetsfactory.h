@@ -28,6 +28,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "settingsitem.h"
 
+namespace SJ {
 
 class AbstractSetting : public QWidget
 {
@@ -124,5 +125,6 @@ public:
     static AbstractSetting * getWidget(SettingsItem::SettingType type, const QString & key, const QString & labelText, QWidget *parent = 0);
 };
 
+} //namespace SJ
 
 #endif // SETTINGWIDGETSFACTORY_H

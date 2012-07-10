@@ -29,6 +29,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QGraphicsColorizeEffect>
 #include <QHostAddress>
 
+namespace SJ {
+
 QSettings & AbstractSetting::settings = Utils::getSettings();
 
 SettingWidgetsFactory::SettingWidgetsFactory()
@@ -294,3 +296,5 @@ void HostSetting::valueEditedSlot()
     }
 
 }
+
+} //namespace SJ

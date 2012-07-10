@@ -24,6 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QString>
 #include <QVector>
 
+namespace SJ {
 
 /**
  * @brief Represents an http header as specified in RFC 2616 section 4.2
@@ -112,5 +113,7 @@ private:
     QString name;
     QString value;
 };
+
+} //namespace SJ
 
 #endif // HTTPHEADER_H
