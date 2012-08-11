@@ -33,14 +33,14 @@ RequestHandler::RequestHandler()
 void RequestHandler::handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const
 {
     if(request->getMethod() != HttpRequest::GET) {
-        response->setStatusCode(HttpResponse::NOT_FOUND);
+        response->setStatusCode(HttpResponse::SC_NOT_FOUND);
         return;
     }
 
     QString wwwRoot = settings->value(WWW_ROOT_PATH).toString();
 
     if("" == wwwRoot) {
-        response->setStatusCode(HttpResponse::NOT_FOUND);
+        response->setStatusCode(HttpResponse::SC_NOT_FOUND);
         return;
     }
 

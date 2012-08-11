@@ -29,7 +29,7 @@ const char * HttpResponseImpl::EOL = "\r\n";
 
 
 HttpResponseImpl::HttpResponseImpl()
-    : code(OK), file(0), contentType("")
+    : code(SC_OK), file(0), contentType("")
 {
     setDefaultHeaders();
 }
@@ -39,7 +39,7 @@ void HttpResponseImpl::fromFile(const QString & filePath)
 {
     file = new QFile(filePath);
     if(!file->exists()) {
-        code = NOT_FOUND;
+        code = SC_NOT_FOUND;
         delete file;
         file = 0;
         return;
@@ -81,7 +81,7 @@ void HttpResponseImpl::setContentType(const QString & contentType)
 
 void HttpResponseImpl::writeToSocket(QTcpSocket * socket)
 {
-    if(code == NOT_FOUND) {
+    if(code == SC_NOT_FOUND) {
         socket->write(("HTTP/1.1 " + codeToString(this->code) + EOL).toStdString().c_str());
         socket->write("ContentType: text/plain");
         socket->write(EOL);
@@ -147,8 +147,8 @@ void HttpResponseImpl::writeToSocket(QTcpSocket * socket)
 QString HttpResponseImpl::codeToString(StatusCode code)
 {
     switch(code) {
-    case OK: return "200 OK";
-    case NOT_FOUND: return "404 Not Found";
+    case SC_OK: return "200 OK";
+    case SC_NOT_FOUND: return "404 Not Found";
     }
     return "500 Internal Server Error";
 }

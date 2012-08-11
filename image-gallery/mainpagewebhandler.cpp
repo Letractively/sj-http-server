@@ -6,11 +6,11 @@ Copyright (C) 2011-2012  Jakub Wachowski
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -30,6 +30,7 @@ void MainPageWebHandler::handle(HttpRequest * /*request*/, HttpResponse * respon
 {
     QByteArray resp;
     resp.append("<html><body>Welcome to image gallery<br><br>"
+                "To upload a new image go to <a href=\"upload\">upload page</a><br>"
                     "</body></html>");
     response->writeData(resp);
 }

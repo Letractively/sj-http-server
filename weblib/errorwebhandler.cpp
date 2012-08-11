@@ -35,7 +35,7 @@ void ErrorWebHandler::handle(HttpRequest * /*request*/, HttpResponse * response,
                              QSettings::SettingsMap * /*settings*/) const
 {
     qDebug() << "ERROR WEB HANDLER returning not found response";
-    response->setStatusCode(HttpResponse::NOT_FOUND);
+    response->setStatusCode(HttpResponse::SC_NOT_FOUND);
 }
 
 } //namespace SJ
