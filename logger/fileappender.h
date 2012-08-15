@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define FILEAPPENDER_H
 
 #include "abstractappender.h"
+#include "fileappenderinternal.h"
 #include <QString>
 
 namespace SJ {
@@ -39,7 +40,7 @@ public:
 
 
     /**
-      @brief returns type of the appender ("console"). Used when reading logger configuration from file
+      @brief returns type of the appender ("file"). Used when reading logger configuration from file
      */
     static QString type() { return "file"; }
 
@@ -55,7 +56,7 @@ public:
     virtual bool setProperty(const QString & name, const QString & value);
 
 private:
-    QString filename;
+    FileAppenderInternal * f;
 };
 
 } // namespace SJ

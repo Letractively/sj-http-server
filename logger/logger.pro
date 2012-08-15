@@ -18,7 +18,9 @@ SOURCES += logger.cpp \
     consoleappender.cpp \
     loggerfactory.cpp \
     loggerconffileparsehandler.cpp \
-    fileappender.cpp
+    fileappender.cpp \
+    fileappenderinternal.cpp \
+    fileappenderinternalholder.cpp
 
 HEADERS += logger.h\
     logginglevel.h \
@@ -28,7 +30,9 @@ HEADERS += logger.h\
     loggerfactory.h \
     loggerconffileparsehandler.h \
     fileappender.h \
-    loggerall.h
+    loggerall.h \
+    fileappenderinternal.h \
+    fileappenderinternalholder.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

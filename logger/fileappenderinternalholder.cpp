@@ -18,39 +18,41 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#include "fileappender.h"
 #include "fileappenderinternalholder.h"
-#include <QString>
-#include <QStringList>
 
-namespace SJ {
-
-FileAppender::FileAppender()
+FileAppenderInternalHolder & FileAppenderInternalHolder::getInstance()
 {
+    static FileAppenderInternalHolder holder;
+    return holder;
 }
 
 
-QStringList FileAppender::supportedParams()
+
+
+FileAppenderInternal * FileAppenderInternalHolder::getFAI(const QString & filename)
 {
-    QStringList list;
-    list.append("filename");
-    return list;
+    QMutexLocker locker(&getFAIMutex);
+    if(fMap.contains(filename)) {
+        return fMap.value(filename);
+    }
+
+    FileAppenderInternal * f = new FileAppenderInternal(filename);
+    fMap.insert(filename, f);
+    return f;
 }
 
-void FileAppender::appendLine(const QString & line)
+
+
+FileAppenderInternalHolder::~FileAppenderInternalHolder()
 {
-    if(f != 0) {
-        f->appendLine(line);
+    QMutexLocker locker(&getFAIMutex);
+
+    QList<QString> keys = fMap.keys();
+    for(int i = 0; i < keys.size(); ++i) {
+        delete fMap.take(keys.at(i));
     }
 }
 
-bool FileAppender::setProperty(const QString &name, const QString &value) {
-    if(name == "filename") {
-        f = FileAppenderInternalHolder::getInstance().getFAI(value);
-        return true;
-    }
-
-    return false;
+FileAppenderInternalHolder::FileAppenderInternalHolder()
+{
 }
-
-} // namespace SJ

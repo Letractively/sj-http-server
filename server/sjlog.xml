@@ -4,7 +4,7 @@
         <sj:appenders>
             <sj:appender type="console"/>
             <sj:appender type="file">
-                <sj:appenderParam name="filename">sjserver.log</sj:appenderParam>
+                <sj:appenderParam name="filename">logs/sjserver.log</sj:appenderParam>
             </sj:appender>
         </sj:appenders>
     </sj:logger>
@@ -13,7 +13,7 @@
         <sj:appenders>
             <sj:appender type="console"/>
             <sj:appender type="file">
-                <sj:appenderParam name="filename">sjserver.log</sj:appenderParam>
+                <sj:appenderParam name="filename">logs/sjserver.log</sj:appenderParam>
             </sj:appender>
         </sj:appenders>
     </sj:logger>
@@ -21,6 +21,9 @@
     <sj:logger name="sj-fortune-teller-logger" level="DEBUG">
         <sj:appenders>
             <sj:appender type="console"/>
+            <sj:appender type="file">
+                <sj:appenderParam name="filename">logs/sjserver-ft.log</sj:appenderParam>
+            </sj:appender>
         </sj:appenders>
     </sj:logger>
 </sj:loggers>
