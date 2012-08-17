@@ -15,13 +15,19 @@ HEADERS += \
     mainpagewebhandler.h \
     uploadwebhandler.h \
     imagegalleryconstants.h \
-    imageviewwebhandler.h
+    imageviewwebhandler.h \
+    imagemetadata.h \
+    imagemetadataprovider.h \
+    imagemetadatamemoryprovider.h
 
 SOURCES += \
     imagegallery.cpp \
     mainpagewebhandler.cpp \
     uploadwebhandler.cpp \
-    imageviewwebhandler.cpp
+    imageviewwebhandler.cpp \
+    imagemetadata.cpp \
+    imagemetadataprovider.cpp \
+    imagemetadatamemoryprovider.cpp
 
 
 
@@ -62,3 +68,9 @@ DEPENDPATH += $$PWD/../httplib
 
 INCLUDEPATH += $$PWD/../weblib
 DEPENDPATH += $$PWD/../weblib
+
+symbian: LIBS += -llogger
+else:unix|win32: LIBS += -L$$OUT_PWD/../logger/ -llogger
+
+INCLUDEPATH += $$PWD/../logger
+DEPENDPATH += $$PWD/../logger

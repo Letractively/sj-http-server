@@ -17,30 +17,28 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef IMAGEGALLERY_H
-#define IMAGEGALLERY_H
-
-#include <abstractrequesthandler.h>
-#include <abstractdispatcher.h>
-#include <QObject>
+#include "imagemetadata.h"
 
 namespace SJ {
 
-class ImageGallery : public QObject, public AbstractRequestHandler
+ImageMetadata::ImageMetadata()
 {
-    Q_OBJECT
-    Q_INTERFACES(SJ::AbstractRequestHandler)
-public:
-    ImageGallery();
-    ~ImageGallery();
-    QString name() const;
-    void handle(HttpRequest *req, HttpResponse * resp, QSettings::SettingsMap *settings = 0) const;
-    virtual QVector<SettingsItem> supportedSettings() const;
-private:
-    AbstractDispatcher * dispatcher;
-};
+}
 
-} //namespace SJ
+ImageMetadata::ImageMetadata(const QString & title, const QString & author,
+                             const QString & filename, const QDateTime & uploadDate,
+                             const QString & originalFilename)
+    : title(title),
+      author(author),
+      filename(filename),
+      uploadDate(uploadDate),
+      originalFilename(originalFilename)
+{
+}
 
-#endif // IMAGEGALLERY_H
+QString ImageMetadata::toString() const
+{
+    return "title=[" + title + "] author=[" + author + "], filename=[" + filename + "], uploadDate=[" + uploadDate.toString("yyyy-MM-dd hh:mm:ss") + "]";
+}
+
+}

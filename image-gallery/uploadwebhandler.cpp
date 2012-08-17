@@ -22,6 +22,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 
 #include "imagegalleryconstants.h"
+#include "imagemetadata.h"
+#include "imagemetadataprovider.h"
 
 namespace SJ {
 
@@ -60,6 +62,8 @@ QByteArray UploadWebHandler::getFormBytes(const QString & requestUri) const
 {
     static QString formStringBegin = "<html><body><form action=\"";
     static QString formStringEnd = "\" method=\"POST\" enctype=\"multipart/form-data\">"
+            "Author: <INPUT type=\text\" name=\"author\" /><BR>"
+            "Title: <INPUT type=\text\" name=\"title\" /><BR>"
             "Image: <INPUT type=\"file\" name=\"imagefile\" /><BR>"
             "<INPUT type=\"submit\" value=\"Upload\" />"
             "</form></body></html>";
@@ -86,12 +90,23 @@ void UploadWebHandler::handlePostData(HttpRequest *request, HttpResponse *respon
             a.append("<li>" + binFile.getOriginalFileName() + "</li>\n");
             binFile.saveToDisc(destDir);
             a.append("<br>This file is available <a href=\"show?file=" + binFile.getFileName() + "\"> here</a>.");
+
+            ImageMetadata img(
+                        request->getParameter("title"),
+                        request->getParameter("author"),
+                        binFile.getFileName(),
+                        binFile.getUploadDate(),
+                        binFile.getOriginalFileName()
+                        );
+
+
+          ImageMetadataProvider::getInstance()->addImage(img);
+
         }
         a.append("</ul>");
     } else {
         a.append("<br>Unfortunately you haven't uploaded any files...");
     }
-    request->getBinaryFiles();
 
     a.append("</body></html>");
     response->writeData(a);

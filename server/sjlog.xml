@@ -4,7 +4,7 @@
         <sj:appenders>
             <sj:appender type="console"/>
             <sj:appender type="file">
-                <sj:appenderParam name="filename">logs/sjserver.log</sj:appenderParam>
+                <sj:appenderParam name="filename">../tmp/logs/sjserver.log</sj:appenderParam>
             </sj:appender>
         </sj:appenders>
     </sj:logger>
@@ -13,7 +13,7 @@
         <sj:appenders>
             <sj:appender type="console"/>
             <sj:appender type="file">
-                <sj:appenderParam name="filename">logs/sjserver.log</sj:appenderParam>
+                <sj:appenderParam name="filename">../tmp/logs/sjserver.log</sj:appenderParam>
             </sj:appender>
         </sj:appenders>
     </sj:logger>
@@ -22,8 +22,18 @@
         <sj:appenders>
             <sj:appender type="console"/>
             <sj:appender type="file">
-                <sj:appenderParam name="filename">logs/sjserver-ft.log</sj:appenderParam>
+                <sj:appenderParam name="filename">../tmp/logs/sjserver-ft.log</sj:appenderParam>
             </sj:appender>
         </sj:appenders>
     </sj:logger>
+
+    <sj:logger name="sj-image-gallery-logger" level="DEBUG">
+        <sj:appenders>
+            <sj:appender type="console"/>
+            <sj:appender type="file">
+                <sj:appenderParam name="filename">../tmp/logs/sjserver-ig.log</sj:appenderParam>
+            </sj:appender>
+        </sj:appenders>
+    </sj:logger>
+
 </sj:loggers>

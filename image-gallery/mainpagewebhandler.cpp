@@ -19,7 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "mainpagewebhandler.h"
+#include "loggerall.h"
+#include "imagemetadataprovider.h"
+
 namespace SJ {
+
+const Logger & MainPageWebHandler::logger = LoggerFactory::instance().getLogger("sj-image-gallery-logger");
 
 MainPageWebHandler::MainPageWebHandler()
 {
@@ -31,8 +36,20 @@ void MainPageWebHandler::handle(HttpRequest * /*request*/, HttpResponse * respon
     QByteArray resp;
     resp.append("<html><body>Welcome to image gallery<br><br>"
                 "To upload a new image go to <a href=\"upload\">upload page</a><br>"
-                    "</body></html>");
+                "<br>Currently there are the following images:");
+
+    QList<ImageMetadata> images = ImageMetadataProvider::getInstance()->getImages();
+    for(int i = 0; i < images.size(); ++i) {
+        ImageMetadata img = images.at(i);
+        LOG_DEBUG(logger, (LogBuilder("image #").append(i).append(": ").append(img.toString())));
+        resp.append("<br><a href=\"show?file=" + img.getFilename() + "\">" + img.getTitle() + "</a> by " + img.getAuthor());
+    }
+
+
+    resp.append("</body></html>");
     response->writeData(resp);
+
+
 }
 
 } //namespace SJ

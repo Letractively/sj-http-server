@@ -17,27 +17,36 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef MAINPAGEWEBHANDLER_H
-#define MAINPAGEWEBHANDLER_H
-
-#include "abstractwebhandler.h"
-#include "loggerall.h"
-#include <QSettings>
+#include "imagemetadataprovider.h"
+#include "imagemetadatamemoryprovider.h"
 
 namespace SJ {
 
-class MainPageWebHandler : public AbstractWebHandler
-{
-public:
-    MainPageWebHandler();
-    void handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const;
+ImageMetadataProvider * ImageMetadataProvider::provider;
 
-private:
-    static const Logger & logger;
+ImageMetadataProvider * ImageMetadataProvider::getInstance() {
+    if(provider == 0) {
+        provider = new ImageMetadataMemoryProvider();
+    }
+    return provider;
+}
 
-};
 
-} //namespace SJ
+ImageMetadataProvider::~ImageMetadataProvider() {
+    if(provider != 0) {
+        delete provider;
+        provider = 0;
+    }
+}
 
-#endif // MAINPAGEWEBHANDLER_H
+ImageMetadataProvider::ImageMetadataProvider() {
+    provider = 0;
+}
+
+
+
+
+}
+
+
+
