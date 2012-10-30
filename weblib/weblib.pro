@@ -49,3 +49,11 @@ else:unix: LIBS += -L$$OUT_PWD/../httplib/ -lhttplib
 
 INCLUDEPATH += $$PWD/../httplib
 DEPENDPATH += $$PWD/../httplib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../logger/release/ -llogger
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../logger/debug/ -llogger
+else:symbian: LIBS += -llogger
+else:unix: LIBS += -L$$OUT_PWD/../logger/ -llogger
+
+INCLUDEPATH += $$PWD/../logger
+DEPENDPATH += $$PWD/../logger

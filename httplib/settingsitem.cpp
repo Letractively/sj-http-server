@@ -27,9 +27,8 @@ SettingsItem::SettingsItem(const QString & name, const SettingType & type, const
 }
 
 SettingsItem::SettingsItem()
-    : name(""), type(SettingsItem::STRING)
+    : name(""), type(SettingsItem::STRING), key("")
 {
-
 }
 
 } //namespace SJ

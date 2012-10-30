@@ -79,17 +79,17 @@ void RequestProcessingThread::dataReadySlot()
         }
     }
 
-    if(request->getMethod() == HttpRequest::GET) {
+    if(request->getContentLength() == 0) {
         processRequest();
-    } else if (request->getMethod() == HttpRequest::POST) {
-        preparePostRequest();
+    } else {
+        prepareRequest();
     }
 }
 
-void RequestProcessingThread::preparePostRequest() {
+void RequestProcessingThread::prepareRequest() {
     QByteArray readData = socket->readAll();
     if(logger.isTraceEnabled()) {
-        LOG_TRACE(logger, LogBuilder("reading data for POST request, read bytes: ").append(readData.length())
+        LOG_TRACE(logger, LogBuilder("reading data for request, read bytes: ").append(readData.length())
                   .append("Already read ").append(bytesRead).append(" out of ").append(request->getContentLength())
                   .append(" bytes"));
     }
@@ -196,7 +196,15 @@ void RequestProcessingThread::processRequest() {
     LOG_TRACE(logger, LogBuilder("Processing request with ").append(handler->name()));
     QSettings::SettingsMap * sets = readHandlerSettings(handlerData.getSettingsGroup());
     sets->insert("ContextRoot", handlerData.getContextRoot());
-    HttpResponseImpl * response = new HttpResponseImpl();
+    const Logger & httpLogger = LoggerFactory::instance().getLogger("sj-http-dump-logger");
+    if(httpLogger.isDebugEnabled()) {
+        LogBuilder lb;
+        lb.append("REQUEST ID [").append(request->getRequestID()).append("\n");
+        lb.append(request->toString());
+        lb.append("\n");
+        LOG_DEBUG(httpLogger, lb.toString());
+    }
+    HttpResponseImpl * response = new HttpResponseImpl(request->getRequestID());
     handler->handle(request, response, sets);
     delete sets;
     response->writeToSocket(socket);
@@ -236,8 +244,7 @@ void RequestProcessingThread::persistentConnTimeoutSlot()
 void RequestProcessingThread::disconnectedSlot()
 {
     if(logger.isDebugEnabled()) {
-        LOG_DEBUG(logger, LogBuilder("Disconnecting socket with socket descriptor ")
-                  .append(socket->socketDescriptor()));
+        LOG_DEBUG(logger, LogBuilder("Socket diconnected"));
     }
     disconnect(this);
     this->quit();

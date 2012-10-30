@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "contextpathdispatcher.h"
+#include "loggerall.h"
 #include <QRegExp>
 #include <QDebug>
 
@@ -28,6 +29,7 @@ ContextPathDispatcher::ContextPathDispatcher(QList<ContextPathPair> paths)
     : paths(paths)
 {
     errorWebHandler = new ErrorWebHandler();
+
 }
 
 ContextPathDispatcher::~ContextPathDispatcher()
@@ -47,15 +49,20 @@ ContextPathDispatcher::~ContextPathDispatcher()
 
 AbstractWebHandler * ContextPathDispatcher::dispatchRequest(HttpRequest * request, QSettings::SettingsMap *settings) const
 {
+    const Logger & logger = LoggerFactory::instance().getLogger("weblib-logger");
+
     QString contextRoot = settings->value("ContextRoot", "").toString();
     for(int i = 0; i < paths.size(); ++i) {
         QRegExp regExp(contextRoot + paths[i].getPath(), Qt::CaseInsensitive, QRegExp::Wildcard);
 
-        if(regExp.exactMatch(request->getRequestUri())) {
-            qDebug() << "ContextPathDispatcher: " << request->getRequestUri() << " matches " << regExp.pattern();
+        if(regExp.exactMatch(request->getRequestUri())
+                || (!request->getRequestUri().endsWith("/") && regExp.exactMatch(request->getRequestUri() + "/"))) {
+            LOG_DEBUG(logger, LogBuilder("ContextPathDispatcher: ").append(request->getRequestUri())
+                      .append(" matches ").append(regExp.pattern()).toString());
             return paths[i].getHandler();
         } else {
-            qDebug() << "ContextPathDispatcher: " << request->getRequestUri() << " does not match " << regExp.pattern();
+            LOG_TRACE(logger, LogBuilder("ContextPathDispatcher: ").append(request->getRequestUri())
+                      .append(" does not match ").append(regExp.pattern()).toString());
         }
     }
 

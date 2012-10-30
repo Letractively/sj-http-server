@@ -18,6 +18,14 @@
         </sj:appenders>
     </sj:logger>
 
+    <sj:logger name="sj-http-dump-logger" level="INFO">
+        <sj:appenders>
+            <sj:appender type="file">
+                <sj:appenderParam name="filename">../tmp/logs/http-dump.log</sj:appenderParam>
+            </sj:appender>
+        </sj:appenders>
+    </sj:logger>
+
     <sj:logger name="sj-fortune-teller-logger" level="DEBUG">
         <sj:appenders>
             <sj:appender type="console"/>

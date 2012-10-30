@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define UPLOADWEBHANDLER_H
 
 #include "abstractwebhandler.h"
+#include "loggerall.h"
 
 #include <QByteArray>
 #include <QSettings>
@@ -37,6 +38,7 @@ public:
 private:
     QByteArray getFormBytes(const QString & requestUri) const;
     void handlePostData(HttpRequest *request, HttpResponse * response, const QString & destDir) const;
+    static const Logger & logger;
 };
 
 } //namespace SJ

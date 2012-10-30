@@ -33,8 +33,8 @@ public:
     enum StatusCode {
         SC_CONTINUE = 100,
         SC_SWITCHING_PROTOCOL = 101,
-        SC_CREAETED = 201,
         SC_OK = 200,
+        SC_CREATED = 201,
         SC_ACCEPTED = 202,
         SC_NON_AUTHORITATIVE_INFORMATION = 203,
         SC_NO_CONTENT = 204,

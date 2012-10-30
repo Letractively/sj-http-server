@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "httpresponse.h"
 #include "httpheader.h"
+#include "loggerall.h"
 #include <QString>
 #include <QVector>
 #include <QByteArray>
@@ -35,7 +36,7 @@ class HttpResponseImpl : public HttpResponse
 {
 public:
 
-    HttpResponseImpl();
+    HttpResponseImpl(const QString & requestID);
 //    HttpResponseImpl(StatusCode code);
 //    HttpResponseImpl(QByteArray * data);
 //    HttpResponseImpl(QString filePath, QString contentType = "");
@@ -55,11 +56,15 @@ private:
     static QString guessContentType(QString filePath);
     void setDefaultHeaders();
 
+    static const Logger & logger;
+
     StatusCode code;
     QVector<HttpHeader> headers;
     QByteArray data;
     QFile * file;
     QString contentType;
+    QString requestID;
+
 };
 
 } // namespace SJ

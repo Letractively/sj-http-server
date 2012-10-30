@@ -27,34 +27,38 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+const Logger & UploadWebHandler::logger = LoggerFactory::instance().getLogger(LOGGER_NAME);
+
 UploadWebHandler::UploadWebHandler()
 {
 }
 
 void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response, QSettings::SettingsMap *settings) const
 {
-    qDebug() << "UploadWebHandler request " << request->getRequestUri();
+    LOG_TRACE(logger, "UploadWebHandler handle called");
 
 
     switch(request->getMethod()) {
     case HttpRequest::GET:
     {
+        LOG_TRACE(logger, "GET method - returning upload form");
         QByteArray a = getFormBytes(request->getRequestUri());
         response->writeData(a);
         return;
     }
     case HttpRequest::POST:
     {
+        LOG_TRACE(logger, "POST method - reading posted data");
         handlePostData(request, response, settings->value(SETTING_TMP_DIR).toString());
         return;
     }
 
     default:
+        LOG_WARN(logger, LogBuilder("Unsupported method [")
+                 .append(request->getMethod()).append("] called, ignoring").toString());
+        response->setStatusCode(HttpResponse::SC_BAD_REQUEST);
         break;
     }
-
-    response->setStatusCode(HttpResponse::SC_NOT_FOUND);
-
 }
 
 
@@ -62,8 +66,8 @@ QByteArray UploadWebHandler::getFormBytes(const QString & requestUri) const
 {
     static QString formStringBegin = "<html><body><form action=\"";
     static QString formStringEnd = "\" method=\"POST\" enctype=\"multipart/form-data\">"
-            "Author: <INPUT type=\text\" name=\"author\" /><BR>"
-            "Title: <INPUT type=\text\" name=\"title\" /><BR>"
+            "Author: <INPUT type=\"text\" name=\"author\" /><BR>"
+            "Title: <INPUT type=\"text\" name=\"title\" /><BR>"
             "Image: <INPUT type=\"file\" name=\"imagefile\" /><BR>"
             "<INPUT type=\"submit\" value=\"Upload\" />"
             "</form></body></html>";
@@ -89,7 +93,7 @@ void UploadWebHandler::handlePostData(HttpRequest *request, HttpResponse *respon
             HttpRequestBinaryFile binFile = request->getBinaryFiles()[i];
             a.append("<li>" + binFile.getOriginalFileName() + "</li>\n");
             binFile.saveToDisc(destDir);
-            a.append("<br>This file is available <a href=\"show?file=" + binFile.getFileName() + "\"> here</a>.");
+            a.append("<br>This file is available <a href=\"show?file=" + binFile.getFileName() + "\">here</a>.");
 
             ImageMetadata img(
                         request->getParameter("title"),

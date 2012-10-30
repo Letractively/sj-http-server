@@ -27,6 +27,7 @@ namespace SJ {
 
 const QString SETTING_TMP_DIR = "tmp.directory";
 const QString FILE_ID_PARAM = "file";
+const QString LOGGER_NAME = "image-gallery-logger";
 
 } //namespace SJ
 

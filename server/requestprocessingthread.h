@@ -61,7 +61,7 @@ private:
     static const Logger & logger;
 
     void processRequest();
-    void preparePostRequest();
+    void prepareRequest();
 
 
 

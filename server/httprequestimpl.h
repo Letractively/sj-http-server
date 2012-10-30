@@ -82,6 +82,8 @@ public:
     QString toString();
 
 
+    QString getRequestID() const;
+
 
 protected:
     /**
@@ -115,6 +117,7 @@ private:
     QVector<HttpRequestBinaryFile> binaryFiles;
     quint64 cachingThreshold;
     QByteArray requestData;
+    QString requestId;
 
 
 };

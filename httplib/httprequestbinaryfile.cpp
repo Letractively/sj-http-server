@@ -45,37 +45,4 @@ bool HttpRequestBinaryFile::saveToDisc(const QString & destDir) const
     return true;
 }
 
-//void RequestProcessingThread::saveBinaryFile(HttpRequestBinaryFile * fileToSave)
-//{
-//    QString storePath = settings.value(SETTING_FILE_STORE_PATH).toString();
-//    QString filePath = storePath + fileToSave->getFileName();
-//    QFile file(filePath);
-//    file.open(QFile::WriteOnly);
-//    file.write(fileToSave->getData());
-//    file.flush();
-//    file.close();
-
-//    qDebug() << "file saved to " << filePath;
-//    Logger::instance().debug("File saved to " + filePath);
-
-//    bool miniatureEnabled = settings.value(SETTING_MINIATURE_ENABLED).toBool();
-
-//    if(miniatureEnabled) {
-//        QImage image(filePath);
-
-//        int miniatureSize = settings.value(SETTING_MINIATURE_SIZE).toInt();
-
-//        if(image.width() > image.height()) {
-//            image = image.scaledToWidth(miniatureSize);
-//        } else {
-//            image = image.scaledToHeight(miniatureSize);
-//        }
-//        filePath = storePath +"s" + fileToSave->getFileName();
-//        image.save(filePath);
-//        qDebug() << "miniature saved to" << filePath;
-//        Logger::instance().debug("Miniature saved to " + filePath);
-//    }
-
-//}
-
 } // namespace SJ

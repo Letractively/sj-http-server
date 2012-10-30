@@ -31,12 +31,16 @@ MainPageWebHandler::MainPageWebHandler()
 }
 
 
-void MainPageWebHandler::handle(HttpRequest * /*request*/, HttpResponse * response, QSettings::SettingsMap * /*settings*/) const
+void MainPageWebHandler::handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap * /*settings*/) const
 {
+    QString uploadLink = request->getRequestUri();
+    uploadLink += (uploadLink.endsWith("/") ? "upload" : "/upload");
+
     QByteArray resp;
-    resp.append("<html><body>Welcome to image gallery<br><br>"
-                "To upload a new image go to <a href=\"upload\">upload page</a><br>"
-                "<br>Currently there are the following images:");
+    resp.append("<html><body>Welcome to image gallery<br><br>");
+    resp.append("To upload a new image go to <a href=\"");
+    resp.append(uploadLink);
+    resp.append("\">upload page</a><br><br>Currently there are the following images:");
 
     QList<ImageMetadata> images = ImageMetadataProvider::getInstance()->getImages();
     for(int i = 0; i < images.size(); ++i) {

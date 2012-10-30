@@ -47,7 +47,13 @@ class ContextPathPair
 public:
     ContextPathPair(const QString & path, AbstractWebHandler * handler, bool deleteByDispatcher = true)
         :path(path), handler(handler), deleteByDispatcher(deleteByDispatcher)
-    {}
+    {
+        if(path.endsWith("/*") || path.endsWith("/")) {
+            return;
+        }
+
+        this->path = path + "/";
+    }
 
     QString getPath() const {
         return path;

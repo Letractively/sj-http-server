@@ -26,10 +26,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 namespace SJ {
 
 const char * HttpResponseImpl::EOL = "\r\n";
+const Logger &  HttpResponseImpl::logger = LoggerFactory::instance().getLogger("sj-http-dump-logger");
 
-
-HttpResponseImpl::HttpResponseImpl()
-    : code(SC_OK), file(0), contentType("")
+HttpResponseImpl::HttpResponseImpl(const QString &requestID)
+    : code(SC_OK), file(0), contentType(""), requestID(requestID)
 {
     setDefaultHeaders();
 }
@@ -108,21 +108,30 @@ void HttpResponseImpl::writeToSocket(QTcpSocket * socket)
 
     socket->write(("HTTP/1.1 " + codeToString(this->code) + EOL).toStdString().c_str());
 
+    LogBuilder lb;
 
-    qDebug() << "Returning response ";
-    qDebug() << "HTTP/1. " + codeToString(this->code);
+    if(logger.isDebugEnabled()) {
+        lb.append("RESPONSE ID [").append(requestID).append("]").append("\n");
+        lb.append("HTTP/1.1 ").append(codeToString(this->code)).append("\n");
+    }
 
     for(int i = 0; i < headers.size(); ++i) {
         socket->write((headers[i].toString() + EOL).toStdString().c_str());
-        qDebug() << headers[i].toString();
+        if(logger.isDebugEnabled()) {
+            lb.append(headers[i].toString()).append("\n");
+        }
     }
     socket->write(EOL);
-    qDebug() << "";
+    if(logger.isDebugEnabled()) {
+        lb.append("\n");
+    }
 
 
     if(data.size() > 0) {
-        qDebug() << data;
         socket->write(data);
+        if(logger.isTraceEnabled()) {
+            lb.append(data);
+        }
     }
 
     if(file != 0 && file->size() > 0) {
@@ -132,8 +141,10 @@ void HttpResponseImpl::writeToSocket(QTcpSocket * socket)
         while(true) {
             QByteArray d = file->read(MAX_SIZE);
             if(d.size() > 0) {
-                qDebug() << d;
                 socket->write(d);
+                if(logger.isTraceEnabled()) {
+                    lb.append(d);
+                }
             } else {
                 break;
             }
@@ -142,13 +153,58 @@ void HttpResponseImpl::writeToSocket(QTcpSocket * socket)
         file->close();
         delete file;
     }
+
+    if(logger.isDebugEnabled()) {
+        LOG_DEBUG(logger, lb.toString());
+    }
 }
 
 QString HttpResponseImpl::codeToString(StatusCode code)
 {
     switch(code) {
+    case SC_CONTINUE: return "100 Continue";
+    case SC_SWITCHING_PROTOCOL: return "101 Switching protocol";
     case SC_OK: return "200 OK";
+    case SC_CREATED: return "201 Created";
     case SC_NOT_FOUND: return "404 Not Found";
+
+ /*
+        SC_ACCEPTED = 202,
+        SC_NON_AUTHORITATIVE_INFORMATION = 203,
+        SC_NO_CONTENT = 204,
+        SC_RESET_CONTENT = 205,
+        SC_PARTIAL_CONTENT = 206,
+        SC_MULTIPLE_CHOICES = 300,
+        SC_MOVED_PERMANENTLY = 301,
+        SC_FOUND = 302,
+        SC_SEE_OTHER = 303,
+        SC_NOT_MODIFIED = 304,
+        SC_USE_PROXY = 305,
+        SC_TEMPORARY_REDIRECT = 307,
+        SC_BAD_REQUEST = 400,
+        SC_UNAUTHORIZED = 401,
+        SC_FORBIDDEN = 403,
+        SC_NOT_FOUND = 404,
+        SC_METHOD_NOT_ALLOWED = 405,
+        SC_NOT_ACCEPTABLE = 406,
+        SC_PROXY_AUTHENTICATION_REQUIRED = 407,
+        SC_REQUEST_TIMEOUT = 408,
+        SC_CONFLICT = 409,
+        SC_GONE = 410,
+        SC_LENGTH_REQUIRED = 411,
+        SC_PRECONDITION_FAILED = 412,
+        SC_REQUEST_ENTITY_TOO_LARGE = 413,
+        SC_REQUEST_URI_TOO_LONG = 414,
+        SC_UNSUPPORTED_MEDIA_TYPE = 415,
+        SC_REQUESTED_RANGE_NOT_SATISFIABLE = 416,
+        SC_EXPECTATION_FAILED = 417,
+        SC_INTERNAL_SERVER_ERROR = 500,
+        SC_NOT_IMPLEMENTED = 501,
+        SC_BAD_GATEWAY = 502,
+        SC_SERVICE_UNAVAILABLE = 503,
+        SC_GATEWAY_TIMEOUT = 504,
+        SC_HTTP_VERSION_NOT_SUPPORTED = 505
+        */
     }
     return "500 Internal Server Error";
 }

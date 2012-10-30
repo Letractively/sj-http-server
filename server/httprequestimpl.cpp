@@ -21,15 +21,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "httprequestimpl.h"
 #include "serverutils.h"
 
-#include <QDebug>
-
+#include <QUuid>
 namespace SJ {
 
 HttpRequestImpl::HttpRequestImpl(QTcpSocket * socket)
     : contentLength(0),
       requestUri(""),
       requestUrl(""),
-      cachingThreshold(0)
+      cachingThreshold(0),
+      requestId(QUuid::createUuid().toString())
 {
     if(socket->canReadLine()) {
         //find the http method
@@ -54,7 +54,7 @@ HttpRequestImpl::HttpRequestImpl(QTcpSocket * socket)
 
 HttpRequestImpl::HttpRequestImpl()
 {
-
+    requestId = QUuid::createUuid().toString();
 }
 
 QString HttpRequestImpl::getRequestUri() const
@@ -78,7 +78,7 @@ QString HttpRequestImpl::getRequestUrl() const
 {
     if(requestUrl == "") {
         //not yet parsed
-        if(location.startsWith("http:://")) {
+        if(location.startsWith("http://")) {
             requestUrl = location;
         } else {
             requestUrl = "http://" + getHeaderValue("Host") + getRequestUri();
@@ -115,7 +115,6 @@ QVector<HttpRequestBinaryFile> HttpRequestImpl::getBinaryFiles() const
 
 void HttpRequestImpl::setUpMethodAndLocation(const QString & methodLine)
 {
-//    qDebug() << methodLine;
     QStringList list = methodLine.split(' ', QString::SkipEmptyParts);
 
     if(list.size() < 2) {
@@ -123,11 +122,14 @@ void HttpRequestImpl::setUpMethodAndLocation(const QString & methodLine)
         return;
     }
 
-    //TODO parse all available methods
     if("GET" == list[0]) {
         method = GET;
     } else if("POST" == list[0]) {
         method = POST;
+    } else if("PUT" == list[0]) {
+        method = PUT;
+    } else if("DELETE" == list[0]) {
+        method = DELETE;
     }
 
     QString locationString = list[1];
@@ -209,11 +211,11 @@ QString HttpRequestImpl::toString()
     QString s("");
 
     s += "HttpRequest:\n";
-    s += "          method      [" + methodToString() + "];\n";
-    s += "          requestUri  [" + getRequestUri() + "];\n";
-    s += "          requestUrl  [" + getRequestUrl()+ "];\n";
-    s += "          parameters  [" + parametersToString() + "];\n";
-    s += "          headers     [" + headersToString() +"];\n";
+    s += "method      [" + methodToString() + "];\n";
+    s += "requestUri  [" + getRequestUri() + "];\n";
+    s += "requestUrl  [" + getRequestUrl()+ "];\n";
+    s += "parameters  [" + parametersToString() + "];\n";
+    s += "headers     [" + headersToString() +"];\n";
     return s;
 }
 
@@ -258,6 +260,9 @@ void HttpRequestImpl::addParameter(QString paramName, QString paramValue)
 {
     parameters.insert(paramName, paramValue);
 }
-
+QString HttpRequestImpl::getRequestID() const
+{
+    return requestId;
+}
 
 } // namespace SJ
