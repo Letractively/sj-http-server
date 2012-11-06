@@ -63,42 +63,27 @@ void HandlerManager::loadPluginsFromConfig()
     settings.endArray();
 }
 
-//void HandlerManager::persistHandlerConfig(const QString & filepath)
-//{
-//    QSettings & settings = Utils::getSettings();
-
-//    int size = settings.beginReadArray(PluginSettings::PLUGIN_GROUP_NAME);
-//    settings.endArray();
-
-//    settings.beginWriteArray(PluginSettings::PLUGIN_GROUP_NAME);
-//    settings.setArrayIndex(size);
-//    settings.setValue(PluginSettings::PLUGIN_FILE_PATH, filepath);
-//    settings.setValue(PluginSettings::PLUGIN_CONTEXT_ROOT, contextRoot);
-//    settings.endArray();
-//    settings.sync();
-//}
 
 AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, const QString & settingsKey)
 {
     AbstractRequestHandler * newHandler = 0;
     QPluginLoader pl(filepath);
     pl.load();
-    qDebug() << "new handler loaded " << pl.isLoaded();
+//    qDebug() << "new handler loaded " << pl.isLoaded();
     if(pl.isLoaded()) {
-        qDebug() << "creating instance ...";
+//        qDebug() << "creating instance ...";
         newHandler = qobject_cast<AbstractRequestHandler *>(pl.instance());
         if(0 != newHandler) {
-            qDebug() << "instance created";
-            qDebug() << "name " << newHandler->name();
+//            qDebug() << "instance created";
+//            qDebug() << "name " << newHandler->name();
         } else {
-            qDebug() << "cannot creeate an instance";
+//            qDebug() << "cannot creeate an instance";
         }
     } else {
-        qDebug() << "FAILED to load plugin from " << filepath << ". Reason: " << pl.errorString();
+//        qDebug() << "FAILED to load plugin from " << filepath << ". Reason: " << pl.errorString();
     }
 
     if(newHandler != 0) {
-        qDebug() << "Plugin " << newHandler->name() << " added to the handlers; Settings stored under key " << settingsKey;
         handlers.push_back(HandlerData(newHandler, settingsKey));
     }
 
@@ -130,11 +115,9 @@ HandlerData HandlerManager::getHandler(HttpRequest * request)
         QString contextRoot = "/" + list[0];
 
         for(int i = 0; i < handlers.size(); ++i) {
-            qDebug() << "HANDLER MANAGER comparing " << contextRoot << " and " << handlers[i].getContextRoot();
             if(contextRoot == handlers[i].getContextRoot()) {
                 list.removeAt(0);
                 QString relativePath = "/" + list.join("/");
-//                request->setRelativePath(relativePath);
                 return handlers[i];
             }
         }

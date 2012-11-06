@@ -32,6 +32,7 @@ ImageMetadataMemoryProvider::~ImageMetadataMemoryProvider()
 
 void ImageMetadataMemoryProvider::addImage(const ImageMetadata & image)
 {
+    LOG_DEBUG(logger, LogBuilder("adding image ").append(image.toString()));
     images.push_back(image);
 }
 

@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "uploadwebhandler.h"
-#include <QDebug>
+#include <QFile>
 
 #include "imagegalleryconstants.h"
 #include "imagemetadata.h"
@@ -27,7 +27,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
-const Logger & UploadWebHandler::logger = LoggerFactory::instance().getLogger(LOGGER_NAME);
+const Logger & UploadWebHandler::logger = LoggerFactory::instance().getLogger(ImgGal::LOGGER_NAME);
 
 UploadWebHandler::UploadWebHandler()
 {
@@ -49,7 +49,7 @@ void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response, QSe
     case HttpRequest::POST:
     {
         LOG_TRACE(logger, "POST method - reading posted data");
-        handlePostData(request, response, settings->value(SETTING_TMP_DIR).toString());
+        handlePostData(request, response, settings->value(ImgGal::SETTING_TMP_DIR).toString());
         return;
     }
 
@@ -92,13 +92,13 @@ void UploadWebHandler::handlePostData(HttpRequest *request, HttpResponse *respon
         for(int i = 0; i < request->getBinaryFiles().size(); i++) {
             HttpRequestBinaryFile binFile = request->getBinaryFiles()[i];
             a.append("<li>" + binFile.getOriginalFileName() + "</li>\n");
-            binFile.saveToDisc(destDir);
-            a.append("<br>This file is available <a href=\"show?file=" + binFile.getFileName() + "\">here</a>.");
+            QString fileName = saveToDisc(binFile, destDir);
+            a.append("<br>This file is available <a href=\"show?file=" + fileName + "\">here</a>.");
 
             ImageMetadata img(
                         request->getParameter("title"),
                         request->getParameter("author"),
-                        binFile.getFileName(),
+                       fileName,
                         binFile.getUploadDate(),
                         binFile.getOriginalFileName()
                         );
@@ -114,6 +114,19 @@ void UploadWebHandler::handlePostData(HttpRequest *request, HttpResponse *respon
 
     a.append("</body></html>");
     response->writeData(a);
+}
+
+QString UploadWebHandler::saveToDisc(const HttpRequestBinaryFile & binFile, const QString & destDir) const
+{
+    QString fileName = binFile.getUploadDate().toString("yyyyMMddhhmmsszzz") + binFile.getFileExtension();
+    QString filePath = destDir + fileName;
+    QFile file(filePath);
+    file.open(QFile::WriteOnly);
+    file.write(binFile.getData());
+    file.flush();
+    file.close();
+
+    return fileName;
 }
 
 } //namespace SJ

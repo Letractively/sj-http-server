@@ -18,7 +18,8 @@ HEADERS += \
     imageviewwebhandler.h \
     imagemetadata.h \
     imagemetadataprovider.h \
-    imagemetadatamemoryprovider.h
+    imagemetadatamemoryprovider.h \
+    imagemetadataxmlprovider.h
 
 SOURCES += \
     imagegallery.cpp \
@@ -27,7 +28,8 @@ SOURCES += \
     imageviewwebhandler.cpp \
     imagemetadata.cpp \
     imagemetadataprovider.cpp \
-    imagemetadatamemoryprovider.cpp
+    imagemetadatamemoryprovider.cpp \
+    imagemetadataxmlprovider.cpp
 
 
 

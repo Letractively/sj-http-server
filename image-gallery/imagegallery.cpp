@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "uploadwebhandler.h"
 #include "imageviewwebhandler.h"
 #include "imagegalleryconstants.h"
+#include "imagemetadataprovider.h"
 
 namespace SJ {
 
@@ -43,6 +44,8 @@ ImageGallery::~ImageGallery()
         delete dispatcher;
         dispatcher = 0;
     }
+
+    ImageMetadataProvider::getInstance()->flush();
 }
 
 QString ImageGallery::name() const
@@ -60,7 +63,7 @@ void ImageGallery::handle(HttpRequest *req, HttpResponse * response, QSettings::
 QVector<SettingsItem> ImageGallery::supportedSettings() const
 {
     QVector<SettingsItem> vect;
-    vect.push_back(SettingsItem("Temp Directory", SettingsItem::DIRECTORY, SETTING_TMP_DIR));
+    vect.push_back(SettingsItem("Temp Directory", SettingsItem::DIRECTORY, ImgGal::SETTING_TMP_DIR));
     return vect;
 }
 

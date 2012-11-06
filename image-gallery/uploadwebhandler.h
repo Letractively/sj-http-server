@@ -38,7 +38,10 @@ public:
 private:
     QByteArray getFormBytes(const QString & requestUri) const;
     void handlePostData(HttpRequest *request, HttpResponse * response, const QString & destDir) const;
+    QString saveToDisc(const HttpRequestBinaryFile & binFile, const QString & destDir) const;
+
     static const Logger & logger;
+
 };
 
 } //namespace SJ

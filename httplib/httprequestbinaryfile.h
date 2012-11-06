@@ -24,24 +24,35 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QString>
 #include <QDateTime>
 #include <QByteArray>
+#include "loggerall.h"
 
 namespace SJ {
 
+/**
+ * @brief Class representing a binary file that is sent within a request
+ */
 class HttpRequestBinaryFile
 {
 public:
+    /**
+     * @brief Empty Constructor
+     */
     HttpRequestBinaryFile() {}
-    HttpRequestBinaryFile(QByteArray & data, const QString & originalFileName, const QString & contentType);
+    /**
+     * @brief Constructor
+     * @param data binary data of the file
+     * @param originalFileName the original name of the uploaded file
+     * @param contentType the type of the file
+     */
+    HttpRequestBinaryFile(QByteArray & data, const QString & originalFileName = "", const QString & contentType = "");
     QByteArray getData() const { return binaryData; }
     QString getOriginalFileName() const { return originalFileName; }
-    QString getFileName() const { return fileName; }
     QString getContentType() const { return contentType; }
     QDateTime getUploadDate() const {return uploadDate; }
-    bool saveToDisc(const QString & destDir) const;
+    QString getFileExtension() const;
 private:
     QByteArray binaryData;
     QString originalFileName;
-    QString fileName;
     QDateTime uploadDate;
     QString contentType;
 };

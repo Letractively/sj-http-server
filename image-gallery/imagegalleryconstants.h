@@ -25,10 +25,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+namespace ImgGal {
+
 const QString SETTING_TMP_DIR = "tmp.directory";
 const QString FILE_ID_PARAM = "file";
-const QString LOGGER_NAME = "image-gallery-logger";
+const QString LOGGER_NAME = "sj-image-gallery-logger";
 
+}
 } //namespace SJ
 
 #endif // IMAGEGALLERYCONSTANTS_H

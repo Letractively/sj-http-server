@@ -17,36 +17,37 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef IMAGEMETADATAPROVIDER_H
-#define IMAGEMETADATAPROVIDER_H
 
-#include <QString>
-#include <QList>
-#include "imagemetadata.h"
+#ifndef IMAGEMETADATAXMLPROVIDER_H
+#define IMAGEMETADATAXMLPROVIDER_H
+
+#include "imagemetadataprovider.h"
+#include "imagemetadatamemoryprovider.h"
+#include "loggerall.h"
+#include <QMutex>
+#include <QMutexLocker>
 
 namespace SJ {
 
-class ImageMetadataProvider
+class ImageMetadataXmlProvider : public ImageMetadataProvider
 {
 public:
+    ImageMetadataXmlProvider(const QString & xmlFile);
+    virtual ~ImageMetadataXmlProvider();
 
-    static ImageMetadataProvider * getInstance();
-
-    virtual ~ImageMetadataProvider();
-
-    virtual void addImage(const ImageMetadata & image) = 0;
-    virtual QList<ImageMetadata> getImages() = 0;
-
+    virtual void addImage(const ImageMetadata & image);
+    virtual QList<ImageMetadata> getImages();
     virtual void flush();
 
-protected:
-    ImageMetadataProvider();
-    static const Logger & logger;
-
 private:
-    static ImageMetadataProvider * provider;
+    ImageMetadataMemoryProvider * memoryProvider;
+    QString xmlFile;
+    void init();
+    bool needSync;
+    const static QString NS;
+    QMutex fileAccessMutex;
 };
 
-} //namespace SJ
+} // namespace SJ
 
-#endif // IMAGEMETADATAPROVIDER_H
+#endif // IMAGEMETADATAXMLPROVIDER_H

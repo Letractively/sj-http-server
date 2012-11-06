@@ -19,14 +19,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "imagemetadataprovider.h"
 #include "imagemetadatamemoryprovider.h"
+#include "imagemetadataxmlprovider.h"
+#include "imagegalleryconstants.h"
 
 namespace SJ {
 
-ImageMetadataProvider * ImageMetadataProvider::provider;
+ImageMetadataProvider * ImageMetadataProvider::provider = 0;
+
+const Logger & ImageMetadataProvider::logger = LoggerFactory::instance().getLogger(ImgGal::LOGGER_NAME);
 
 ImageMetadataProvider * ImageMetadataProvider::getInstance() {
     if(provider == 0) {
-        provider = new ImageMetadataMemoryProvider();
+//         TODO: read from config
+        provider = new ImageMetadataXmlProvider("images.xml");
     }
     return provider;
 }
@@ -40,10 +45,13 @@ ImageMetadataProvider::~ImageMetadataProvider() {
 }
 
 ImageMetadataProvider::ImageMetadataProvider() {
-    provider = 0;
+
 }
 
-
+void ImageMetadataProvider::flush()
+{
+    //do nothing
+}
 
 
 }

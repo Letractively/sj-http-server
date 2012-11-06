@@ -163,50 +163,46 @@ QString HttpResponseImpl::codeToString(StatusCode code)
 {
     switch(code) {
     case SC_CONTINUE: return "100 Continue";
-    case SC_SWITCHING_PROTOCOL: return "101 Switching protocol";
+    case SC_SWITCHING_PROTOCOL: return "101 Switching Protocol";
     case SC_OK: return "200 OK";
     case SC_CREATED: return "201 Created";
+    case SC_ACCEPTED: return "202 Accepted";
+    case SC_NON_AUTHORITATIVE_INFORMATION: return "203 Authoritative Information";
+    case SC_NO_CONTENT: return "204 No Content";
+    case SC_RESET_CONTENT: return "205 Reset Content";
+    case SC_PARTIAL_CONTENT: return "206 Partial Content";
+    case SC_MULTIPLE_CHOICES: return "300 Multiple Choices";
+    case SC_MOVED_PERMANENTLY: return "301 Moved Permanently";
+    case SC_FOUND: return "302 Found";
+    case SC_SEE_OTHER: return "303 See Other";
+    case SC_NOT_MODIFIED: return "304 Not Modified";
+    case SC_USE_PROXY: return "305 Use Proxy";
+    case SC_TEMPORARY_REDIRECT: return "307 Temporary Redirect";
+    case SC_BAD_REQUEST: return "400 Bad Request";
+    case SC_UNAUTHORIZED: return "401 Unauthorized";
+    case SC_FORBIDDEN: return "403 Forbidden";
     case SC_NOT_FOUND: return "404 Not Found";
-
- /*
-        SC_ACCEPTED = 202,
-        SC_NON_AUTHORITATIVE_INFORMATION = 203,
-        SC_NO_CONTENT = 204,
-        SC_RESET_CONTENT = 205,
-        SC_PARTIAL_CONTENT = 206,
-        SC_MULTIPLE_CHOICES = 300,
-        SC_MOVED_PERMANENTLY = 301,
-        SC_FOUND = 302,
-        SC_SEE_OTHER = 303,
-        SC_NOT_MODIFIED = 304,
-        SC_USE_PROXY = 305,
-        SC_TEMPORARY_REDIRECT = 307,
-        SC_BAD_REQUEST = 400,
-        SC_UNAUTHORIZED = 401,
-        SC_FORBIDDEN = 403,
-        SC_NOT_FOUND = 404,
-        SC_METHOD_NOT_ALLOWED = 405,
-        SC_NOT_ACCEPTABLE = 406,
-        SC_PROXY_AUTHENTICATION_REQUIRED = 407,
-        SC_REQUEST_TIMEOUT = 408,
-        SC_CONFLICT = 409,
-        SC_GONE = 410,
-        SC_LENGTH_REQUIRED = 411,
-        SC_PRECONDITION_FAILED = 412,
-        SC_REQUEST_ENTITY_TOO_LARGE = 413,
-        SC_REQUEST_URI_TOO_LONG = 414,
-        SC_UNSUPPORTED_MEDIA_TYPE = 415,
-        SC_REQUESTED_RANGE_NOT_SATISFIABLE = 416,
-        SC_EXPECTATION_FAILED = 417,
-        SC_INTERNAL_SERVER_ERROR = 500,
-        SC_NOT_IMPLEMENTED = 501,
-        SC_BAD_GATEWAY = 502,
-        SC_SERVICE_UNAVAILABLE = 503,
-        SC_GATEWAY_TIMEOUT = 504,
-        SC_HTTP_VERSION_NOT_SUPPORTED = 505
-        */
+    case SC_METHOD_NOT_ALLOWED: return "405 Method Not Allowed";
+    case SC_NOT_ACCEPTABLE: return "406 Not Acceptable";
+    case SC_PROXY_AUTHENTICATION_REQUIRED: return "407 Proxy Authentication Required";
+    case SC_REQUEST_TIMEOUT: return "408 Request Timeout";
+    case SC_CONFLICT: return "409 Conflict";
+    case SC_GONE: return "410 GONE";
+    case SC_LENGTH_REQUIRED: return "411 Length Required";
+    case SC_PRECONDITION_FAILED: return "412 Precondition Failed";
+    case SC_REQUEST_ENTITY_TOO_LARGE: return "413 Request Entity Too Large";
+    case SC_REQUEST_URI_TOO_LONG: return "414 Request Uri Too Large";
+    case SC_UNSUPPORTED_MEDIA_TYPE: return "415 Unsupported Media Type";
+    case SC_REQUESTED_RANGE_NOT_SATISFIABLE: return "416 Requested Range Not Satisfiable";
+    case SC_EXPECTATION_FAILED: return "417 Expectation Failed";
+    case SC_INTERNAL_SERVER_ERROR: return "500 Internal Server Error";
+    case SC_NOT_IMPLEMENTED: return "501 Not Implemented";
+    case SC_BAD_GATEWAY: return "502 Bad Gateway";
+    case SC_SERVICE_UNAVAILABLE: return "503 Service Unavailable";
+    case SC_GATEWAY_TIMEOUT: return "504 Gateway Timeout";
+    case SC_HTTP_VERSION_NOT_SUPPORTED: return "505 HTTP Version Not Supported";
     }
-    return "500 Internal Server Error";
+    return "";
 }
 
 void HttpResponseImpl::setDefaultHeaders()

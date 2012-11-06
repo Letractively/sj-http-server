@@ -20,29 +20,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "httprequestbinaryfile.h"
 #include <QFile>
-#include <QDebug>
 
 namespace SJ {
 
 HttpRequestBinaryFile::HttpRequestBinaryFile(QByteArray & data, const QString & originalFileName, const QString & contentType)
     : binaryData(data), originalFileName(originalFileName), uploadDate(QDateTime::currentDateTime()), contentType(contentType)
 {
-    QString fileExtension = originalFileName.mid(originalFileName.indexOf('.'));
-    fileName = uploadDate.toString("yyyyMMddhhmmsszzz") + fileExtension;
-
 }
 
-bool HttpRequestBinaryFile::saveToDisc(const QString & destDir) const
-{
-    QString filePath = destDir + fileName;
-    QFile file(filePath);
-    file.open(QFile::WriteOnly);
-    file.write(this->binaryData);
-    file.flush();
-    file.close();
 
-    qDebug() << "file saved to " << filePath;
-    return true;
+QString HttpRequestBinaryFile::getFileExtension() const
+{
+    int posOfLastDot = originalFileName.lastIndexOf('.');
+    if(posOfLastDot <= 0) {
+        return "";
+    }
+    return originalFileName.mid(posOfLastDot);
 }
 
 } // namespace SJ
