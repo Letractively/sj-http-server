@@ -169,6 +169,11 @@ void RequestProcessingThread::parsePart(const QByteArray & partData) {
         QString contentType = findHeaderValue(HttpHeader::CONTENT_TYPE, partData);
         QByteArray data = findData(partData);
 
+        if(data.isEmpty()) {
+            //no file was uploaded
+            return;
+        }
+
         HttpRequestBinaryFile  binaryFile(data, originalFileName, contentType);
         request->addFile(binaryFile);
 
