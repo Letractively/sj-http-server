@@ -17,4 +17,4 @@ context.root=fortune-cookie
 
 [image-gallery]
 context.root=image-gallery
-tmp.directory=/tmp/
+tmp.directory=../work/image-gallery/
