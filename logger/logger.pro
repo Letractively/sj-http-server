@@ -9,6 +9,8 @@ QT       += xml
 
 TARGET = logger
 TEMPLATE = lib
+VERSION = 0.2
+
 
 DEFINES += LOGGER_LIBRARY
 
@@ -34,21 +36,4 @@ HEADERS += logger.h\
     fileappenderinternal.h \
     fileappenderinternalholder.h
 
-symbian {
-    MMP_RULES += EXPORTUNFROZEN
-    TARGET.UID3 = 0xE6796C09
-    TARGET.CAPABILITY = 
-    TARGET.EPOCALLOWDLLDATA = 1
-    addFiles.sources = logger.dll
-    addFiles.path = !:/sys/bin
-    DEPLOYMENT += addFiles
-}
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}

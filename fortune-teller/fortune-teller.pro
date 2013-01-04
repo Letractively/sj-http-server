@@ -8,44 +8,24 @@ QT       += network
 
 TARGET = fortune-teller
 TEMPLATE = lib
+VERSION = 0.2
+
 CONFIG += plugin
 
 
 SOURCES += fortuneteller.cpp
 
 HEADERS += fortuneteller.h
-symbian {
-# Load predefined include paths (e.g. QT_PLUGINS_BASE_DIR) to be used in the pro-files
-    load(data_caging_paths)
-    MMP_RULES += EXPORTUNFROZEN
-    TARGET.UID3 = 0xE12CB09F
-    TARGET.CAPABILITY = 
-    TARGET.EPOCALLOWDLLDATA = 1
-    pluginDeploy.sources = fortune-teller.dll
-    pluginDeploy.path = $$QT_PLUGINS_BASE_DIR/fortune-teller
-    DEPLOYMENT += pluginDeploy
-}
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../httplib/ -lhttplib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../httplib/ -lhttplib
-else:symbian: LIBS += -lhttplib
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../httplib/release/ -lhttplib0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../httplib/debug/ -lhttplib0
 else:unix: LIBS += -L$$PWD/../httplib/ -lhttplib
 
 INCLUDEPATH += $$PWD/../httplib
 DEPENDPATH += $$PWD/../httplib
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../logger/release/ -llogger
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../logger/debug/ -llogger
-else:symbian: LIBS += -llogger
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../logger/release/ -llogger0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../logger/debug/ -llogger0
 else:unix: LIBS += -L$$OUT_PWD/../logger/ -llogger
 
 INCLUDEPATH += $$PWD/../logger

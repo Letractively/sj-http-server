@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "loggerfactory.h"
 #include "consoleappender.h"
+#include "loggerconffileparsehandler.h"
 
 #include <QMutexLocker>
 #include <QList>
@@ -27,7 +28,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <QXmlInputSource>
 #include <QXmlSimpleReader>
-#include <loggerconffileparsehandler.h>
 
 namespace SJ {
 

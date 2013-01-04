@@ -8,6 +8,7 @@ QT       += network
 
 TARGET = image-gallery
 TEMPLATE = lib
+VERSION = 0.2
 CONFIG += plugin
 
 HEADERS += \
@@ -32,47 +33,24 @@ SOURCES += \
     imagemetadataxmlprovider.cpp
 
 
-
-symbian {
-# Load predefined include paths (e.g. QT_PLUGINS_BASE_DIR) to be used in the pro-files
-    load(data_caging_paths)
-    MMP_RULES += EXPORTUNFROZEN
-    TARGET.UID3 = 0xE12CB09F
-    TARGET.CAPABILITY =
-    TARGET.EPOCALLOWDLLDATA = 1
-    pluginDeploy.sources = image-gallery.dll
-    pluginDeploy.path = $$QT_PLUGINS_BASE_DIR/image-gallery
-    DEPLOYMENT += pluginDeploy
-}
-
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../httplib/ -lhttplib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../httplib/ -lhttplib
-else:symbian: LIBS += -lhttplib
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../httplib/release/ -lhttplib0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../httplib/debug/ -lhttplib0
 else:unix: LIBS += -L$$PWD/../httplib/ -lhttplib
-
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../weblib/release/ -lweblib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../weblib/debug/ -lweblib
-else:symbian: LIBS += -lweblib
-else:unix: LIBS += -L$$OUT_PWD/../weblib/ -lweblib
 
 INCLUDEPATH += $$PWD/../httplib
 DEPENDPATH += $$PWD/../httplib
 
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../weblib/release/ -lweblib0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../weblib/debug/ -lweblib0
+else:unix: LIBS += -L$$OUT_PWD/../weblib/ -lweblib
+
+
 INCLUDEPATH += $$PWD/../weblib
 DEPENDPATH += $$PWD/../weblib
 
-symbian: LIBS += -llogger
-else:unix|win32: LIBS += -L$$OUT_PWD/../logger/ -llogger
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../logger/release/ -llogger0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../logger/debug/ -llogger0
+else:unix: LIBS += -L$$OUT_PWD/../logger/ -llogger
 
 INCLUDEPATH += $$PWD/../logger
 DEPENDPATH += $$PWD/../logger
