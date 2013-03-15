@@ -1,0 +1,9 @@
+*.o
+moc_*
+*.so*
+Makefile
+server/sj-http-server
+server/sj-http-server.ini
+work
+server/ui_maindialog.h
+
