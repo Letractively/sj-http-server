@@ -9,7 +9,7 @@ QT       += network
 
 TARGET = weblib
 TEMPLATE = lib
-VERSION = 0.2
+VERSION = 0.3
 
 DEFINES += WEBLIB_LIBRARY
 

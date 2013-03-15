@@ -9,7 +9,7 @@ QT       += xml
 
 TARGET = logger
 TEMPLATE = lib
-VERSION = 0.2
+VERSION = 0.3
 
 
 DEFINES += LOGGER_LIBRARY

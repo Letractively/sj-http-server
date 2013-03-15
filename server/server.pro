@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui network
-
+VERSION = 0.3
 TARGET = sj-http-server
 TEMPLATE = app
 

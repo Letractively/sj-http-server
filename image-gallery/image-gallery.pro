@@ -8,7 +8,7 @@ QT       += network
 
 TARGET = image-gallery
 TEMPLATE = lib
-VERSION = 0.2
+VERSION = 0.3
 CONFIG += plugin
 
 HEADERS += \
