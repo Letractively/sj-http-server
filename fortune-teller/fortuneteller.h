@@ -37,6 +37,7 @@ class FortuneTeller : public QObject, public AbstractRequestHandler
 {
     Q_OBJECT
     Q_INTERFACES(SJ::AbstractRequestHandler)
+    Q_PLUGIN_METADATA(IID "sj-http-server.fortune-teller" FILE "fortune-teller.json")
 public:
     QString name() const;
     void handle(HttpRequest *request, HttpResponse * response, QSettings::SettingsMap *settings) const;

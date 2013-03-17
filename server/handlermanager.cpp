@@ -23,10 +23,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "serverutils.h"
 #include "settingsconstants.h"
 
+
 #include <QPluginLoader>
 #include <QStringList>
 
 namespace SJ {
+
+const Logger & HandlerManager::logger = LoggerFactory::instance().getLogger("sj-server-logger");
 
 HandlerManager::HandlerManager()
 {
@@ -66,25 +69,21 @@ void HandlerManager::loadPluginsFromConfig()
 
 AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, const QString & settingsKey)
 {
-    AbstractRequestHandler * newHandler = 0;
     QPluginLoader pl(filepath);
     pl.load();
-//    qDebug() << "new handler loaded " << pl.isLoaded();
+    LOG_DEBUG(logger, LogBuilder("Request handler loading from [").append(filepath).append("]: ").append(pl.isLoaded() ? "success" : "failure"));
+
+    AbstractRequestHandler * newHandler = 0;
+
     if(pl.isLoaded()) {
-//        qDebug() << "creating instance ...";
         newHandler = qobject_cast<AbstractRequestHandler *>(pl.instance());
-        if(0 != newHandler) {
-//            qDebug() << "instance created";
-//            qDebug() << "name " << newHandler->name();
-        } else {
-//            qDebug() << "cannot creeate an instance";
-        }
-    } else {
-//        qDebug() << "FAILED to load plugin from " << filepath << ". Reason: " << pl.errorString();
     }
 
     if(newHandler != 0) {
+        LOG_DEBUG(logger, LogBuilder("Created instance of the request handler ").append(newHandler->name()));
         handlers.push_back(HandlerData(newHandler, settingsKey));
+    } else {
+        LOG_DEBUG(logger, LogBuilder("Unable to load a handler: ").append(pl.errorString()));
     }
 
     return newHandler;

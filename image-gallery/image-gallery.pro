@@ -54,3 +54,6 @@ else:unix: LIBS += -L$$OUT_PWD/../logger/ -llogger
 
 INCLUDEPATH += $$PWD/../logger
 DEPENDPATH += $$PWD/../logger
+
+OTHER_FILES += \
+    image-gallery.json

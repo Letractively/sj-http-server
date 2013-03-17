@@ -23,6 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractrequesthandler.h"
 #include "handlerdata.h"
+#include "loggerall.h"
+
 #include <QVector>
 
 namespace SJ {
@@ -57,6 +59,8 @@ private:
 
     HandlerData defaultHandler;
     QVector<HandlerData> handlers;
+
+    static const Logger & logger;
 };
 
 } // namespace SJ

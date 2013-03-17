@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core widgets gui network
 VERSION = 0.3
 TARGET = sj-http-server
 TEMPLATE = app
@@ -38,6 +38,11 @@ HEADERS  += maindialog.h \
     httpresponseimpl.h
 
 FORMS    += maindialog.ui
+
+OTHER_FILES += \
+    sjlog.xml \
+    sj-http-server.ini \
+    images.xml
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../httplib/release/ -lhttplib0

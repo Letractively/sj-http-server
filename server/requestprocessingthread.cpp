@@ -163,7 +163,7 @@ QByteArray RequestProcessingThread::findData(const QByteArray & data) {
 }
 
 void RequestProcessingThread::parsePart(const QByteArray & partData) {
-    if(partData.contains(HttpHeader::CONTENT_TYPE.toAscii())) {
+    if(partData.contains(HttpHeader::CONTENT_TYPE.toUtf8())) {
 
         QString originalFileName = findAttributeValue("filename", partData);
         QString contentType = findHeaderValue(HttpHeader::CONTENT_TYPE, partData);

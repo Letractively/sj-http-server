@@ -30,6 +30,7 @@ namespace SJ {
 class ImageGallery : public QObject, public AbstractRequestHandler
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "sj-http-server.image-gallery" FILE "image-gallery.json")
     Q_INTERFACES(SJ::AbstractRequestHandler)
 public:
     ImageGallery();

@@ -30,3 +30,6 @@ else:unix: LIBS += -L$$OUT_PWD/../logger/ -llogger
 
 INCLUDEPATH += $$PWD/../logger
 DEPENDPATH += $$PWD/../logger
+
+OTHER_FILES += \
+    fortune-teller.json
