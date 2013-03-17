@@ -1,7 +1,7 @@
 /*
 http://sj-http-server.googlecode.com/
 
-Copyright (C) 2011-2012  Jakub Wachowski
+Copyright (C) Jakub Wachowski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -89,8 +89,9 @@ void signalHandler(int signal)
 
 QString copyrightNote()
 {
-    QString copyright = "http://sj-http-server.googlecode.com/\n\n"
-            "Copyright (C) 2011-2012  Jakub Wachowski\n\n"
+    QString copyright = "\n"
+            "http://sj-http-server.googlecode.com/\n\n"
+            "Copyright (C) Jakub Wachowski\n\n"
 
             "This program is free software: you can redistribute it and/or modify\n"
             "it under the terms of the GNU General Public License as published by\n"
