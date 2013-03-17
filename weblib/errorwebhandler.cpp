@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "errorwebhandler.h"
-#include <QDebug>
 
 namespace SJ {
 
@@ -34,7 +33,6 @@ ErrorWebHandler::~ErrorWebHandler()
 void ErrorWebHandler::handle(HttpRequest * /*request*/, HttpResponse * response,
                              QSettings::SettingsMap * /*settings*/) const
 {
-    qDebug() << "ERROR WEB HANDLER returning not found response";
     response->setStatusCode(HttpResponse::SC_NOT_FOUND);
 }
 

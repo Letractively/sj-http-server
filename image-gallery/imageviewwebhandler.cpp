@@ -21,8 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "imageviewwebhandler.h"
 #include "imagegalleryconstants.h"
 
-#include <QDebug>
-
 namespace SJ {
 
 ImageViewWebHandler::ImageViewWebHandler()

@@ -24,6 +24,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QUuid>
 namespace SJ {
 
+const Logger & HttpRequestImpl::logger = LoggerFactory::instance().getLogger("sj-server-logger");
+
 HttpRequestImpl::HttpRequestImpl(QTcpSocket * socket)
     : contentLength(0),
       requestUri(""),
@@ -118,7 +120,7 @@ void HttpRequestImpl::setUpMethodAndLocation(const QString & methodLine)
     QStringList list = methodLine.split(' ', QString::SkipEmptyParts);
 
     if(list.size() < 2) {
-        qDebug() << "ERROR - cannot find method and/or location";
+        LOG_WARN(logger, "ERROR - cannot find method and/or location");
         return;
     }
 
@@ -252,8 +254,7 @@ QByteArray & HttpRequestImpl::getData()
 void HttpRequestImpl::addFile(HttpRequestBinaryFile binaryFile)
 {
     binaryFiles.push_back(binaryFile);
-    qDebug() << "Adding file " << binaryFile.getOriginalFileName();
-    qDebug() << "Now having " << binaryFiles.size() << " files";
+    LOG_DEBUG(logger, LogBuilder("Adding file ").append(binaryFile.getOriginalFileName()).append(", so now there are ").append(binaryFiles.size()).append(" files"));
 }
 
 void HttpRequestImpl::addParameter(QString paramName, QString paramValue)

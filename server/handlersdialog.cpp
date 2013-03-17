@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "handlersdialog.h"
 #include "handlermanager.h"
 
-#include <QDebug>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QHBoxLayout>
@@ -91,17 +90,11 @@ HandlerEditor::~HandlerEditor() {
 HandlersDialog::HandlersDialog(QWidget *parent) :
     QDialog(parent)
 {
-    qDebug() << "registered handlers are: ";
-    QVector<HandlerData> * handlers = HandlerManager::instance().getAllHandlers();
-    for(int i = 0; i < handlers->size(); ++i) {
-        qDebug() << "Name: " << handlers->at(i).getHandler()->name() << ", context: " << handlers->at(i).getContextRoot();
-    }
-
     QPushButton * closeButton = new QPushButton("Close");
     QPushButton * okButton = new QPushButton("Ok");
 
     QVBoxLayout * layout = new QVBoxLayout;
-
+    QVector<HandlerData> * handlers = HandlerManager::instance().getAllHandlers();
     for(int i = 0; i < handlers->size(); ++i) {
         HandlerEditor * e = new HandlerEditor(&(handlers->operator [](i)));
         connect(okButton, SIGNAL(clicked()), e, SLOT(okSlot()));

@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "contextpathdispatcher.h"
 #include "loggerall.h"
 #include <QRegExp>
-#include <QDebug>
 
 namespace SJ {
 

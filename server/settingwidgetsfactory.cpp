@@ -24,7 +24,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QLabel>
 #include <QBoxLayout>
 #include <QPushButton>
-#include <QDebug>
 #include <QFileDialog>
 #include <QGraphicsColorizeEffect>
 #include <QHostAddress>
@@ -39,15 +38,6 @@ SettingWidgetsFactory::SettingWidgetsFactory()
 
 AbstractSetting * SettingWidgetsFactory::getWidget(SettingsItem::SettingType type, const QString & key, const QString & labelText, QWidget * parent)
 {
-    qDebug() << "Getting widget " << type << " " << key << " " << labelText;
-    QSettings & settings = Utils::getSettings();
-    qDebug() << "Current settings are: ";
-    QStringList allKeys = settings.allKeys();
-    for(int i = 0; i < allKeys.size(); ++i) {
-        qDebug() << "key " << allKeys[i] << ". value: " << settings.value(allKeys[i]).toString();
-    }
-
-
     switch(type) {
     case SettingsItem::BOOL:
         return new BoolSetting(labelText, key, parent);
@@ -117,7 +107,6 @@ void DirectorySetting::saveSetting()
 
 void DirectorySetting::browseSlot()
 {
-    qDebug() << "lineEdit " << key << " clicked";
     QString dir = QFileDialog::getExistingDirectory(this, "Select directory...", directoryLineEdit->text());
     if("" == dir) {
         return;

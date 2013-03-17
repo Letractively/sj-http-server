@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "httpheader.h"
 #include "httprequest.h"
 #include "httprequestbinaryfile.h"
+#include "loggerall.h"
 
 #include <QTcpSocket>
 #include <QByteArray>
@@ -119,6 +120,8 @@ private:
     QByteArray requestData;
     QString requestId;
 
+private:
+    static const Logger & logger;
 
 };
 } //namespace SJ

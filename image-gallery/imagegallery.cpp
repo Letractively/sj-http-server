@@ -20,7 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "imagegallery.h"
 #include "contextpathdispatcher.h"
-#include "QDebug"
 #include "mainpagewebhandler.h"
 #include "uploadwebhandler.h"
 #include "imageviewwebhandler.h"
