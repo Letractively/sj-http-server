@@ -199,19 +199,16 @@ void RequestProcessingThread::processRequest() {
     HandlerData handlerData = HandlerManager::instance().getHandler(request);
     AbstractRequestHandler * handler = handlerData.getHandler();
     LOG_TRACE(logger, LogBuilder("Processing request with ").append(handler->name()));
-    QSettings::SettingsMap * sets = readHandlerSettings(handlerData.getSettingsGroup());
-    sets->insert("ContextRoot", handlerData.getContextRoot());
     const Logger & httpLogger = LoggerFactory::instance().getLogger("sj-http-dump-logger");
     if(httpLogger.isDebugEnabled()) {
         LogBuilder lb;
-        lb.append("REQUEST ID [").append(request->getRequestID()).append("\n");
+        lb.append("REQUEST ID [").append(request->getRequestID()).append("]\n");
         lb.append(request->toString());
         lb.append("\n");
         LOG_DEBUG(httpLogger, lb.toString());
     }
     HttpResponseImpl * response = new HttpResponseImpl(request->getRequestID());
-    handler->handle(request, response, sets);
-    delete sets;
+    handler->handle(request, response);
     response->writeToSocket(socket);
     delete response;
     delete request;

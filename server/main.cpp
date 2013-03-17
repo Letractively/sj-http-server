@@ -18,64 +18,74 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#include <QtWidgets/QApplication>
-#include <QSettings>
-#include "maindialog.h"
 #include "settingsconstants.h"
 #include "serverutils.h"
+#include "httpserver.h"
 
 #include "loggerfactory.h"
 #include "logbuilder.h"
 
-static void setUpSettings();
+#include <QCoreApplication>
+#include <cstdlib>
+#include <signal.h>
+
+using namespace SJ;
+
+static void initSettings();
+static void signalHandler(int signal);
+static void close();
 static QString copyrightNote();
+
+static HttpServer * server = 0;
+static Logger & logger = SJ::LoggerFactory::instance().getLogger("sj-server-logger");
 
 int main(int argc, char *argv[])
 {
-    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger("sj-server-logger");
+    signal(SIGINT, signalHandler);
+
+    QCoreApplication a(argc, argv);
+
 
     LOG_INFO(logger,copyrightNote());
-    setUpSettings();
+    initSettings();
 
-    QApplication a(argc, argv);
-
-    SJ::MainDialog w;
-    w.show();
+    server = new HttpServer;
+    bool started = server->listen(QHostAddress::LocalHost, 9090);
+    if(!started) {
+        LOG_ERROR(logger, "server not started");
+        LOG_ERROR(logger, server->errorString());
+        return -1;
+    } else {
+        LOG_INFO(logger, "server started");
+    }
 
     return a.exec();
 }
 
 
-void setUpSettings()
+void initSettings()
 {
-    QSettings & settings = SJ::Utils::getSettings();
 
-    //setup default values
-
-    if(!settings.contains(SJ::ServerSettings::SETTING_LISTEN_INTERFACE)) {
-        settings.setValue(SJ::ServerSettings::SETTING_LISTEN_INTERFACE, "localhost");
-    }
-
-    if(!settings.contains(SJ::ServerSettings::SETTING_LISTEN_PORT)) {
-        settings.setValue(SJ::ServerSettings::SETTING_LISTEN_PORT, 9090);
-    }
-
-    if(!settings.contains(SJ::ServerSettings::SETTING_WWW_ROOT_PATH)) {
-        settings.setValue(SJ::ServerSettings::SETTING_WWW_ROOT_PATH, "/var/www/");
-    }
-
-    SJ::Logger & logger = SJ::LoggerFactory::instance().getLogger("sj-server-logger");
-    if(logger.isDebugEnabled()) {
-        SJ::LogBuilder lb("Settings:\n");
-        QStringList allKeys = settings.allKeys();
-        for(int i = 0; i < allKeys.size(); ++i) {
-            lb.append("key ").append(allKeys[i]).append(". value: ");
-            lb.append(settings.value(allKeys[i]).toString()).append("\n");
-        }
-        LOG_DEBUG(logger, lb);
-    }
 }
 
+void close() {
+    LOG_INFO(logger, "Closing the application...");
+    if(server != 0) {
+        server->close();
+        server = 0;
+    }
+    LOG_INFO(logger, "Shutdown completed");
+}
+
+
+void signalHandler(int signal)
+{
+    switch(signal) {
+    case SIGINT : close();
+        exit(0);
+        break;
+    }
+}
 
 QString copyrightNote()
 {
@@ -97,3 +107,4 @@ QString copyrightNote()
 
     return copyright;
 }
+

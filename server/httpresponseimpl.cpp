@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "httpresponseimpl.h"
 #include "httpheader.h"
 #include "serverutils.h"
+#include <QDebug>
 
 
 namespace SJ {
@@ -37,6 +38,8 @@ HttpResponseImpl::HttpResponseImpl(const QString &requestID)
 
 void HttpResponseImpl::fromFile(const QString & filePath)
 {
+    qDebug() << "file " << filePath;
+
     file = new QFile(filePath);
     if(!file->exists()) {
         code = SC_NOT_FOUND;
