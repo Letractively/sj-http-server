@@ -20,13 +20,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "handlersdialog.h"
 #include "handlermanager.h"
+#include "settingsconstants.h"
 
 #include <QPushButton>
 #include <QLineEdit>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
-#include "settingsconstants.h"
 
 namespace SJ {
 
@@ -53,29 +53,17 @@ HandlerEditor::HandlerEditor(HandlerData * handler, QWidget * parent)
             connect(this, SIGNAL(okSignal()), setting, SLOT(saveSetting()));
             layout->addWidget(setting);
         } else {
-//            error
+//            TODO: error
         }
     }
 
     setLayout(layout);
 }
 
-//QString HandlerEditor::nameToContextRoot(const QString & name)
-//{
-//    QString s = name;
-//    s = s.replace(' ', '-');
-//    s = s.replace('\t', '-');
-//    s = s.replace('\n', '-');
 
-//    return s.toLower();
-//}
 
 void HandlerEditor::okSlot()
-{/*
-    contextPathSetting->saveSetting();
-    for(int i = 0; i < allSettings.size(); ++i) {
-        allSettings[i]->saveSetting();
-    }*/
+{
     emit okSignal();
 }
 

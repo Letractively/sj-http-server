@@ -37,9 +37,6 @@ class HttpResponseImpl : public HttpResponse
 public:
 
     HttpResponseImpl(const QString & requestID);
-//    HttpResponseImpl(StatusCode code);
-//    HttpResponseImpl(QByteArray * data);
-//    HttpResponseImpl(QString filePath, QString contentType = "");
     virtual ~HttpResponseImpl();
     virtual void setStatusCode(StatusCode code);
     virtual void setContentType(const QString & contentType);

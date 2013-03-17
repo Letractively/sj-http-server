@@ -257,6 +257,4 @@ QString HttpResponseImpl::guessContentType(QString filePath)
     return "";
 }
 
-
-
 } //namespace SJ

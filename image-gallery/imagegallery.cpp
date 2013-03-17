@@ -68,5 +68,3 @@ QVector<SettingsItem> ImageGallery::supportedSettings() const
 
 } // namespace SJ
 
-
-//Q_EXPORT_PLUGIN2(image-gallery, SJ::ImageGallery)

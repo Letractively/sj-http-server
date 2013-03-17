@@ -44,14 +44,12 @@ public:
     /**
      * @return Name of the handler (as returned by the plugin)
      */
-//    QString registerHandler(const QString & filePath, const QString & settingsKey);
 
     QVector<HandlerData> * getAllHandlers() { return &handlers; }
 
 private:
 
     void loadPluginsFromConfig();
-//    void persistHandlerConfig(const QString & filepath);
 
     AbstractRequestHandler * loadPlugin(const QString & filepath, const QString & settingsKey);
 

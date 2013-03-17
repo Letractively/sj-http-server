@@ -120,5 +120,3 @@ QString FortuneTeller::getFortune()
 }
 
 } //namespace SJ
-
-//Q_EXPORT_PLUGIN2(fortune-teller, SJ::FortuneTeller)

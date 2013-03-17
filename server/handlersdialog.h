@@ -35,8 +35,6 @@ public:
     ~HandlerEditor();
 private:
 
-//    QString nameToContextRoot(const QString & name);
-
     HandlerData * handler;
     StringSetting * contextPathSetting;
     QVector<AbstractSetting *> allSettings;

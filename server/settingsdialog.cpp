@@ -52,22 +52,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     layout->addWidget(label);
 
-//    AbstractSetting * genMiniatures = new BoolSetting("Generate miniatures", SETTING_MINIATURE_ENABLED);
-//    connect(okButton, SIGNAL(clicked()), genMiniatures, SLOT(saveSetting()));
-//    layout->addWidget(genMiniatures);
-
-//    AbstractSetting * fileStoreDir = new DirectorySetting("File storage directory", SETTING_FILE_STORE_PATH);
-//    connect(okButton, SIGNAL(clicked()), fileStoreDir, SLOT(saveSetting()));
-//    layout->addWidget(fileStoreDir);
-
     AbstractSetting * wwwRootDir = new DirectorySetting("WWW root directory", ServerSettings::SETTING_WWW_ROOT_PATH);
     connect(okButton, SIGNAL(clicked()), wwwRootDir, SLOT(saveSetting()));
     layout->addWidget(wwwRootDir);
-
-//    IntSetting * miniatureSize = new IntSetting("Miniature size", SETTING_MINIATURE_SIZE);
-//    miniatureSize->setMin(1);
-//    connect(okButton, SIGNAL(clicked()), miniatureSize, SLOT(saveSetting()));
-//    layout->addWidget(miniatureSize);
 
     AbstractSetting * interfaceHost = new HostSetting("Listening host", ServerSettings::SETTING_LISTEN_INTERFACE);
     connect(okButton, SIGNAL(clicked()), interfaceHost, SLOT(saveSetting()));

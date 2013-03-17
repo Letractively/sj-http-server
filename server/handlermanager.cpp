@@ -38,20 +38,6 @@ HandlerManager::HandlerManager()
 }
 
 
-//QString HandlerManager::registerHandler(const QString & filePath, const QString & settingsKey)
-//{
-//    AbstractRequestHandler * newHandler = loadPlugin(filePath, settingsKey);
-
-//    if(0 != newHandler) {
-//        persistHandlerConfig(filePath, contextRoot);
-
-//        return newHandler->name();
-//    }
-
-//    return "";
-//}
-
-
 void HandlerManager::loadPluginsFromConfig()
 {
     QSettings & settings = Utils::getSettings();
