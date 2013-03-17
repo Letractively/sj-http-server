@@ -27,19 +27,25 @@ namespace SJ {
 
 RequestHandler::RequestHandler()
 {
-    WWW_ROOT_PATH = Utils::substring(ServerSettings::SETTING_WWW_ROOT_PATH, name().length() + 1);
+//    WWW_ROOT_PATH = Utils::substring(ServerSettings::SETTING_WWW_ROOT_PATH, name().length() + 1);
+    WWW_ROOT_PATH = "../www/";
 }
 
-void RequestHandler::handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const
+void RequestHandler::init(QMap<QString, QVariant> & initParams)
+{
+    //TODO
+//    WWW_ROOT_PATH = "../www/";
+}
+
+void RequestHandler::handle(HttpRequest * request, HttpResponse * response) const
 {
     if(request->getMethod() != HttpRequest::GET) {
         response->setStatusCode(HttpResponse::SC_NOT_FOUND);
         return;
     }
 
-    QString wwwRoot = settings->value(WWW_ROOT_PATH).toString();
 
-    if("" == wwwRoot) {
+    if("" == WWW_ROOT_PATH) {
         response->setStatusCode(HttpResponse::SC_NOT_FOUND);
         return;
     }
@@ -49,7 +55,7 @@ void RequestHandler::handle(HttpRequest * request, HttpResponse * response, QSet
     if(uri == "/") {
         uri = "index.html";
     }
-    response->fromFile(wwwRoot + uri);
+    response->fromFile(WWW_ROOT_PATH + uri);
 }
 
 } // namespace SJ

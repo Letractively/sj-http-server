@@ -47,24 +47,23 @@ ImageGallery::~ImageGallery()
     ImageMetadataProvider::getInstance()->flush();
 }
 
+void ImageGallery::init(QMap<QString, QVariant> & initParams)
+{
+    //TODO read settings
+}
+
+void ImageGallery::handle(HttpRequest * /*req*/, HttpResponse * response) const
+{
+    //dispatcher->dispatchRequest(req, settings)->handle(req, response, 0);
+    response->setStatusCode(HttpResponse::SC_NOT_FOUND);
+}
+
 QString ImageGallery::name() const
 {
     return "ImageGallery";
 }
 
-void ImageGallery::handle(HttpRequest *req, HttpResponse * response, QSettings::SettingsMap *settings) const
-{
-    dispatcher->dispatchRequest(req, settings)->handle(req, response, settings);
-}
 
-
-
-QVector<SettingsItem> ImageGallery::supportedSettings() const
-{
-    QVector<SettingsItem> vect;
-    vect.push_back(SettingsItem("Temp Directory", SettingsItem::DIRECTORY, ImgGal::SETTING_TMP_DIR));
-    return vect;
-}
 
 } // namespace SJ
 

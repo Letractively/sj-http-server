@@ -25,8 +25,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "httpresponse.h"
 #include "settingsitem.h"
 
-#include <QVector>
-#include <QSettings>
+#include <QMap>
+#include <QVariant>
 #include <QtPlugin>
 
 namespace SJ {
@@ -40,37 +40,20 @@ namespace SJ {
 class AbstractRequestHandler
 {
 public:
+    /**
+     * @brief Virtual destructor.
+     */
     virtual ~AbstractRequestHandler() {}
-    /**
-     * @brief Returns name of the handler
-     *
-     * Name will be presented to the user in the server GUI, thus it should identify the handler.
-     * This function is purly virtual and must be implemented in derived classes.
-     *
-     * @return handler's name
-     */
-    virtual QString name() const = 0;
 
     /**
-     * @brief Returns a description of the handler.
+     * @brief Initializes the handler with defined parameters.
      *
-     * The description should explain what the plugin does, The description should be kept short.
-     * Returns empty string if not overridden in a derived class
+     * This is the entry point for each loaded handler and is called only once - on load. If not overridden,
+     * this function does nothing.
      *
-     * @return handler's description
+     * @param initParams map of parameters.
      */
-    virtual QString description() const { return ""; }
-
-    /**
-     * @brief Help information about the hamdler
-     *
-     * It should contain a detailed description of the handler and possibly also the settings accepted by the handler.
-     * It is to be presented in the help windows. Can be richtext.
-     * Returns empty string if not overridden in a derived class
-     *
-     * @return handler's help information
-     */
-    virtual QString helpInfo() const { return ""; }
+    virtual void init(QMap<QString, QVariant> & /*initParams*/) {}
 
     /**
      * @brief Process an http request and produces a response
@@ -81,19 +64,19 @@ public:
      *
      * @param request http request for which response should be created
      * @param response http response to return
-     * @param settings configuration of the handler
      */
-    virtual void handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap * settings = 0) const = 0;
+    virtual void handle(HttpRequest * request, HttpResponse * response) const = 0;
+
 
     /**
-     * @brief return which settings are supported by the handler
+     * @brief Returns name of the handler
      *
-     * These settings are used when creating a configuration dialog for the handler.
-     * If not overridden, this function returns empty vector (no settings supported).
+     * Name will be presented to the user in the server GUI, thus it should identify the handler.
+     * This function is purly virtual and must be implemented in derived classes.
      *
-     * @return vector containing supported settings
+     * @return handler's name
      */
-    virtual QVector<SettingsItem> supportedSettings() const { return QVector<SettingsItem>(0); }
+    virtual QString name() const = 0;
 };
 
 } //namespace SJ

@@ -35,9 +35,9 @@ class ImageGallery : public QObject, public AbstractRequestHandler
 public:
     ImageGallery();
     ~ImageGallery();
+    void init(QMap<QString, QVariant> & initParams);
+    void handle(HttpRequest *req, HttpResponse * resp) const;
     QString name() const;
-    void handle(HttpRequest *req, HttpResponse * resp, QSettings::SettingsMap *settings = 0) const;
-    virtual QVector<SettingsItem> supportedSettings() const;
 private:
     AbstractDispatcher * dispatcher;
 };

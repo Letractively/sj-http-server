@@ -31,7 +31,7 @@ bool FortuneTeller::fortunesSet = false;
 
 const Logger & FortuneTeller::logger = LoggerFactory::instance().getLogger("sj-fortune-teller-logger");
 
-void FortuneTeller::handle(HttpRequest * /* request */, HttpResponse * response, QSettings::SettingsMap * /*settings*/) const
+void FortuneTeller::handle(HttpRequest * /* request */, HttpResponse * response) const
 {
     QString cookie = getFortune();
 

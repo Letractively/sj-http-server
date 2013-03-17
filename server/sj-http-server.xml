@@ -1,0 +1,26 @@
+<server-conf xmlns="http://sj-http-server.googlecode.com/server">
+    <listen-interface>localhost</listen-interface>
+    <listen-port>9090</listen-port>
+    <www-path>../www/</www-path>
+    <handlers>
+        <handler>
+            <name>Fortune Teller</name>
+            <description>Presents a random Fortune Cookie Quote.</description>
+            <context-root>fortune-cookie</ontext-root>
+            <file-path>../fortune-teller/libfortune-teller.so</file-path>
+        </handler>
+        <handler>
+            <name>Image Gallery</name>
+            <description>Allows to view and upload images.</description>
+            <context-root>image-gallery</ontext-root>
+            <file-path>../image-gallery/libimage-gallery.so</file-path>
+            <init-params>
+                <init-param>
+                    <name>image.store.directory</name>
+                    <value>../work/image-gallery/</value>
+                </init-param>
+            </init-params>
+        </handler>
+    </handler>
+</server-conf>
+
