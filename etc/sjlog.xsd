@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://sj-http-server.googlecode.com/logger"
+	targetNamespace="http://sj-http-server.googlecode.com/logger"
+	elementFormDefault="qualified">
+
+	<xs:element name="loggers">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="logger" type="tns:logger" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="logger">
+		<xs:sequence>
+			<xs:element name="appenders" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="appender" type="tns:appender"
+							minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="level" type="tns:logLevel" />
+	</xs:complexType>
+
+	<xs:complexType name="appender">
+		<xs:sequence>
+			<xs:element name="appenderParam" type="tns:appenderParam" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="type" type="tns:appenderType" />
+	</xs:complexType>
+
+
+	<xs:complexType name="appenderParam">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="logLevel">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL" />
+			<xs:enumeration value="TRACE" />
+			<xs:enumeration value="DEBUG" />
+			<xs:enumeration value="INFO" />
+			<xs:enumeration value="WARN" />
+			<xs:enumeration value="ERROR" />
+			<xs:enumeration value="NONE" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="appenderType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="console" />
+			<xs:enumeration value="file" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
+
+<!--<sj:loggers xmlns:sj="http://sj-http-server.googlecode.com/logger"> <sj:logger 
+	name="sj-server-logger" level="DEBUG"> <sj:appenders> <sj:appender type="console"/> 
+	<sj:appender type="file"> <sj:appenderParam name="filename">../work/logs/sjserver.log</sj:appenderParam> 
+	</sj:appender> </sj:appenders> </sj:logger> -->

@@ -6,4 +6,7 @@ server/sj-http-server
 server/sj-http-server.ini
 work
 server/ui_maindialog.h
+.project
+tst_*
+*.pro.user
 

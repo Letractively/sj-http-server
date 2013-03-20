@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<sj:loggers xmlns:sj="http://sj-http-server.googlecode.com/logger">
+<sj:loggers xmlns:sj="http://sj-http-server.googlecode.com/logger"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://sj-http-server.googlecode.com/logger ../etc/sjlog.xsd">
+
     <sj:logger name="sj-server-logger" level="DEBUG">
         <sj:appenders>
             <sj:appender type="console"/>

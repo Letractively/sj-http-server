@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://sj-http-server.googlecode.com/server"
+           targetNamespace="http://sj-http-server.googlecode.com/server"
+           elementFormDefault="qualified">
+
+<xs:element name="server-conf">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="listen-interface" type="xs:string"/>
+      <xs:element name="listen-port" type="xs:integer"/>
+      <xs:element name="www-path" type="xs:string"/>
+      <xs:element name="handlers" minOccurs="0">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="handler" type="tns:handler" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+  <xs:complexType name="handler">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="context-root" type="xs:string"/>
+      <xs:element name="file-path" type="xs:string"/>
+      <xs:element name="init-params" minOccurs="0">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="init-param" type="tns:init-param" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="init-param">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
