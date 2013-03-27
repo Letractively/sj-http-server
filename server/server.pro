@@ -18,7 +18,10 @@ SOURCES += main.cpp\
     handlerdata.cpp \
     httprequestimpl.cpp \
         serverutils.cpp \
-    httpresponseimpl.cpp
+    httpresponseimpl.cpp \
+    configurationprovider.cpp \
+    handlerconfiguration.cpp \
+    mockconfigurationprovider.cpp
 
 HEADERS  += \
     httpserver.h \
@@ -29,7 +32,10 @@ HEADERS  += \
     handlerdata.h \
     httprequestimpl.h \
         serverutils.h \
-    httpresponseimpl.h
+    httpresponseimpl.h \
+    configurationprovider.h \
+    handlerconfiguration.h \
+    mockconfigurationprovider.h
 
 OTHER_FILES += \
     sjlog.xml \

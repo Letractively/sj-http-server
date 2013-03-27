@@ -27,7 +27,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "serverutils.h"
 
 #include <QFile>
-#include <QImage>
 #include <QSettings>
 #include <QPluginLoader>
 #include <QStringList>

@@ -29,9 +29,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <cstdlib>
 #include <signal.h>
 
+#include "configurationprovider.h"
+#include "mockconfigurationprovider.h"
+
 using namespace SJ;
 
-static void initSettings();
+static ConfigurationProvider initConfiguration();
 static void signalHandler(int signal);
 static void close();
 static QString copyrightNote();
@@ -44,13 +47,12 @@ int main(int argc, char *argv[])
     signal(SIGINT, signalHandler);
 
     QCoreApplication a(argc, argv);
-
+    ConfigurationProvider conf = initConfiguration();
 
     LOG_INFO(logger,copyrightNote());
-    initSettings();
 
     server = new HttpServer;
-    bool started = server->listen(QHostAddress::LocalHost, 9090);
+    bool started = server->listen(conf.getListenInterface(), conf.getListenPort());
     if(!started) {
         LOG_ERROR(logger, "server not started");
         LOG_ERROR(logger, server->errorString());
@@ -63,9 +65,9 @@ int main(int argc, char *argv[])
 }
 
 
-void initSettings()
+ConfigurationProvider initConfiguration()
 {
-
+    return MockConfigurationProvider();
 }
 
 void close() {

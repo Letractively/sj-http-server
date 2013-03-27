@@ -6,6 +6,5 @@ SUBDIRS = logger\
         server\
         fortune-teller\
         image-gallery \
-        tests \
-    etc
+        tests
 
