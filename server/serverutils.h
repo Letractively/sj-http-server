@@ -31,8 +31,7 @@ class Utils
 {
 public:
     static QString substring(const QString & str, int beginIndex, int endIndex = -1);
-    static QString version() { return "0.2"; }
-    static QSettings & getSettings();
+    static QString version() { return "0.3"; }
     static QHostAddress createAddress(QString interface);
 
 };

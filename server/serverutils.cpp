@@ -34,12 +34,6 @@ QString Utils::substring(const QString & str, int beginIndex, int endIndex)
     }
 }
 
-QSettings & Utils::getSettings()
-{
-    static QSettings settings("sj-http-server.ini", QSettings::IniFormat);
-    SJ::LoggerFactory::instance().getLogger().trace(SJ::LogBuilder(settings.allKeys()));
-    return settings;
-}
 
 QHostAddress Utils::createAddress(QString interface)
 {

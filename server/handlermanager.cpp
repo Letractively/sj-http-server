@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "requesthandler.h"
 #include "serverutils.h"
 #include "settingsconstants.h"
+#include "configurationprovider.h"
 
 
 #include <QPluginLoader>
@@ -40,39 +41,26 @@ HandlerManager::HandlerManager()
 
 void HandlerManager::loadPluginsFromConfig()
 {
-    QSettings & settings = Utils::getSettings();
+    QList<HandlerConfiguration> h = ConfigurationProvider::getInstance()->getHandlers();
 
-    int size = settings.beginReadArray(PluginSettings::PLUGIN_GROUP_NAME);
+    for(int i = 0; i < h.size(); ++i) {
+        QPluginLoader pl(h[i].getFilePath());
+        pl.load();
+        LOG_DEBUG(logger, LogBuilder("Request handler loading from [").append(h[i].getFilePath()).append("]: ").append(pl.isLoaded() ? "success" : "failure"));
+        AbstractRequestHandler * newHandler = 0;
 
-    for(int i = 0; i < size; ++i) {
-        settings.setArrayIndex(i);
-        loadPlugin(settings.value(PluginSettings::PLUGIN_FILE_PATH).toString(), settings.value(PluginSettings::PLUGIN_SETTINGS_KEY).toString());
+        if(pl.isLoaded()) {
+            newHandler = qobject_cast<AbstractRequestHandler *>(pl.instance());
+        }
+
+        if(newHandler != 0) {
+            LOG_DEBUG(logger, LogBuilder("Created instance of the request handler ").append(newHandler->name()));
+            handlers.push_back(HandlerData(newHandler, settingsKey));
+        } else {
+            LOG_DEBUG(logger, LogBuilder("Unable to load a handler: ").append(pl.errorString()));
+        }
+
     }
-
-    settings.endArray();
-}
-
-
-AbstractRequestHandler * HandlerManager::loadPlugin(const QString & filepath, const QString & settingsKey)
-{
-    QPluginLoader pl(filepath);
-    pl.load();
-    LOG_DEBUG(logger, LogBuilder("Request handler loading from [").append(filepath).append("]: ").append(pl.isLoaded() ? "success" : "failure"));
-
-    AbstractRequestHandler * newHandler = 0;
-
-    if(pl.isLoaded()) {
-        newHandler = qobject_cast<AbstractRequestHandler *>(pl.instance());
-    }
-
-    if(newHandler != 0) {
-        LOG_DEBUG(logger, LogBuilder("Created instance of the request handler ").append(newHandler->name()));
-        handlers.push_back(HandlerData(newHandler, settingsKey));
-    } else {
-        LOG_DEBUG(logger, LogBuilder("Unable to load a handler: ").append(pl.errorString()));
-    }
-
-    return newHandler;
 }
 
 
