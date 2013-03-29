@@ -31,7 +31,7 @@ RequestHandler::RequestHandler()
     WWW_ROOT_PATH = "../www/";
 }
 
-void RequestHandler::init(QMap<QString, QVariant> & initParams)
+void RequestHandler::init(QMap<QString, QVariant> & /*initParams*/)
 {
     //TODO
 //    WWW_ROOT_PATH = "../www/";
