@@ -21,9 +21,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+ConfigurationProvider * ConfigurationProvider::instance = 0;
+
+ConfigurationProvider * ConfigurationProvider::getInstance()
+{
+    return instance;
+}
+
+
 ConfigurationProvider::ConfigurationProvider()
 {
+    instance = this;
+}
 
+ConfigurationProvider::~ConfigurationProvider()
+{
+    delete instance;
 }
 
 

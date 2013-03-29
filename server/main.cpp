@@ -34,7 +34,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 using namespace SJ;
 
-static ConfigurationProvider initConfiguration();
+static void initConfiguration();
 static void signalHandler(int signal);
 static void close();
 static QString copyrightNote();
@@ -47,12 +47,13 @@ int main(int argc, char *argv[])
     signal(SIGINT, signalHandler);
 
     QCoreApplication a(argc, argv);
-    ConfigurationProvider conf = initConfiguration();
+    initConfiguration();
 
     LOG_INFO(logger,copyrightNote());
 
     server = new HttpServer;
-    bool started = server->listen(conf.getListenInterface(), conf.getListenPort());
+    bool started = server->listen(ConfigurationProvider::getInstance()->getListenInterface(),
+                                  ConfigurationProvider::getInstance()->getListenPort());
     if(!started) {
         LOG_ERROR(logger, "server not started");
         LOG_ERROR(logger, server->errorString());
@@ -65,9 +66,9 @@ int main(int argc, char *argv[])
 }
 
 
-ConfigurationProvider initConfiguration()
+void initConfiguration()
 {
-    return MockConfigurationProvider();
+    new MockConfigurationProvider();
 }
 
 void close() {
