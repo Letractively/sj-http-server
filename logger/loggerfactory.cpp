@@ -79,8 +79,6 @@ void LoggerFactory::doLoadConfig(const QString & confFile)
         loggers.clear();
         qWarning() << "Unable to parse logger config from file " << confFile << ". Error: " << handler.errorString();
     }
-
-
 }
 
 Logger & LoggerFactory::getLogger(const QString & loggerName)

@@ -17,49 +17,37 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef XMLCONFIGURATIONPROVIDER_H
+#define XMLCONFIGURATIONPROVIDER_H
+
 #include "configurationprovider.h"
+#include <QXmlDefaultHandler>
 
 namespace SJ {
 
-ConfigurationProvider * ConfigurationProvider::instance = 0;
-Logger & ConfigurationProvider::logger = LoggerFactory::instance().getLogger();
+class XmlConfigurationParser;
 
-ConfigurationProvider * ConfigurationProvider::getInstance()
+class XmlConfigurationProvider : public ConfigurationProvider
 {
-    return instance;
-}
+public:
+    XmlConfigurationProvider();
+    XmlConfigurationProvider(const QString & configFile);
+private:
+    void doParse(const QString & configFile);
 
+    friend class XmlConfigurationParser;
+};
 
-ConfigurationProvider::ConfigurationProvider()
+class XmlConfigurationParser : public QXmlDefaultHandler
 {
-    instance = this;
-}
+public:
+    XmlConfigurationParser(XmlConfigurationProvider * provider);
 
-ConfigurationProvider::~ConfigurationProvider()
-{
-    delete instance;
-}
+private:
+    XmlConfigurationProvider * provider;
+};
 
-
-QHostAddress ConfigurationProvider::getListenInterface() const
-{
-    return listenInterface;
-}
-
-int ConfigurationProvider::getListenPort() const
-{
-    return listenPort;
-}
-
-QString ConfigurationProvider::getWwwPath() const
-{
-    return wwwPath;
-}
-
-QList<HandlerConfiguration> ConfigurationProvider::getHandlers() const
-{
-    return handlers;
-}
 
 }
 
+#endif // XMLCONFIGURATIONPROVIDER_H

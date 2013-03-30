@@ -24,6 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QList>
 #include <QHostAddress>
 #include "handlerconfiguration.h"
+#include "loggerall.h"
 
 namespace SJ {
 
@@ -43,6 +44,7 @@ protected:
     int listenPort;
     QString wwwPath;
     QList<HandlerConfiguration> handlers;
+    static Logger & logger;
 private:
     static ConfigurationProvider * instance;
 };

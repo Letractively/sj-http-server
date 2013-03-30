@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core network
+QT += core network xml
 QT -= widgets gui
 VERSION = 0.3
 TARGET = sj-http-server
@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     httpresponseimpl.cpp \
     configurationprovider.cpp \
     handlerconfiguration.cpp \
-    mockconfigurationprovider.cpp
+    mockconfigurationprovider.cpp \
+    xmlconfigurationprovider.cpp
 
 HEADERS  += \
     httpserver.h \
@@ -35,7 +36,8 @@ HEADERS  += \
     httpresponseimpl.h \
     configurationprovider.h \
     handlerconfiguration.h \
-    mockconfigurationprovider.h
+    mockconfigurationprovider.h \
+    xmlconfigurationprovider.h
 
 OTHER_FILES += \
     sjlog.xml \
