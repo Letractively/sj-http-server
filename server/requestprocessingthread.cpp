@@ -27,7 +27,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "serverutils.h"
 
 #include <QFile>
-#include <QSettings>
 #include <QPluginLoader>
 #include <QStringList>
 #include <QHostAddress>
@@ -37,8 +36,7 @@ namespace SJ {
 const Logger & RequestProcessingThread::logger = LoggerFactory::instance().getLogger("sj-req-proc-thread-logger");
 
 RequestProcessingThread::RequestProcessingThread(int socketDescriptor, QObject * parent)
-    :QThread(parent), socket(0), request(0), bytesRead(0),
-      settings(Utils::getSettings())
+    :QThread(parent), socket(0), request(0), bytesRead(0)
 {
     if(logger.isDebugEnabled()) {
         LOG_DEBUG(logger, LogBuilder("Creating new RequestProcessingThread for socket descriptor [")
@@ -214,24 +212,6 @@ void RequestProcessingThread::processRequest() {
     request = 0;
 }
 
-QSettings::SettingsMap * RequestProcessingThread::readHandlerSettings(const QString & handlerSettingsKey)
-{
-
-    QSettings::SettingsMap * map = new QSettings::SettingsMap;
-    if("" == handlerSettingsKey) {
-        return map;
-    }
-
-    QStringList keys = settings.allKeys();
-
-    for(int i = 0; i < keys.length(); ++i) {
-        if(keys.at(i).startsWith(handlerSettingsKey + "/")) {
-            map->insert(Utils::substring(keys.at(i), handlerSettingsKey.length() + 1), settings.value(keys.at(i)));
-        }
-    }
-
-    return map;
-}
 
 void RequestProcessingThread::persistentConnTimeoutSlot()
 {

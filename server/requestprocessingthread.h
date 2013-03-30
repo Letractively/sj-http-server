@@ -23,7 +23,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QThread>
 #include <QTcpSocket>
-#include <QSettings>
 #include <QTimer>
 #include "loggerall.h"
 
@@ -55,7 +54,6 @@ private:
     QTcpSocket * socket;
     HttpRequestImpl * request;
     quint64 bytesRead;
-    QSettings & settings;
     QTimer * timer;
 
     static const Logger & logger;
@@ -71,7 +69,6 @@ private:
     QString findAttributeValue(const QString & attributeName, const QByteArray & partData);
     QString findHeaderValue(const QString & headerName, const QByteArray & data);
     QByteArray findData(const QByteArray & data);
-    QSettings::SettingsMap * readHandlerSettings(const QString & handlerSettingsKey);
 };
 
 } //namespace SJ

@@ -51,10 +51,6 @@ private:
 
     void loadPluginsFromConfig();
 
-    AbstractRequestHandler * loadPlugin(const QString & filepath, const QString & settingsKey);
-
-
-
     HandlerData defaultHandler;
     QVector<HandlerData> handlers;
 

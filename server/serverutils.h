@@ -22,7 +22,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define SERVER_UTILS_H
 
 #include <QString>
-#include <QSettings>
 #include <QHostAddress>
 
 namespace SJ {
