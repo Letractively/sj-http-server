@@ -31,7 +31,7 @@ MockConfigurationProvider::MockConfigurationProvider()
                             "Presents a random Fortune Cookie Quote",
                             "fortune-cookie",
                             "../fortune-teller/libfortune-teller.so",
-                            QMap<QString, QString>());
+                            QMap<QString, QVariant>());
     handlers.push_back(ft);
 }
 

@@ -34,7 +34,7 @@ const Logger & HandlerManager::logger = LoggerFactory::instance().getLogger("sj-
 
 HandlerManager::HandlerManager()
 {
-    defaultHandler = HandlerData(new RequestHandler, HandlerConfiguration("DefualtRequetHandler", "Loads static contet", "", "", QMap<QString,QString>()));
+    defaultHandler = HandlerData(new RequestHandler, HandlerConfiguration("DefualtRequetHandler", "Loads static contet", "", "", QMap<QString, QVariant>()));
     loadPluginsFromConfig();
 }
 
