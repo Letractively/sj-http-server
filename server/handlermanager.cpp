@@ -56,7 +56,6 @@ void HandlerManager::loadPluginsFromConfig()
         if(newHandler != 0) {
             LOG_DEBUG(logger, LogBuilder("Created instance of the request handler ").append(newHandler->name()));
             handlers.push_back(HandlerData(newHandler, h[i]));
->>>>>>> d619c3d0715bf4bcbe7a6b2ac6245f9d811b92bd
         } else {
             LOG_DEBUG(logger, LogBuilder("Unable to load a handler: ").append(pl.errorString()));
         }
