@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "fileappender.h"
 
 #include <QDebug>
+#include <QStringBuilder>
 
 namespace SJ {
 
@@ -140,6 +141,9 @@ bool LoggerConfFileParseHandler::endElement(const QString &namespaceURI,
     case STATE_APPENDER_PARAM:
         if(localName == ELEMENT_APPENDER_PARAM) {
             state = STATE_APPENDER;
+            //value of a parameter
+            setAppenderProperty(currentPropertyName, chars);
+            chars = "";
         } else {
             errorInfo = "expected [" + ELEMENT_APPENDER_PARAM + "]  but got [" + localName + "]";
             return false;
@@ -189,8 +193,8 @@ bool LoggerConfFileParseHandler::characters(const QString &ch)
     QString chtrimmed = ch.trimmed();
     switch(state) {
     case STATE_APPENDER_PARAM:
-        //value of a parameter
-        setAppenderProperty(currentPropertyName, ch);
+        //buffer characters ('%' works as '+' but better)
+        chars = chars % ch;
         break;
     default:
         if(!chtrimmed.isEmpty()) {
@@ -267,6 +271,7 @@ void LoggerConfFileParseHandler::resetCurrentVariables()
     currentAppender = 0;
     currentAppenderType = "";
     currentPropertyName = "";
+    chars = "";
 }
 
 void LoggerConfFileParseHandler::setAppenderProperty(const QString &name, const QString &value)

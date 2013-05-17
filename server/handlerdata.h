@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
 #include "abstractrequesthandler.h"
+#include "handlerconfiguration.h"
 
 namespace SJ {
 
@@ -42,7 +43,7 @@ public:
      * @param handler pointer to a request handler
      * @param settingsGroup key associated with a handler that indicate its settings
      */
-    HandlerData(AbstractRequestHandler * handler, const QString & settingsGroup);
+    HandlerData(AbstractRequestHandler * handler, HandlerConfiguration config);
 
     /**
      * @brief Destructor
@@ -71,10 +72,10 @@ public:
      *
      * @return settings group
      */
-    QString getSettingsGroup() const { return settingsGroup; }
+    HandlerConfiguration getHandlerConfig() const { return config; }
 private:
     AbstractRequestHandler * handler;
-    QString settingsGroup;
+    HandlerConfiguration config;
 };
 
 } // namespace SJ

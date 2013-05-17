@@ -34,7 +34,7 @@ const Logger & HandlerManager::logger = LoggerFactory::instance().getLogger("sj-
 
 HandlerManager::HandlerManager()
 {
-    defaultHandler = HandlerData(new RequestHandler, "DefaultRequestHandler");
+    defaultHandler = HandlerData(new RequestHandler, HandlerConfiguration("DefualtRequetHandler", "Loads static contet", "", "", QMap<QString, QVariant>()));
     loadPluginsFromConfig();
 }
 
@@ -55,7 +55,7 @@ void HandlerManager::loadPluginsFromConfig()
 
         if(newHandler != 0) {
             LOG_DEBUG(logger, LogBuilder("Created instance of the request handler ").append(newHandler->name()));
-            handlers.push_back(HandlerData(newHandler, settingsKey));
+            handlers.push_back(HandlerData(newHandler, h[i]));
         } else {
             LOG_DEBUG(logger, LogBuilder("Unable to load a handler: ").append(pl.errorString()));
         }

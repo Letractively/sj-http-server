@@ -25,7 +25,9 @@ HandlerConfiguration::HandlerConfiguration()
 {
 }
 
-HandlerConfiguration::HandlerConfiguration(const QString & name, const QString & description, const QString & contextRoot, const QString & filePath, const QMap<QString, QString> & initParams)
+HandlerConfiguration::HandlerConfiguration(const QString & name, const QString & description,
+                                           const QString & contextRoot, const QString & filePath,
+                                           const QMap<QString, QVariant> & initParams)
     :   name(name),
         description(description),
         contextRoot(contextRoot),

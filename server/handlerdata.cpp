@@ -30,15 +30,15 @@ HandlerData::HandlerData()
 
 }
 
-HandlerData::HandlerData(AbstractRequestHandler * handler, const QString & settingsGroup)
-    : handler(handler), settingsGroup(settingsGroup)
+HandlerData::HandlerData(AbstractRequestHandler * handler, HandlerConfiguration config)
+    : handler(handler), config(config)
 {
 
 }
 
 QString HandlerData::getContextRoot() const
 {
-    QString contextPath = Utils::getSettings().value(settingsGroup + "/" + PluginSettings::PLUGIN_CONTEXT_ROOT).toString();
+    QString contextPath = config.getContextRoot();
 
     if(contextPath.startsWith("/")) {
         return contextPath;

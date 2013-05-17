@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QMap>
 #include <QString>
+#include <QVariant>
 
 namespace SJ {
 class HandlerConfiguration
@@ -29,20 +30,21 @@ class HandlerConfiguration
 
 public:
     HandlerConfiguration();
-    HandlerConfiguration(const QString & name, const QString & description, const QString & contextRoot, const QString & filePath, const QMap<QString, QString> & initParams);
+    HandlerConfiguration(const QString & name, const QString & description, const QString & contextRoot,
+                         const QString & filePath, const QMap<QString, QVariant> & initParams);
 
-    QString getName() { return name; }
-    QString getDescription() { return description; }
-    QString getContextRoot() { return contextRoot; }
-    QString getFilePath() { return filePath; }
-    QMap<QString, QString> getInitParams() { return initParams; }
+    QString getName() const { return name; }
+    QString getDescription() const { return description; }
+    QString getContextRoot() const { return contextRoot; }
+    QString getFilePath() const { return filePath; }
+    const QMap<QString, QVariant> & getInitParams() const { return initParams; }
 
 protected:
     QString name;
     QString description;
     QString contextRoot;
     QString filePath;
-    QMap<QString, QString> initParams;
+    QMap<QString, QVariant> initParams;
 };
 }
 #endif // HANDLERCONFIGURATION_H
