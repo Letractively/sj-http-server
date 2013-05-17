@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://sj-http-server.googlecode.com/server ../etc/sj-http-server.xsd">
 	<listen-interface>localhost</listen-interface>
         <listen-port>9090</listen-port>
-        <www-path>../www/</www-path>123
+        <www-path>../www/</www-path>
         <!--
         <handlers>
 		<handler>

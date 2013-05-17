@@ -84,7 +84,7 @@ XmlConfigurationParser::XmlConfigurationParser(XmlConfigurationProvider * provid
 
 
 bool XmlConfigurationParser::startElement(const QString &namespaceURI, const QString &localName,
-                                              const QString &/*qName*/, const QXmlAttributes &atts)
+                                              const QString &/*qName*/, const QXmlAttributes & /*atts*/)
 {
     chars = "";
     if(namespaceURI != NS) {
@@ -111,7 +111,7 @@ bool XmlConfigurationParser::startElement(const QString &namespaceURI, const QSt
         }
         break;
 
-    case STATE_LISTEN_INTERFACE:
+    case STATE_LISTEN_INTERFACE_DONE:
         if(localName == ELEMENT_LISTEN_PORT) {
             state = STATE_LISTEN_PORT;
         } else {
@@ -120,17 +120,27 @@ bool XmlConfigurationParser::startElement(const QString &namespaceURI, const QSt
         }
         break;
 
-    case STATE_LISTEN_PORT:
-        if(localName == ELEMENT_LISTEN_PORT) {
+    case STATE_LISTEN_PORT_DONE:
+        if(localName == ELEMENT_WWW_PATH) {
             state = STATE_WWW_PATH;
         } else {
-            errorInfo = "expected [" + ELEMENT_LISTEN_PORT + "]  but got [" + localName + "]";
+            errorInfo = "expected [" + ELEMENT_WWW_PATH + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    default:
-        //TODO finish implementation
+
+    case STATE_WWW_PATH_DONE:
+        if(localName == ELEMENT_HANDLERS) {
+            state = STATE_HANDLERS;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLERS + "]  but got [" + localName + "]";
+            return false;
+        }
         break;
+
+    default:
+        errorInfo = "unexpected start of element [" + localName + "]";
+        return false;
         }
     return true;
 }
@@ -154,39 +164,14 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         if(localName == ELEMENT_SERVER_CONF) {
             state = STATE_DONE;
         } else {
-            errorInfo = "expected [" + ELEMENT_SERVER_CONF + "]  but got [" + localName + "]";
-            return false;
-        }
-        break;
-
-    case STATE_WWW_PATH:
-        if(localName == ELEMENT_WWW_PATH) {
-            state = STATE_SERVER_CONF;
-            provider->wwwPath = chars;
-        } else {
-            errorInfo = "expected [" + ELEMENT_WWW_PATH + "]  but got [" + localName + "]";
-            return false;
-        }
-        break;
-
-    case STATE_LISTEN_PORT:
-        if(localName == ELEMENT_LISTEN_PORT) {
-            state = STATE_WWW_PATH;
-            QVariant v(chars);
-            bool ok = false;
-            provider->listenPort=v.toInt(&ok);
-            if(!ok) {
-                errorInfo = "Unable to set port to [" + chars + "]";
-                return false;
-            }
-        } else {
-            errorInfo = "expected [" + ELEMENT_LISTEN_PORT + "]  but got [" + localName + "]";
+            errorInfo = "expected end of [" + ELEMENT_SERVER_CONF + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
     case STATE_LISTEN_INTERFACE:
         if(localName == ELEMENT_LISTEN_INTERFACE) {
+            state = STATE_LISTEN_INTERFACE_DONE;
             QHostAddress host;
             if(chars == "any") {
                 host = QHostAddress::Any;
@@ -201,11 +186,50 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
             }
             provider->listenInterface = host;
         } else {
-            errorInfo = "expected [" + ELEMENT_LISTEN_INTERFACE + "]  but got [" + localName + "]";
+            errorInfo = "expected end of [" + ELEMENT_LISTEN_INTERFACE + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
+    case STATE_LISTEN_PORT:
+        if(localName == ELEMENT_LISTEN_PORT) {
+            state = STATE_LISTEN_PORT_DONE;
+            QVariant v(chars);
+            bool ok = false;
+            provider->listenPort=v.toInt(&ok);
+            if(!ok) {
+                errorInfo = "Unable to set port to [" + chars + "]";
+                return false;
+            }
+        } else {
+            errorInfo = "expected end of [" + ELEMENT_LISTEN_PORT + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_WWW_PATH:
+        if(localName == ELEMENT_WWW_PATH) {
+            state = STATE_WWW_PATH_DONE;
+            provider->wwwPath = chars;
+        } else {
+            errorInfo = "expected end of [" + ELEMENT_WWW_PATH + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_WWW_PATH_DONE:
+        if(localName == ELEMENT_SERVER_CONF) {
+            state = STATE_DONE;
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+
+    default:
+        errorInfo = "unexpected end of element [" + localName + "]";
+        return false;
     }
     return true;
 }

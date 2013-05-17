@@ -88,11 +88,30 @@ private: // constants;
     static const QString ELEMENT_HANDLER_PARAM_VALUE;
 
 private: // state machine
-    enum State {STATE_IDLE, STATE_SERVER_CONF, STATE_LISTEN_INTERFACE, STATE_LISTEN_PORT,
-                STATE_WWW_PATH, STATE_HANDLERS, STATE_HANDLER, STATE_HANDLER_NAME,
-                STATE_HANDLER_DESCRIPTION, STATE_HANDLER_CONTEXT_ROOT, STATE_HANDLER_FILE_PATH,
-                STATE_HANDLER_PARAMS, STATE_HANDLER_PARAM, STATE_HANDLER_PARAM_NAME,
-                STATE_HANDLER_PARAM_VALUE, STATE_DONE};
+    enum State {STATE_IDLE,
+                STATE_SERVER_CONF,
+                STATE_LISTEN_INTERFACE,
+                STATE_LISTEN_INTERFACE_DONE,
+                STATE_LISTEN_PORT,
+                STATE_LISTEN_PORT_DONE,
+                STATE_WWW_PATH,
+                STATE_WWW_PATH_DONE,
+                STATE_HANDLERS,
+                STATE_HANDLER,
+                STATE_HANDLER_NAME,
+                STATE_HANDLER_NAME_DONE,
+                STATE_HANDLER_DESCRIPTION,
+                STATE_HANDLER_DESCRIPTION_DONE,
+                STATE_HANDLER_CONTEXT_ROOT,
+                STATE_HANDLER_CONTEXT_ROOT_DONE,
+                STATE_HANDLER_FILE_PATH,
+                STATE_HANDLER_FILE_PATH_DONE,
+                STATE_HANDLER_PARAMS,
+                STATE_HANDLER_PARAM,
+                STATE_HANDLER_PARAM_NAME,
+                STATE_HANDLER_PARAM_NAME_DONE,
+                STATE_HANDLER_PARAM_VALUE,
+                STATE_DONE};
     State state;
 };
 
