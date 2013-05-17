@@ -62,7 +62,7 @@ private: //fields
     AbstractAppender * currentAppender;
     QString currentAppenderType;
     QString currentPropertyName;
-
+    QString chars;
 
     QMap<QString, Logger *> & loggers;
     QString errorInfo;
