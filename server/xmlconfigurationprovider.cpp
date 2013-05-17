@@ -138,6 +138,89 @@ bool XmlConfigurationParser::startElement(const QString &namespaceURI, const QSt
         }
         break;
 
+    case STATE_HANDLERS:
+    case STATE_HANDLER_DONE:
+        if(localName == ELEMENT_HANDLER) {
+            state = STATE_HANDLER;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER:
+        if(localName == ELEMENT_HANDLER_NAME) {
+            state = STATE_HANDLER_NAME;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_NAME + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_NAME_DONE:
+        if(localName == ELEMENT_HANDLER_DESCRIPTION) {
+            state = STATE_HANDLER_DESCRIPTION;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_DESCRIPTION + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_DESCRIPTION_DONE:
+        if(localName == ELEMENT_HANDLER_CONTEXT_ROOT) {
+            state = STATE_HANDLER_CONTEXT_ROOT;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_CONTEXT_ROOT + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_CONTEXT_ROOT_DONE:
+        if(localName == ELEMENT_HANDLER_FILE_PATH) {
+            state = STATE_HANDLER_FILE_PATH;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_FILE_PATH + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_FILE_PATH_DONE:
+        if(localName == ELEMENT_HANDLER_PARAMS) {
+            state = STATE_HANDLER_PARAMS;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_PARAMS + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAMS:
+    case STATE_HANDLER_PARAM_DONE:
+        if(localName == ELEMENT_HANDLER_PARAM) {
+            state = STATE_HANDLER_PARAM;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_PARAM + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAM:
+        if(localName == ELEMENT_HANDLER_PARAM_NAME) {
+            state = STATE_HANDLER_PARAM_NAME;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_PARAM_NAME + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAM_NAME_DONE:
+        if(localName == ELEMENT_HANDLER_PARAM_VALUE) {
+            state = STATE_HANDLER_PARAM_VALUE;
+        } else {
+            errorInfo = "expected [" + ELEMENT_HANDLER_PARAM_VALUE + "]  but got [" + localName + "]";
+            return false;
+        }
+        break;
+
     default:
         errorInfo = "unexpected start of element [" + localName + "]";
         return false;
@@ -226,6 +309,125 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
+    case STATE_HANDLER_NAME:
+        if(localName == ELEMENT_HANDLER_NAME) {
+            state = STATE_HANDLER_NAME_DONE;
+            //TODO
+            LOG_DEBUG(logger, LogBuilder("handler name ").append(chars));
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_DESCRIPTION:
+        if(localName == ELEMENT_HANDLER_DESCRIPTION) {
+            state = STATE_HANDLER_DESCRIPTION_DONE;
+            //TODO
+            LOG_DEBUG(logger, LogBuilder("handler description ").append(chars));
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_CONTEXT_ROOT:
+        if(localName == ELEMENT_HANDLER_CONTEXT_ROOT) {
+            state = STATE_HANDLER_CONTEXT_ROOT_DONE;
+            //TODO
+            LOG_DEBUG(logger, LogBuilder("handler context root ").append(chars));
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_FILE_PATH:
+        if(localName == ELEMENT_HANDLER_FILE_PATH) {
+            state = STATE_HANDLER_FILE_PATH_DONE;
+            //TODO
+            LOG_DEBUG(logger, LogBuilder("handler file path ").append(chars));
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_FILE_PATH_DONE:
+        if(localName == ELEMENT_HANDLER) {
+            state = STATE_HANDLER_DONE;
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_DONE:
+        if(localName == ELEMENT_HANDLERS) {
+            state = STATE_HANDLERS_DONE;
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLERS_DONE:
+        if(localName == ELEMENT_SERVER_CONF) {
+            state = STATE_DONE;
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAM_NAME:
+        if(localName == ELEMENT_HANDLER_PARAM_NAME) {
+            state = STATE_HANDLER_PARAM_NAME_DONE;
+            //TODO
+            LOG_DEBUG(logger, LogBuilder("handler param name ").append(chars));
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAM_VALUE:
+        if(localName == ELEMENT_HANDLER_PARAM_VALUE) {
+            state = STATE_HANDLER_PARAM_VALUE_DONE;
+            //TODO
+            LOG_DEBUG(logger, LogBuilder("handler param value ").append(chars));
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAM_VALUE_DONE:
+        if(localName == ELEMENT_HANDLER_PARAM) {
+            state = STATE_HANDLER_PARAM_DONE;
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAM_DONE:
+        if(localName == ELEMENT_HANDLER_PARAMS) {
+            state = STATE_HANDLER_PARAMS_DONE;
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
+
+    case STATE_HANDLER_PARAMS_DONE:
+        if(localName == ELEMENT_HANDLER) {
+            state = STATE_HANDLER_DONE;
+        } else {
+            errorInfo = "unexpected end of [" + localName + "]";
+            return false;
+        }
+        break;
 
     default:
         errorInfo = "unexpected end of element [" + localName + "]";

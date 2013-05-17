@@ -97,7 +97,9 @@ private: // state machine
                 STATE_WWW_PATH,
                 STATE_WWW_PATH_DONE,
                 STATE_HANDLERS,
+                STATE_HANDLERS_DONE,
                 STATE_HANDLER,
+                STATE_HANDLER_DONE,
                 STATE_HANDLER_NAME,
                 STATE_HANDLER_NAME_DONE,
                 STATE_HANDLER_DESCRIPTION,
@@ -107,10 +109,13 @@ private: // state machine
                 STATE_HANDLER_FILE_PATH,
                 STATE_HANDLER_FILE_PATH_DONE,
                 STATE_HANDLER_PARAMS,
+                STATE_HANDLER_PARAMS_DONE,
                 STATE_HANDLER_PARAM,
+                STATE_HANDLER_PARAM_DONE,
                 STATE_HANDLER_PARAM_NAME,
                 STATE_HANDLER_PARAM_NAME_DONE,
                 STATE_HANDLER_PARAM_VALUE,
+                STATE_HANDLER_PARAM_VALUE_DONE,
                 STATE_DONE};
     State state;
 };
