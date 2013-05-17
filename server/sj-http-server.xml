@@ -2,9 +2,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://sj-http-server.googlecode.com/server ../etc/sj-http-server.xsd">
 	<listen-interface>localhost</listen-interface>
-	<listen-port>9090</listen-port>
-	<www-path>../www/</www-path>
-	<handlers>
+        <listen-port>9090</listen-port>
+        <www-path>../www/</www-path>123
+        <!--
+        <handlers>
 		<handler>
 			<name>Fortune Teller</name>
 			<description>Presents a random Fortune Cookie Quote.</description>
@@ -24,5 +25,6 @@
 			</init-params>
 		</handler>
 	</handlers>
+        -->
 </server-conf>
 

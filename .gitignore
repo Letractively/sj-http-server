@@ -8,5 +8,6 @@ work
 server/ui_maindialog.h
 .project
 tst_*
-*.pro.user
+*.pro.user*
+git_push_all.sh
 

@@ -30,11 +30,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <signal.h>
 
 #include "configurationprovider.h"
+#include "xmlconfigurationprovider.h"
 #include "mockconfigurationprovider.h"
 
 using namespace SJ;
 
-static void initConfiguration();
+static bool initConfiguration();
 static void signalHandler(int signal);
 static void close();
 static QString copyrightNote();
@@ -47,9 +48,12 @@ int main(int argc, char *argv[])
     signal(SIGINT, signalHandler);
 
     QCoreApplication a(argc, argv);
-    initConfiguration();
+    LOG_INFO(logger, copyrightNote());
 
-    LOG_INFO(logger,copyrightNote());
+    if(!initConfiguration()) {
+        LOG_ERROR(logger, "Error while loading server configuration, exiting...");
+        exit(1);
+    }
 
     server = new HttpServer;
     bool started = server->listen(ConfigurationProvider::getInstance()->getListenInterface(),
@@ -66,9 +70,11 @@ int main(int argc, char *argv[])
 }
 
 
-void initConfiguration()
+bool initConfiguration()
 {
-    new MockConfigurationProvider();
+//    new MockConfigurationProvider;
+    new XmlConfigurationProvider();
+    return ConfigurationProvider::getInstance()->loaded();
 }
 
 void close() {

@@ -65,7 +65,3 @@
 
 </xs:schema>
 
-<!--<sj:loggers xmlns:sj="http://sj-http-server.googlecode.com/logger"> <sj:logger 
-	name="sj-server-logger" level="DEBUG"> <sj:appenders> <sj:appender type="console"/> 
-	<sj:appender type="file"> <sj:appenderParam name="filename">../work/logs/sjserver.log</sj:appenderParam> 
-	</sj:appender> </sj:appenders> </sj:logger> -->

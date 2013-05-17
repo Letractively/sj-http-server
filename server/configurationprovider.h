@@ -37,6 +37,7 @@ public:
     int getListenPort() const;
     QString getWwwPath() const;
     QList<HandlerConfiguration> getHandlers() const;
+    virtual bool loaded() const;
 
 protected:
     ConfigurationProvider();
