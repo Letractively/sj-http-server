@@ -70,6 +70,13 @@ private: //fields
     QString errorInfo;
     static Logger & logger;
 
+    QString currentHandlerName;
+    QString currentHandlerDescription;
+    QString currentHandlerContextRoot;
+    QString currentHandlerFilePath;
+    QMap<QString, QVariant> currentParams;
+    QString currentParamName;
+
 private: // constants;
     static const QString NS;
     static const QString ELEMENT_SERVER_CONF;

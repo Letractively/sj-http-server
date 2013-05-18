@@ -45,6 +45,7 @@ protected:
     QString contextRoot;
     QString filePath;
     QMap<QString, QVariant> initParams;
+
 };
 }
 #endif // HANDLERCONFIGURATION_H

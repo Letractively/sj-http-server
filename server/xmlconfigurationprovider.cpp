@@ -79,7 +79,7 @@ bool XmlConfigurationProvider::loaded() const {
 XmlConfigurationParser::XmlConfigurationParser(XmlConfigurationProvider * provider)
     : provider(provider), state(STATE_IDLE)
 {
-
+    resetCurrentVariables();
 }
 
 
@@ -197,6 +197,7 @@ bool XmlConfigurationParser::startElement(const QString &namespaceURI, const QSt
     case STATE_HANDLER_PARAM_DONE:
         if(localName == ELEMENT_HANDLER_PARAM) {
             state = STATE_HANDLER_PARAM;
+            currentParamName = "";
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_PARAM + "]  but got [" + localName + "]";
             return false;
@@ -312,8 +313,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_NAME:
         if(localName == ELEMENT_HANDLER_NAME) {
             state = STATE_HANDLER_NAME_DONE;
-            //TODO
-            LOG_DEBUG(logger, LogBuilder("handler name ").append(chars));
+            currentHandlerName = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -323,8 +323,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_DESCRIPTION:
         if(localName == ELEMENT_HANDLER_DESCRIPTION) {
             state = STATE_HANDLER_DESCRIPTION_DONE;
-            //TODO
-            LOG_DEBUG(logger, LogBuilder("handler description ").append(chars));
+            currentHandlerDescription = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -334,8 +333,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_CONTEXT_ROOT:
         if(localName == ELEMENT_HANDLER_CONTEXT_ROOT) {
             state = STATE_HANDLER_CONTEXT_ROOT_DONE;
-            //TODO
-            LOG_DEBUG(logger, LogBuilder("handler context root ").append(chars));
+            currentHandlerContextRoot = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -345,8 +343,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_FILE_PATH:
         if(localName == ELEMENT_HANDLER_FILE_PATH) {
             state = STATE_HANDLER_FILE_PATH_DONE;
-            //TODO
-            LOG_DEBUG(logger, LogBuilder("handler file path ").append(chars));
+            currentHandlerFilePath = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -356,6 +353,11 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_FILE_PATH_DONE:
         if(localName == ELEMENT_HANDLER) {
             state = STATE_HANDLER_DONE;
+            HandlerConfiguration handler = HandlerConfiguration(currentHandlerName, currentHandlerDescription,
+                                                                currentHandlerContextRoot, currentHandlerFilePath,
+                                                                currentParams);
+            provider->handlers.push_back(handler);
+            resetCurrentVariables();
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -383,8 +385,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_PARAM_NAME:
         if(localName == ELEMENT_HANDLER_PARAM_NAME) {
             state = STATE_HANDLER_PARAM_NAME_DONE;
-            //TODO
-            LOG_DEBUG(logger, LogBuilder("handler param name ").append(chars));
+            currentParamName = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -394,8 +395,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_PARAM_VALUE:
         if(localName == ELEMENT_HANDLER_PARAM_VALUE) {
             state = STATE_HANDLER_PARAM_VALUE_DONE;
-            //TODO
-            LOG_DEBUG(logger, LogBuilder("handler param value ").append(chars));
+            currentParams.insert(currentParamName, QVariant(chars));
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -423,6 +423,10 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case STATE_HANDLER_PARAMS_DONE:
         if(localName == ELEMENT_HANDLER) {
             state = STATE_HANDLER_DONE;
+            HandlerConfiguration handler = HandlerConfiguration(currentHandlerName, currentHandlerDescription,
+                                                                currentHandlerContextRoot, currentHandlerFilePath,
+                                                                currentParams);
+            provider->handlers.push_back(handler);
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -459,6 +463,16 @@ bool XmlConfigurationParser::characters(const QString &ch)
         }
     }
     return true;
+}
+
+void XmlConfigurationParser::resetCurrentVariables()
+{
+    currentHandlerName = "";
+    currentHandlerDescription = "";
+    currentHandlerContextRoot = "";
+    currentHandlerFilePath = "";
+    currentParams.clear();
+    currentParamName = "";
 }
 
 bool XmlConfigurationParser::error ( const QXmlParseException & exception )

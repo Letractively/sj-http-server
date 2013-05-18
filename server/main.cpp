@@ -31,7 +31,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "configurationprovider.h"
 #include "xmlconfigurationprovider.h"
-#include "mockconfigurationprovider.h"
 
 using namespace SJ;
 
@@ -72,7 +71,6 @@ int main(int argc, char *argv[])
 
 bool initConfiguration()
 {
-//    new MockConfigurationProvider;
     new XmlConfigurationProvider();
     return ConfigurationProvider::getInstance()->loaded();
 }
