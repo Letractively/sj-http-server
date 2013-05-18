@@ -10,4 +10,5 @@ server/ui_maindialog.h
 tst_*
 *.pro.user*
 git_push_all.sh
+count_lines.sh
 
