@@ -37,7 +37,7 @@ public:
     LoggerTest();
 
 private:
-    static const Logger & scLogger;
+    const Logger & scLogger;
     
 private Q_SLOTS:
     void testCase1();
@@ -46,9 +46,8 @@ private Q_SLOTS:
     void testCase4();
 };
 
-const Logger & LoggerTest::scLogger = LoggerFactory::instance().getLogger("scLogger");
-
 LoggerTest::LoggerTest()
+    :scLogger(LoggerFactory::instance().getLogger("scLogger"))
 {
 }
 
