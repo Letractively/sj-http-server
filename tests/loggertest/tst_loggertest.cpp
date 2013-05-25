@@ -89,7 +89,6 @@ void LoggerTest::testCase2()
     logger.info("logger factory can produce loggers :)");
     logger.debug("by default info level is enabled");
     ASSERT(logger.isDebugEnabled() == false);
-    ASSERT(logger.isDebugEnabled() == true);
 
     logger.info(LogBuilder(LoggerFactory::instance().configuredLoggers(), " "));
 }

@@ -1,20 +1,24 @@
 #!/bin/bash
 
 TESTS="loggertest/tst_loggertest httprequesttest/tst_httprequest"
-
 return_code=0
 
-for t in $TESTS 
+for t in $TESTS
 do
-echo "running test [$t]"
-"tests/$t"
-rc=$?
-if [ $rc != 0 ]
-then
-  return_code=$rc
-echo "$return_code 123"
-fi
+  "tests/$t"
+  rc=$?
+  if [ $rc != 0 ]
+  then
+    return_code=$rc
+    echo "FAILED TEST: $t"
+  fi
 done
 
-echo $return_code
+if [ $return_code = 0 ]
+then
+  echo "All tests PASSED"
+else 
+  echo "Some tests FAILED"
+fi
+
 exit $return_code
