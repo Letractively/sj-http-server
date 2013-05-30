@@ -34,7 +34,7 @@ void RequestHandler::init(QMap<QString, QVariant> & /*initParams*/)
 
 }
 
-void RequestHandler::handle(HttpRequest * request, HttpResponse * response) const
+void RequestHandler::handleGet(HttpRequest * request, HttpResponse * response) const
 {
     if(request->getMethod() != HttpRequest::RequestMethod::GET) {
         response->setStatusCode(HttpResponse::StatusCode::SC_NOT_FOUND);

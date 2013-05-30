@@ -31,7 +31,7 @@ public:
     RequestHandler();
     QString name() const { return "DefaultRequestHandler"; }
     void init(QMap<QString, QVariant> & initParams);
-    void handle(HttpRequest *request, HttpResponse * response) const;
+    void handleGet(HttpRequest *request, HttpResponse * response) const;
 private:
     QString WWW_ROOT_PATH;
     QByteArray fromFile(const QString & filePath);

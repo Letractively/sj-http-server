@@ -54,17 +54,11 @@ public:
      */
     virtual void init(QMap<QString, QVariant> & /*initParams*/) {}
 
-    /**
-     * @brief Process an http request and produces a response
-     *
-     * This is the entry point for each request. Handler receives the request and set of configuration entries
-     * (those configured for this handler) and is supposed to return a http response. This is purly virtual function
-     * and needs to be overriden by derived classes.
-     *
-     * @param request http request for which response should be created
-     * @param response http response to return
-     */
-    virtual void handle(HttpRequest * request, HttpResponse * response) const = 0;
+
+    virtual void handleGet(HttpRequest * request, HttpResponse * response) const;
+    virtual void handlePost(HttpRequest * request, HttpResponse * response) const;
+    virtual void handlePut(HttpRequest * request, HttpResponse * response) const;
+    virtual void handleDelete(HttpRequest * request, HttpResponse * response) const;
 
 
     /**
@@ -76,6 +70,9 @@ public:
      * @return handler's name
      */
     virtual QString name() const = 0;
+
+private:
+    void internalHandle(HttpResponse * response) const;
 };
 
 } //namespace SJ

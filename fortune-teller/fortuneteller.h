@@ -40,7 +40,7 @@ class FortuneTeller : public QObject, public AbstractRequestHandler
     Q_PLUGIN_METADATA(IID "sj-http-server.fortune-teller" FILE "fortune-teller.json")
 public:
     QString name() const;
-    void handle(HttpRequest *request, HttpResponse * response) const;
+    void handleGet(HttpRequest *request, HttpResponse * response) const;
 private:
     static QStringList fortunes;
     static bool fortunesSet;

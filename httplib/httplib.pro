@@ -17,7 +17,7 @@ DEFINES += HTTPLIB_LIBRARY
 QMAKE_CXXFLAGS += -std=c++0x
 
 
-SOURCES +=\
+SOURCES += abstractrequesthandler.cpp\
         httpheader.cpp\
         httprequestbinaryfile.cpp
 
