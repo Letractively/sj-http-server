@@ -37,7 +37,7 @@ void RequestHandler::init(QMap<QString, QVariant> & /*initParams*/)
 //    WWW_ROOT_PATH = "../www/";
 }
 
-void RequestHandler::handle(HttpRequest * request, HttpResponse * response) const
+void RequestHandler::handleGet(HttpRequest * request, HttpResponse * response) const
 {
     if(request->getMethod() != HttpRequest::GET) {
         response->setStatusCode(HttpResponse::SC_NOT_FOUND);

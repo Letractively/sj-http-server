@@ -205,7 +205,25 @@ void RequestProcessingThread::processRequest() {
         LOG_DEBUG(httpLogger, lb.toString());
     }
     HttpResponseImpl * response = new HttpResponseImpl(request->getRequestID());
-    handler->handle(request, response);
+
+    switch(request->getMethod()) {
+        case HttpRequest::GET:
+            handler->handleGet(request, response);
+            break;
+    case HttpRequest::POST:
+        handler->handlePost(request, response);
+        break;
+    case HttpRequest::PUT:
+        handler->handlePut(request, response);
+        break;
+    case HttpRequest::DELETE:
+        handler->handleDelete(request, response);
+        break;
+    default:
+        response->setStatusCode(HttpResponse::SC_BAD_REQUEST);
+        break;
+    }
+
     response->writeToSocket(socket);
     delete response;
     delete request;
