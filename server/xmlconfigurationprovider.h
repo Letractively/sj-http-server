@@ -95,7 +95,7 @@ private: // constants;
     static const QString ELEMENT_HANDLER_PARAM_VALUE;
 
 private: // state machine
-    enum State {STATE_IDLE,
+    enum class State {STATE_IDLE,
                 STATE_SERVER_CONF,
                 STATE_LISTEN_INTERFACE,
                 STATE_LISTEN_INTERFACE_DONE,

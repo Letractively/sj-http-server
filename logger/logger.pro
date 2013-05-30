@@ -10,6 +10,8 @@ QT       += xml
 TARGET = logger
 TEMPLATE = lib
 VERSION = 0.3
+QMAKE_CXXFLAGS += -std=c++0x
+
 
 
 DEFINES += LOGGER_LIBRARY

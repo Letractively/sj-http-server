@@ -42,7 +42,7 @@ public:
     /**
      * @brief Method of the request, as defined in RFC 2616 sections 9.2 - 9.9
      */
-    enum RequestMethod {OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT};
+    enum class RequestMethod {OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT};
 
     /**
      * @brief Returns a relative URI of a resource

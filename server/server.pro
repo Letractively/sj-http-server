@@ -10,6 +10,9 @@ VERSION = 0.3
 TARGET = sj-http-server
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=c++0x
+
+
 SOURCES += main.cpp\
     httpserver.cpp \
     requestprocessingthread.cpp \
@@ -27,7 +30,6 @@ SOURCES += main.cpp\
 HEADERS  += \
     httpserver.h \
     requestprocessingthread.h \
-    settingsconstants.h \
     requesthandler.h \
     handlermanager.h \
     handlerdata.h \

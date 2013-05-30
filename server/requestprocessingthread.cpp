@@ -21,7 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "requestprocessingthread.h"
 #include "httpresponse.h"
 #include "httpresponseimpl.h"
-#include "settingsconstants.h"
 #include "abstractrequesthandler.h"
 #include "handlermanager.h"
 #include "serverutils.h"

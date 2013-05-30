@@ -12,6 +12,8 @@ QT       -= gui
 TARGET = tst_loggertest
 CONFIG   += console
 CONFIG   -= app_bundle
+QMAKE_CXXFLAGS += -std=c++0x
+
 
 TEMPLATE = app
 

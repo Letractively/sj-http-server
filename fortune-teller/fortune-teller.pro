@@ -12,6 +12,8 @@ VERSION = 0.3
 
 CONFIG += plugin
 
+QMAKE_CXXFLAGS += -std=c++0x
+
 
 SOURCES += fortuneteller.cpp
 

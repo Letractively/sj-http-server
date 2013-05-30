@@ -39,14 +39,14 @@ void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response, QSe
 
 
     switch(request->getMethod()) {
-    case HttpRequest::GET:
+    case HttpRequest::RequestMethod::GET:
     {
         LOG_TRACE(logger, "GET method - returning upload form");
         QByteArray a = getFormBytes(request->getRequestUri());
         response->writeData(a);
         return;
     }
-    case HttpRequest::POST:
+    case HttpRequest::RequestMethod::POST:
     {
         LOG_TRACE(logger, "POST method - reading posted data");
         handlePostData(request, response, settings->value(ImgGal::SETTING_TMP_DIR).toString());
@@ -54,9 +54,8 @@ void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response, QSe
     }
 
     default:
-        LOG_WARN(logger, LogBuilder("Unsupported method [")
-                 .append(request->getMethod()).append("] called, ignoring").toString());
-        response->setStatusCode(HttpResponse::SC_BAD_REQUEST);
+        LOG_WARN(logger, LogBuilder("Unsupported method called, ignoring").toString());
+        response->setStatusCode(HttpResponse::StatusCode::SC_BAD_REQUEST);
         break;
     }
 }

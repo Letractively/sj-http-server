@@ -48,4 +48,18 @@ QHostAddress Utils::createAddress(QString interface)
     return QHostAddress(interface);
 }
 
+QString Utils::requestMethodToString(HttpRequest::RequestMethod method) {
+    switch(method) {
+    case HttpRequest::RequestMethod::GET: return "GET";
+    case HttpRequest::RequestMethod::POST: return "POST";
+    case HttpRequest::RequestMethod::OPTIONS: return "OPTIONS";
+    case HttpRequest::RequestMethod::HEAD: return "HEAD";
+    case HttpRequest::RequestMethod::CONNECT: return "CONNECT";
+    case HttpRequest::RequestMethod::PUT: return "PUT";
+    case HttpRequest::RequestMethod::DELETE: return "DELETE";
+    case HttpRequest::RequestMethod::TRACE: return "TRACE";
+    }
+    return "";
+}
+
 } //namespace SJ

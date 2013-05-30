@@ -7,6 +7,7 @@ QT       -= gui
 TARGET = tst_httprequest
 CONFIG   += console
 CONFIG   -= app_bundle
+QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = app
 

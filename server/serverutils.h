@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
 #include <QHostAddress>
+#include "httprequest.h"
 
 namespace SJ {
 
@@ -32,6 +33,7 @@ public:
     static QString substring(const QString & str, int beginIndex, int endIndex = -1);
     static QString version() { return "0.3"; }
     static QHostAddress createAddress(QString interface);
+    static QString requestMethodToString(HttpRequest::RequestMethod method);
 
 };
 

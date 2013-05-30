@@ -85,7 +85,7 @@ private: // constants;
     static const QString ATTRIBUTE_APPENDER_PARAM_NAME;
 
 private: //state machine
-    enum State {STATE_IDLE, STATE_LOGGERS, STATE_LOGGER, STATE_APPENDERS, STATE_APPENDER,
+    enum class State {STATE_IDLE, STATE_LOGGERS, STATE_LOGGER, STATE_APPENDERS, STATE_APPENDER,
                 STATE_APPENDER_PARAM, STATE_DONE};
     State state;
 

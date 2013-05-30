@@ -33,7 +33,7 @@ ErrorWebHandler::~ErrorWebHandler()
 void ErrorWebHandler::handle(HttpRequest * /*request*/, HttpResponse * response,
                              QSettings::SettingsMap * /*settings*/) const
 {
-    response->setStatusCode(HttpResponse::SC_NOT_FOUND);
+    response->setStatusCode(HttpResponse::StatusCode::SC_NOT_FOUND);
 }
 
 } //namespace SJ

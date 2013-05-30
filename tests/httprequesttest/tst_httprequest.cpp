@@ -54,7 +54,7 @@ void HttpRequestTest::testCase1()
     TcpSocketMock * socket = new TcpSocketMock(data);
     HttpRequestImpl * request = new HttpRequestImpl(socket);
 
-    ASSERT(request->getMethod() == HttpRequest::GET);
+    ASSERT(request->getMethod() == HttpRequest::RequestMethod::GET);
     ASSERT(request->getHeaderValue("Host") == "localhost:9090");
     ASSERT2(request->getRequestUri() == "/", request->getRequestUri());
     ASSERT2(request->getRequestUrl() == "http://localhost:9090/", request->getRequestUrl());

@@ -19,34 +19,31 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "requesthandler.h"
-#include "settingsconstants.h"
-#include "serverutils.h"
 #include "httpresponseimpl.h"
+#include "configurationprovider.h"
 
 namespace SJ {
 
 RequestHandler::RequestHandler()
 {
-//    WWW_ROOT_PATH = Utils::substring(ServerSettings::SETTING_WWW_ROOT_PATH, name().length() + 1);
-    WWW_ROOT_PATH = "../www/";
+    WWW_ROOT_PATH = ConfigurationProvider::getInstance()->getWwwPath();
 }
 
 void RequestHandler::init(QMap<QString, QVariant> & /*initParams*/)
 {
-    //TODO
-//    WWW_ROOT_PATH = "../www/";
+
 }
 
 void RequestHandler::handle(HttpRequest * request, HttpResponse * response) const
 {
-    if(request->getMethod() != HttpRequest::GET) {
-        response->setStatusCode(HttpResponse::SC_NOT_FOUND);
+    if(request->getMethod() != HttpRequest::RequestMethod::GET) {
+        response->setStatusCode(HttpResponse::StatusCode::SC_NOT_FOUND);
         return;
     }
 
 
     if("" == WWW_ROOT_PATH) {
-        response->setStatusCode(HttpResponse::SC_NOT_FOUND);
+        response->setStatusCode(HttpResponse::StatusCode::SC_NOT_FOUND);
         return;
     }
 

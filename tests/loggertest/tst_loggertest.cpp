@@ -61,7 +61,7 @@ void LoggerTest::testCase1()
     QVERIFY(! logger.isWarnEnabled());
     QVERIFY(! logger.isErrorEnabled());
 
-    logger.setLevel(LoggingLevel::ALL);
+    logger.setLevel(LoggingLevel::Level::ALL);
     QVERIFY(logger.isTraceEnabled());
     QVERIFY(logger.isDebugEnabled());
     QVERIFY(logger.isInfoEnabled());
@@ -69,7 +69,7 @@ void LoggerTest::testCase1()
     QVERIFY(logger.isErrorEnabled());
 
 
-    logger.setLevel(LoggingLevel::INFO);
+    logger.setLevel(LoggingLevel::Level::INFO);
     QVERIFY(! logger.isTraceEnabled());
     QVERIFY(! logger.isDebugEnabled());
     QVERIFY(logger.isInfoEnabled());

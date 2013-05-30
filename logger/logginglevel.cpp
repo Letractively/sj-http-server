@@ -25,11 +25,11 @@ namespace SJ {
 QString LoggingLevel::levelToString(Level level)
 {
     switch(level) {
-    case TRACE: return "TRACE";
-    case DEBUG: return "DEBUG";
-    case INFO: return "INFO";
-    case WARN: return "WARN";
-    case ERROR: return "ERROR";
+    case Level::TRACE: return "TRACE";
+    case Level::DEBUG: return "DEBUG";
+    case Level::INFO: return "INFO";
+    case Level::WARN: return "WARN";
+    case Level::ERROR: return "ERROR";
     default: break;
     }
     return "";
@@ -37,13 +37,13 @@ QString LoggingLevel::levelToString(Level level)
 
 LoggingLevel::Level LoggingLevel::stringToLevel(const QString & level)
 {
-    if(level.toUpper() == "TRACE") return TRACE;
-    if(level.toUpper() == "DEBUG") return DEBUG;
-    if(level.toUpper() == "INFO") return INFO;
-    if(level.toUpper() == "WARN") return WARN;
-    if(level.toUpper() == "ERROR") return ERROR;
+    if(level.toUpper() == "TRACE") return Level::TRACE;
+    if(level.toUpper() == "DEBUG") return Level::DEBUG;
+    if(level.toUpper() == "INFO") return Level::INFO;
+    if(level.toUpper() == "WARN") return Level::WARN;
+    if(level.toUpper() == "ERROR") return Level::ERROR;
 
-    return NONE;
+    return Level::NONE;
 
 }
 

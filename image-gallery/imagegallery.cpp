@@ -47,7 +47,7 @@ ImageGallery::~ImageGallery()
     ImageMetadataProvider::getInstance()->flush();
 }
 
-void ImageGallery::init(QMap<QString, QVariant> & initParams)
+void ImageGallery::init(QMap<QString, QVariant> & /* initParams */)
 {
     //TODO read settings
 }
@@ -55,7 +55,7 @@ void ImageGallery::init(QMap<QString, QVariant> & initParams)
 void ImageGallery::handle(HttpRequest * /*req*/, HttpResponse * response) const
 {
     //dispatcher->dispatchRequest(req, settings)->handle(req, response, 0);
-    response->setStatusCode(HttpResponse::SC_NOT_FOUND);
+    response->setStatusCode(HttpResponse::StatusCode::SC_NOT_FOUND);
 }
 
 QString ImageGallery::name() const

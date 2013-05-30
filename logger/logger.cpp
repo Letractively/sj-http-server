@@ -25,7 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 namespace SJ {
 
 Logger::Logger()
-    : logLevel(LoggingLevel::NONE)
+    : logLevel(LoggingLevel::Level::NONE)
 {
 }
 
@@ -38,53 +38,53 @@ Logger::~Logger()
 
 void Logger::trace(const QString & msg, const char * filename, int lineNumber) const
 {
-    doLog(LoggingLevel::TRACE, msg, filename, lineNumber);
+    doLog(LoggingLevel::Level::TRACE, msg, filename, lineNumber);
 }
 
 void Logger::debug(const QString & msg, const char * filename, int lineNumber) const
 {
-    doLog(LoggingLevel::DEBUG, msg, filename, lineNumber);
+    doLog(LoggingLevel::Level::DEBUG, msg, filename, lineNumber);
 }
 
 void Logger::info(const QString & msg, const char * filename, int lineNumber) const
 {
-    doLog(LoggingLevel::INFO, msg, filename, lineNumber);
+    doLog(LoggingLevel::Level::INFO, msg, filename, lineNumber);
 }
 
 void Logger::warn(const QString & msg, const char * filename, int lineNumber) const
 {
-    doLog(LoggingLevel::WARN, msg, filename, lineNumber);
+    doLog(LoggingLevel::Level::WARN, msg, filename, lineNumber);
 }
 
 void Logger::error(const QString & msg, const char * filename, int lineNumber) const
 {
-    doLog(LoggingLevel::ERROR, msg, filename, lineNumber);
+    doLog(LoggingLevel::Level::ERROR, msg, filename, lineNumber);
 }
 
 
 bool Logger::isTraceEnabled() const
 {
-    return isLevelEnabled(LoggingLevel::TRACE);
+    return isLevelEnabled(LoggingLevel::Level::TRACE);
 }
 
 bool Logger::isDebugEnabled() const
 {
-    return isLevelEnabled(LoggingLevel::DEBUG);
+    return isLevelEnabled(LoggingLevel::Level::DEBUG);
 }
 
 bool Logger::isInfoEnabled() const
 {
-    return isLevelEnabled(LoggingLevel::INFO);
+    return isLevelEnabled(LoggingLevel::Level::INFO);
 }
 
 bool Logger::isWarnEnabled() const
 {
-    return isLevelEnabled(LoggingLevel::WARN);
+    return isLevelEnabled(LoggingLevel::Level::WARN);
 }
 
 bool Logger::isErrorEnabled() const
 {
-    return isLevelEnabled(LoggingLevel::ERROR);
+    return isLevelEnabled(LoggingLevel::Level::ERROR);
 }
 
 

@@ -77,7 +77,7 @@ bool XmlConfigurationProvider::loaded() const {
 }
 
 XmlConfigurationParser::XmlConfigurationParser(XmlConfigurationProvider * provider)
-    : provider(provider), state(STATE_IDLE)
+    : provider(provider), state(State::STATE_IDLE)
 {
     resetCurrentVariables();
 }
@@ -93,110 +93,110 @@ bool XmlConfigurationParser::startElement(const QString &namespaceURI, const QSt
     }
 
     switch(state) {
-    case STATE_IDLE:
+    case State::STATE_IDLE:
         if(localName == ELEMENT_SERVER_CONF) {
-            state = STATE_SERVER_CONF;
+            state = State::STATE_SERVER_CONF;
         } else {
             errorInfo = "expected [" + ELEMENT_SERVER_CONF + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_SERVER_CONF:
+    case State::STATE_SERVER_CONF:
         if(localName == ELEMENT_LISTEN_INTERFACE) {
-            state = STATE_LISTEN_INTERFACE;
+            state = State::STATE_LISTEN_INTERFACE;
         } else {
             errorInfo = "expected [" + ELEMENT_LISTEN_INTERFACE + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_LISTEN_INTERFACE_DONE:
+    case State::STATE_LISTEN_INTERFACE_DONE:
         if(localName == ELEMENT_LISTEN_PORT) {
-            state = STATE_LISTEN_PORT;
+            state = State::STATE_LISTEN_PORT;
         } else {
             errorInfo = "expected [" + ELEMENT_LISTEN_PORT + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_LISTEN_PORT_DONE:
+    case State::STATE_LISTEN_PORT_DONE:
         if(localName == ELEMENT_WWW_PATH) {
-            state = STATE_WWW_PATH;
+            state = State::STATE_WWW_PATH;
         } else {
             errorInfo = "expected [" + ELEMENT_WWW_PATH + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_WWW_PATH_DONE:
+    case State::STATE_WWW_PATH_DONE:
         if(localName == ELEMENT_HANDLERS) {
-            state = STATE_HANDLERS;
+            state = State::STATE_HANDLERS;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLERS + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLERS:
-    case STATE_HANDLER_DONE:
+    case State::STATE_HANDLERS:
+    case State::STATE_HANDLER_DONE:
         if(localName == ELEMENT_HANDLER) {
-            state = STATE_HANDLER;
+            state = State::STATE_HANDLER;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER:
+    case State::STATE_HANDLER:
         if(localName == ELEMENT_HANDLER_NAME) {
-            state = STATE_HANDLER_NAME;
+            state = State::STATE_HANDLER_NAME;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_NAME + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_NAME_DONE:
+    case State::STATE_HANDLER_NAME_DONE:
         if(localName == ELEMENT_HANDLER_DESCRIPTION) {
-            state = STATE_HANDLER_DESCRIPTION;
+            state = State::STATE_HANDLER_DESCRIPTION;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_DESCRIPTION + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_DESCRIPTION_DONE:
+    case State::STATE_HANDLER_DESCRIPTION_DONE:
         if(localName == ELEMENT_HANDLER_CONTEXT_ROOT) {
-            state = STATE_HANDLER_CONTEXT_ROOT;
+            state = State::STATE_HANDLER_CONTEXT_ROOT;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_CONTEXT_ROOT + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_CONTEXT_ROOT_DONE:
+    case State::STATE_HANDLER_CONTEXT_ROOT_DONE:
         if(localName == ELEMENT_HANDLER_FILE_PATH) {
-            state = STATE_HANDLER_FILE_PATH;
+            state = State::STATE_HANDLER_FILE_PATH;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_FILE_PATH + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_FILE_PATH_DONE:
+    case State::STATE_HANDLER_FILE_PATH_DONE:
         if(localName == ELEMENT_HANDLER_PARAMS) {
-            state = STATE_HANDLER_PARAMS;
+            state = State::STATE_HANDLER_PARAMS;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_PARAMS + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_PARAMS:
-    case STATE_HANDLER_PARAM_DONE:
+    case State::STATE_HANDLER_PARAMS:
+    case State::STATE_HANDLER_PARAM_DONE:
         if(localName == ELEMENT_HANDLER_PARAM) {
-            state = STATE_HANDLER_PARAM;
+            state = State::STATE_HANDLER_PARAM;
             currentParamName = "";
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_PARAM + "]  but got [" + localName + "]";
@@ -204,18 +204,18 @@ bool XmlConfigurationParser::startElement(const QString &namespaceURI, const QSt
         }
         break;
 
-    case STATE_HANDLER_PARAM:
+    case State::STATE_HANDLER_PARAM:
         if(localName == ELEMENT_HANDLER_PARAM_NAME) {
-            state = STATE_HANDLER_PARAM_NAME;
+            state = State::STATE_HANDLER_PARAM_NAME;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_PARAM_NAME + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_PARAM_NAME_DONE:
+    case State::STATE_HANDLER_PARAM_NAME_DONE:
         if(localName == ELEMENT_HANDLER_PARAM_VALUE) {
-            state = STATE_HANDLER_PARAM_VALUE;
+            state = State::STATE_HANDLER_PARAM_VALUE;
         } else {
             errorInfo = "expected [" + ELEMENT_HANDLER_PARAM_VALUE + "]  but got [" + localName + "]";
             return false;
@@ -239,23 +239,23 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     }
 
     switch(state) {
-    case STATE_IDLE:
-    case STATE_DONE:
+    case State::STATE_IDLE:
+    case State::STATE_DONE:
         errorInfo = "unexpected end of element [" + localName + "]";
         return false;
 
-    case STATE_SERVER_CONF:
+    case State::STATE_SERVER_CONF:
         if(localName == ELEMENT_SERVER_CONF) {
-            state = STATE_DONE;
+            state = State::STATE_DONE;
         } else {
             errorInfo = "expected end of [" + ELEMENT_SERVER_CONF + "]  but got [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_LISTEN_INTERFACE:
+    case State::STATE_LISTEN_INTERFACE:
         if(localName == ELEMENT_LISTEN_INTERFACE) {
-            state = STATE_LISTEN_INTERFACE_DONE;
+            state = State::STATE_LISTEN_INTERFACE_DONE;
             QHostAddress host;
             if(chars == "any") {
                 host = QHostAddress::Any;
@@ -275,9 +275,9 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_LISTEN_PORT:
+    case State::STATE_LISTEN_PORT:
         if(localName == ELEMENT_LISTEN_PORT) {
-            state = STATE_LISTEN_PORT_DONE;
+            state = State::STATE_LISTEN_PORT_DONE;
             QVariant v(chars);
             bool ok = false;
             provider->listenPort=v.toInt(&ok);
@@ -291,9 +291,9 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_WWW_PATH:
+    case State::STATE_WWW_PATH:
         if(localName == ELEMENT_WWW_PATH) {
-            state = STATE_WWW_PATH_DONE;
+            state = State::STATE_WWW_PATH_DONE;
             provider->wwwPath = chars;
         } else {
             errorInfo = "expected end of [" + ELEMENT_WWW_PATH + "]  but got [" + localName + "]";
@@ -301,18 +301,18 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_WWW_PATH_DONE:
+    case State::STATE_WWW_PATH_DONE:
         if(localName == ELEMENT_SERVER_CONF) {
-            state = STATE_DONE;
+            state = State::STATE_DONE;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_NAME:
+    case State::STATE_HANDLER_NAME:
         if(localName == ELEMENT_HANDLER_NAME) {
-            state = STATE_HANDLER_NAME_DONE;
+            state = State::STATE_HANDLER_NAME_DONE;
             currentHandlerName = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
@@ -320,9 +320,9 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_HANDLER_DESCRIPTION:
+    case State::STATE_HANDLER_DESCRIPTION:
         if(localName == ELEMENT_HANDLER_DESCRIPTION) {
-            state = STATE_HANDLER_DESCRIPTION_DONE;
+            state = State::STATE_HANDLER_DESCRIPTION_DONE;
             currentHandlerDescription = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
@@ -330,9 +330,9 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_HANDLER_CONTEXT_ROOT:
+    case State::STATE_HANDLER_CONTEXT_ROOT:
         if(localName == ELEMENT_HANDLER_CONTEXT_ROOT) {
-            state = STATE_HANDLER_CONTEXT_ROOT_DONE;
+            state = State::STATE_HANDLER_CONTEXT_ROOT_DONE;
             currentHandlerContextRoot = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
@@ -340,9 +340,9 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_HANDLER_FILE_PATH:
+    case State::STATE_HANDLER_FILE_PATH:
         if(localName == ELEMENT_HANDLER_FILE_PATH) {
-            state = STATE_HANDLER_FILE_PATH_DONE;
+            state = State::STATE_HANDLER_FILE_PATH_DONE;
             currentHandlerFilePath = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
@@ -350,9 +350,9 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_HANDLER_FILE_PATH_DONE:
+    case State::STATE_HANDLER_FILE_PATH_DONE:
         if(localName == ELEMENT_HANDLER) {
-            state = STATE_HANDLER_DONE;
+            state = State::STATE_HANDLER_DONE;
             HandlerConfiguration handler = HandlerConfiguration(currentHandlerName, currentHandlerDescription,
                                                                 currentHandlerContextRoot, currentHandlerFilePath,
                                                                 currentParams);
@@ -364,27 +364,27 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_HANDLER_DONE:
+    case State::STATE_HANDLER_DONE:
         if(localName == ELEMENT_HANDLERS) {
-            state = STATE_HANDLERS_DONE;
+            state = State::STATE_HANDLERS_DONE;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLERS_DONE:
+    case State::STATE_HANDLERS_DONE:
         if(localName == ELEMENT_SERVER_CONF) {
-            state = STATE_DONE;
+            state = State::STATE_DONE;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_PARAM_NAME:
+    case State::STATE_HANDLER_PARAM_NAME:
         if(localName == ELEMENT_HANDLER_PARAM_NAME) {
-            state = STATE_HANDLER_PARAM_NAME_DONE;
+            state = State::STATE_HANDLER_PARAM_NAME_DONE;
             currentParamName = chars;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
@@ -392,9 +392,9 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_HANDLER_PARAM_VALUE:
+    case State::STATE_HANDLER_PARAM_VALUE:
         if(localName == ELEMENT_HANDLER_PARAM_VALUE) {
-            state = STATE_HANDLER_PARAM_VALUE_DONE;
+            state = State::STATE_HANDLER_PARAM_VALUE_DONE;
             currentParams.insert(currentParamName, QVariant(chars));
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
@@ -402,27 +402,27 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         }
         break;
 
-    case STATE_HANDLER_PARAM_VALUE_DONE:
+    case State::STATE_HANDLER_PARAM_VALUE_DONE:
         if(localName == ELEMENT_HANDLER_PARAM) {
-            state = STATE_HANDLER_PARAM_DONE;
+            state = State::STATE_HANDLER_PARAM_DONE;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_PARAM_DONE:
+    case State::STATE_HANDLER_PARAM_DONE:
         if(localName == ELEMENT_HANDLER_PARAMS) {
-            state = STATE_HANDLER_PARAMS_DONE;
+            state = State::STATE_HANDLER_PARAMS_DONE;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
         }
         break;
 
-    case STATE_HANDLER_PARAMS_DONE:
+    case State::STATE_HANDLER_PARAMS_DONE:
         if(localName == ELEMENT_HANDLER) {
-            state = STATE_HANDLER_DONE;
+            state = State::STATE_HANDLER_DONE;
             HandlerConfiguration handler = HandlerConfiguration(currentHandlerName, currentHandlerDescription,
                                                                 currentHandlerContextRoot, currentHandlerFilePath,
                                                                 currentParams);
@@ -443,15 +443,15 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
 bool XmlConfigurationParser::characters(const QString &ch)
 {
     switch(state) {
-    case STATE_LISTEN_INTERFACE:
-    case STATE_LISTEN_PORT:
-    case STATE_WWW_PATH:
-    case STATE_HANDLER_NAME:
-    case STATE_HANDLER_DESCRIPTION:
-    case STATE_HANDLER_CONTEXT_ROOT:
-    case STATE_HANDLER_FILE_PATH:
-    case STATE_HANDLER_PARAM_NAME:
-    case STATE_HANDLER_PARAM_VALUE:
+    case State::STATE_LISTEN_INTERFACE:
+    case State::STATE_LISTEN_PORT:
+    case State::STATE_WWW_PATH:
+    case State::STATE_HANDLER_NAME:
+    case State::STATE_HANDLER_DESCRIPTION:
+    case State::STATE_HANDLER_CONTEXT_ROOT:
+    case State::STATE_HANDLER_FILE_PATH:
+    case State::STATE_HANDLER_PARAM_NAME:
+    case State::STATE_HANDLER_PARAM_VALUE:
         //buffer characters ('%' works as '+', but better)
         chars = chars % ch;
         break;

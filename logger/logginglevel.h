@@ -44,7 +44,7 @@ public:
       ERROR - only ERROR messages will be printd
       NONE - no messages will be printed
       */
-    enum Level {ALL, TRACE, DEBUG, INFO, WARN, ERROR, NONE};
+    enum class Level {ALL, TRACE, DEBUG, INFO, WARN, ERROR, NONE};
 
 
     /**

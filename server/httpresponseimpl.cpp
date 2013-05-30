@@ -30,7 +30,7 @@ const char * HttpResponseImpl::EOL = "\r\n";
 const Logger &  HttpResponseImpl::logger = LoggerFactory::instance().getLogger("sj-http-dump-logger");
 
 HttpResponseImpl::HttpResponseImpl(const QString &requestID)
-    : code(SC_OK), file(0), contentType(""), requestID(requestID)
+    : code(StatusCode::SC_OK), file(0), contentType(""), requestID(requestID)
 {
     setDefaultHeaders();
 }
@@ -42,7 +42,7 @@ void HttpResponseImpl::fromFile(const QString & filePath)
 
     file = new QFile(filePath);
     if(!file->exists()) {
-        code = SC_NOT_FOUND;
+        code = StatusCode::SC_NOT_FOUND;
         delete file;
         file = 0;
         return;
@@ -84,7 +84,7 @@ void HttpResponseImpl::setContentType(const QString & contentType)
 
 void HttpResponseImpl::writeToSocket(QTcpSocket * socket)
 {
-    if(code == SC_NOT_FOUND) {
+    if(code == StatusCode::SC_NOT_FOUND) {
         socket->write(("HTTP/1.1 " + codeToString(this->code) + EOL).toStdString().c_str());
         socket->write("ContentType: text/plain");
         socket->write(EOL);
@@ -165,45 +165,45 @@ void HttpResponseImpl::writeToSocket(QTcpSocket * socket)
 QString HttpResponseImpl::codeToString(StatusCode code)
 {
     switch(code) {
-    case SC_CONTINUE: return "100 Continue";
-    case SC_SWITCHING_PROTOCOL: return "101 Switching Protocol";
-    case SC_OK: return "200 OK";
-    case SC_CREATED: return "201 Created";
-    case SC_ACCEPTED: return "202 Accepted";
-    case SC_NON_AUTHORITATIVE_INFORMATION: return "203 Authoritative Information";
-    case SC_NO_CONTENT: return "204 No Content";
-    case SC_RESET_CONTENT: return "205 Reset Content";
-    case SC_PARTIAL_CONTENT: return "206 Partial Content";
-    case SC_MULTIPLE_CHOICES: return "300 Multiple Choices";
-    case SC_MOVED_PERMANENTLY: return "301 Moved Permanently";
-    case SC_FOUND: return "302 Found";
-    case SC_SEE_OTHER: return "303 See Other";
-    case SC_NOT_MODIFIED: return "304 Not Modified";
-    case SC_USE_PROXY: return "305 Use Proxy";
-    case SC_TEMPORARY_REDIRECT: return "307 Temporary Redirect";
-    case SC_BAD_REQUEST: return "400 Bad Request";
-    case SC_UNAUTHORIZED: return "401 Unauthorized";
-    case SC_FORBIDDEN: return "403 Forbidden";
-    case SC_NOT_FOUND: return "404 Not Found";
-    case SC_METHOD_NOT_ALLOWED: return "405 Method Not Allowed";
-    case SC_NOT_ACCEPTABLE: return "406 Not Acceptable";
-    case SC_PROXY_AUTHENTICATION_REQUIRED: return "407 Proxy Authentication Required";
-    case SC_REQUEST_TIMEOUT: return "408 Request Timeout";
-    case SC_CONFLICT: return "409 Conflict";
-    case SC_GONE: return "410 GONE";
-    case SC_LENGTH_REQUIRED: return "411 Length Required";
-    case SC_PRECONDITION_FAILED: return "412 Precondition Failed";
-    case SC_REQUEST_ENTITY_TOO_LARGE: return "413 Request Entity Too Large";
-    case SC_REQUEST_URI_TOO_LONG: return "414 Request Uri Too Large";
-    case SC_UNSUPPORTED_MEDIA_TYPE: return "415 Unsupported Media Type";
-    case SC_REQUESTED_RANGE_NOT_SATISFIABLE: return "416 Requested Range Not Satisfiable";
-    case SC_EXPECTATION_FAILED: return "417 Expectation Failed";
-    case SC_INTERNAL_SERVER_ERROR: return "500 Internal Server Error";
-    case SC_NOT_IMPLEMENTED: return "501 Not Implemented";
-    case SC_BAD_GATEWAY: return "502 Bad Gateway";
-    case SC_SERVICE_UNAVAILABLE: return "503 Service Unavailable";
-    case SC_GATEWAY_TIMEOUT: return "504 Gateway Timeout";
-    case SC_HTTP_VERSION_NOT_SUPPORTED: return "505 HTTP Version Not Supported";
+    case StatusCode::SC_CONTINUE: return "100 Continue";
+    case StatusCode::SC_SWITCHING_PROTOCOL: return "101 Switching Protocol";
+    case StatusCode::SC_OK: return "200 OK";
+    case StatusCode::SC_CREATED: return "201 Created";
+    case StatusCode::SC_ACCEPTED: return "202 Accepted";
+    case StatusCode::SC_NON_AUTHORITATIVE_INFORMATION: return "203 Authoritative Information";
+    case StatusCode::SC_NO_CONTENT: return "204 No Content";
+    case StatusCode::SC_RESET_CONTENT: return "205 Reset Content";
+    case StatusCode::SC_PARTIAL_CONTENT: return "206 Partial Content";
+    case StatusCode::SC_MULTIPLE_CHOICES: return "300 Multiple Choices";
+    case StatusCode::SC_MOVED_PERMANENTLY: return "301 Moved Permanently";
+    case StatusCode::SC_FOUND: return "302 Found";
+    case StatusCode::SC_SEE_OTHER: return "303 See Other";
+    case StatusCode::SC_NOT_MODIFIED: return "304 Not Modified";
+    case StatusCode::SC_USE_PROXY: return "305 Use Proxy";
+    case StatusCode::SC_TEMPORARY_REDIRECT: return "307 Temporary Redirect";
+    case StatusCode::SC_BAD_REQUEST: return "400 Bad Request";
+    case StatusCode::SC_UNAUTHORIZED: return "401 Unauthorized";
+    case StatusCode::SC_FORBIDDEN: return "403 Forbidden";
+    case StatusCode::SC_NOT_FOUND: return "404 Not Found";
+    case StatusCode::SC_METHOD_NOT_ALLOWED: return "405 Method Not Allowed";
+    case StatusCode::SC_NOT_ACCEPTABLE: return "406 Not Acceptable";
+    case StatusCode::SC_PROXY_AUTHENTICATION_REQUIRED: return "407 Proxy Authentication Required";
+    case StatusCode::SC_REQUEST_TIMEOUT: return "408 Request Timeout";
+    case StatusCode::SC_CONFLICT: return "409 Conflict";
+    case StatusCode::SC_GONE: return "410 GONE";
+    case StatusCode::SC_LENGTH_REQUIRED: return "411 Length Required";
+    case StatusCode::SC_PRECONDITION_FAILED: return "412 Precondition Failed";
+    case StatusCode::SC_REQUEST_ENTITY_TOO_LARGE: return "413 Request Entity Too Large";
+    case StatusCode::SC_REQUEST_URI_TOO_LONG: return "414 Request Uri Too Large";
+    case StatusCode::SC_UNSUPPORTED_MEDIA_TYPE: return "415 Unsupported Media Type";
+    case StatusCode::SC_REQUESTED_RANGE_NOT_SATISFIABLE: return "416 Requested Range Not Satisfiable";
+    case StatusCode::SC_EXPECTATION_FAILED: return "417 Expectation Failed";
+    case StatusCode::SC_INTERNAL_SERVER_ERROR: return "500 Internal Server Error";
+    case StatusCode::SC_NOT_IMPLEMENTED: return "501 Not Implemented";
+    case StatusCode::SC_BAD_GATEWAY: return "502 Bad Gateway";
+    case StatusCode::SC_SERVICE_UNAVAILABLE: return "503 Service Unavailable";
+    case StatusCode::SC_GATEWAY_TIMEOUT: return "504 Gateway Timeout";
+    case StatusCode::SC_HTTP_VERSION_NOT_SUPPORTED: return "505 HTTP Version Not Supported";
     }
     return "";
 }

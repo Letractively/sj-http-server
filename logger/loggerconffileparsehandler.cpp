@@ -42,16 +42,15 @@ const QString LoggerConfFileParseHandler::ATTRIBUTE_APPENDER_PARAM_NAME = "name"
 LoggerConfFileParseHandler::LoggerConfFileParseHandler(QMap<QString, Logger *> & loggers)
     : loggers(loggers),
       errorInfo(""),
-      state(STATE_IDLE)
+      state(State::STATE_IDLE)
 {
     resetCurrentVariables();
     //supportedLogLevels
-    //iterating over an enum - yes, I know what I'm doing :-)
-    for(int i = (int) LoggingLevel::ALL + 1; i < (int) LoggingLevel::NONE; ++i) {
-        supportedLogLevels.append(LoggingLevel::levelToString(
-                                      (LoggingLevel::Level) ((int) LoggingLevel::ALL + i)
-                                      ));
-    }
+    supportedLogLevels.append(LoggingLevel::levelToString(LoggingLevel::Level::TRACE));
+    supportedLogLevels.append(LoggingLevel::levelToString(LoggingLevel::Level::DEBUG));
+    supportedLogLevels.append(LoggingLevel::levelToString(LoggingLevel::Level::INFO));
+    supportedLogLevels.append(LoggingLevel::levelToString(LoggingLevel::Level::WARN));
+    supportedLogLevels.append(LoggingLevel::levelToString(LoggingLevel::Level::ERROR));
 
     //supportedAppenders
     supportedAppenders.insert(ConsoleAppender::type(), ConsoleAppender::supportedParams());
@@ -73,51 +72,51 @@ bool LoggerConfFileParseHandler::startElement(const QString &namespaceURI, const
     }
 
     switch(state) {
-    case STATE_IDLE:
+    case State::STATE_IDLE:
         if(localName == ELEMENT_LOGGERS) {
-            state = STATE_LOGGERS;
+            state = State::STATE_LOGGERS;
         } else {
             errorInfo = "expected [" + ELEMENT_LOGGERS + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_LOGGERS:
+    case State::STATE_LOGGERS:
         if(localName == ELEMENT_LOGGER) {
-            state = STATE_LOGGER;
+            state = State::STATE_LOGGER;
             return processStateStartLogger(atts);
         } else {
             errorInfo = "expected [" + ELEMENT_LOGGER + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_LOGGER:
+    case State::STATE_LOGGER:
         if(localName == ELEMENT_APPENDERS) {
-            state = STATE_APPENDERS;
+            state = State::STATE_APPENDERS;
         } else {
             errorInfo = "expected [" + ELEMENT_APPENDERS + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_APPENDERS:
+    case State::STATE_APPENDERS:
         if(localName == ELEMENT_APPENDER) {
-            state = STATE_APPENDER;
+            state = State::STATE_APPENDER;
             return processStateStartAppender(atts);
         } else {
             errorInfo = "expected [" + ELEMENT_APPENDER + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_APPENDER:
+    case State::STATE_APPENDER:
         if(localName == ELEMENT_APPENDER_PARAM) {
-            state = STATE_APPENDER_PARAM;
+            state = State::STATE_APPENDER_PARAM;
             return processStateStartAppenderParam(atts);
         } else {
             errorInfo = "expected [" + ELEMENT_APPENDER_PARAM + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_APPENDER_PARAM:
-    case STATE_DONE:
+    case State::STATE_APPENDER_PARAM:
+    case State::STATE_DONE:
         errorInfo = "unexpected start of element [" + localName + "]";
         return false;
     }
@@ -134,13 +133,13 @@ bool LoggerConfFileParseHandler::endElement(const QString &namespaceURI,
     }
 
     switch(state) {
-    case STATE_IDLE:
-    case STATE_DONE:
+    case State::STATE_IDLE:
+    case State::STATE_DONE:
         errorInfo = "unexpected end of element [" + localName + "]";
         return false;
-    case STATE_APPENDER_PARAM:
+    case State::STATE_APPENDER_PARAM:
         if(localName == ELEMENT_APPENDER_PARAM) {
-            state = STATE_APPENDER;
+            state = State::STATE_APPENDER;
             //value of a parameter
             setAppenderProperty(currentPropertyName, chars);
             chars = "";
@@ -149,35 +148,35 @@ bool LoggerConfFileParseHandler::endElement(const QString &namespaceURI,
             return false;
         }
         break;
-    case STATE_APPENDER:
+    case State::STATE_APPENDER:
         if(localName == ELEMENT_APPENDER) {
-            state = STATE_APPENDERS;
+            state = State::STATE_APPENDERS;
             return processStateEndAppender();
         } else {
             errorInfo = "expected [" + ELEMENT_APPENDER + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_APPENDERS:
+    case State::STATE_APPENDERS:
         if(localName == ELEMENT_APPENDERS) {
-            state = STATE_LOGGER;
+            state = State::STATE_LOGGER;
         } else {
             errorInfo = "expected [" + ELEMENT_APPENDERS + "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_LOGGER:
+    case State::STATE_LOGGER:
         if(localName == ELEMENT_LOGGER) {
-            state = STATE_LOGGERS;
+            state = State::STATE_LOGGERS;
             processStateEndLogger();
         } else {
             errorInfo = "expected [" + ELEMENT_LOGGER+ "]  but got [" + localName + "]";
             return false;
         }
         break;
-    case STATE_LOGGERS:
+    case State::STATE_LOGGERS:
         if(localName == ELEMENT_LOGGERS) {
-            state = STATE_DONE;
+            state = State::STATE_DONE;
         }  else {
             errorInfo = "expected [" + ELEMENT_LOGGERS + "]  but got [" + localName + "]";
             return false;
@@ -192,7 +191,7 @@ bool LoggerConfFileParseHandler::characters(const QString &ch)
 {
     QString chtrimmed = ch.trimmed();
     switch(state) {
-    case STATE_APPENDER_PARAM:
+    case State::STATE_APPENDER_PARAM:
         //buffer characters ('%' works as '+' but better)
         chars = chars % ch;
         break;

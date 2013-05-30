@@ -6,6 +6,7 @@ QT       -= gui
 TARGET = tst_mocks
 CONFIG   += console
 CONFIG   -= app_bundle
+QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = app
 

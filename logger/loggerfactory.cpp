@@ -93,7 +93,7 @@ Logger & LoggerFactory::getLogger(const QString & loggerName)
     //create a new logger and apply default settings
     Logger * logger = new Logger;
     logger->addAppender(new ConsoleAppender, true);
-    logger->setLevel(LoggingLevel::INFO);
+    logger->setLevel(LoggingLevel::Level::INFO);
     loggers.insert(loggerName, logger);
     return *logger;
 }

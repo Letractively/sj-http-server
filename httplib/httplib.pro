@@ -14,17 +14,18 @@ VERSION = 0.3
 
 DEFINES += HTTPLIB_LIBRARY
 
+QMAKE_CXXFLAGS += -std=c++0x
+
+
 SOURCES +=\
         httpheader.cpp\
-        httprequestbinaryfile.cpp\
-    settingsitem.cpp
+        httprequestbinaryfile.cpp
 
 HEADERS += abstractrequesthandler.h\
         httpheader.h\
         httprequest.h\
         httprequestbinaryfile.h\
-        httpresponse.h\
-    settingsitem.h
+        httpresponse.h
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../logger/release/ -llogger0

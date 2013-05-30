@@ -125,13 +125,21 @@ void HttpRequestImpl::setUpMethodAndLocation(const QString & methodLine)
     }
 
     if("GET" == list[0]) {
-        method = GET;
+        method = RequestMethod::GET;
     } else if("POST" == list[0]) {
-        method = POST;
+        method = RequestMethod::POST;
     } else if("PUT" == list[0]) {
-        method = PUT;
+        method = RequestMethod::PUT;
     } else if("DELETE" == list[0]) {
-        method = DELETE;
+        method = RequestMethod::DELETE;
+    } else if("OPTIONS" == list[0]) {
+        method = RequestMethod::OPTIONS;
+    } else if("HEAD" == list[0]) {
+        method = RequestMethod::HEAD;
+    } else if("CONNECT" == list[0]) {
+        method = RequestMethod::CONNECT;
+    } else if("TRACE" == list[0]) {
+        method = RequestMethod::TRACE;
     }
 
     QString locationString = list[1];
@@ -172,20 +180,6 @@ void HttpRequestImpl::setUpParameters(const QString &locationLine)
 
 }
 
-QString HttpRequestImpl::methodToString()
-{
-    switch(method) {
-    case GET: return "GET";
-    case POST: return "POST";
-    case OPTIONS: return "OPTIONS";
-    case HEAD: return "HEAD";
-    case CONNECT: return "CONNECT";
-    case PUT: return "PUT";
-    case DELETE: return "DELETE";
-    case TRACE: return "TRACE";
-    }
-    return "";
-}
 
 QString HttpRequestImpl::headersToString()
 {
@@ -213,7 +207,7 @@ QString HttpRequestImpl::toString()
     QString s("");
 
     s += "HttpRequest:\n";
-    s += "method      [" + methodToString() + "];\n";
+    s += "method      [" + Utils::requestMethodToString(method) + "];\n";
     s += "requestUri  [" + getRequestUri() + "];\n";
     s += "requestUrl  [" + getRequestUrl()+ "];\n";
     s += "parameters  [" + parametersToString() + "];\n";

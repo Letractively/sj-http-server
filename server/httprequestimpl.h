@@ -26,6 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "httprequest.h"
 #include "httprequestbinaryfile.h"
 #include "loggerall.h"
+#include "serverutils.h"
 
 #include <QTcpSocket>
 #include <QByteArray>
@@ -98,7 +99,6 @@ private:
     void setUpMethodAndLocation(const QString & methodLine);
     void setUpHeaders(const QStringList & tokensList);
     void setUpParameters(const QString & locationLine);
-    QString methodToString();
     QString headersToString();
     QString parametersToString();
 

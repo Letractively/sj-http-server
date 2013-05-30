@@ -12,6 +12,8 @@ TEMPLATE = lib
 VERSION = 0.3
 
 DEFINES += WEBLIB_LIBRARY
+QMAKE_CXXFLAGS += -std=c++0x
+
 
 SOURCES += abstractdispatcher.cpp \
     contextpathdispatcher.cpp \

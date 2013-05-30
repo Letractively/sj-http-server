@@ -30,7 +30,7 @@ class HttpResponse
 {
 public:
 
-    enum StatusCode {
+    enum class StatusCode {
         SC_CONTINUE = 100,
         SC_SWITCHING_PROTOCOL = 101,
         SC_OK = 200,

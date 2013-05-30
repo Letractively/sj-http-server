@@ -10,6 +10,7 @@ TARGET = image-gallery
 TEMPLATE = lib
 VERSION = 0.3
 CONFIG += plugin
+QMAKE_CXXFLAGS += -std=c++0x
 
 HEADERS += \
     imagegallery.h \
