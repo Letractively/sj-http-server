@@ -23,13 +23,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
-ImageViewWebHandler::ImageViewWebHandler()
+ImageViewWebHandler::ImageViewWebHandler(const QString &imagesDir)
+    : imagesDir(imagesDir)
 {
 }
 
-void ImageViewWebHandler::handle(HttpRequest * request, HttpResponse * response) const
+void ImageViewWebHandler::handleGet(HttpRequest * request, HttpResponse * response) const
 {
-    QString imagePath = request->getParameter(ImgGal::FILE_ID_PARAM);
+    QString imagePath = imagesDir + request->getParameter(ImgGal::FILE_ID_PARAM);
     response->fromFile(imagePath);
 }
 

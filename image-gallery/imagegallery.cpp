@@ -31,11 +31,7 @@ namespace SJ {
 
 ImageGallery::ImageGallery()
 {
-    QList<ContextPathPair> handlersList;
-    handlersList.append(ContextPathPair("/upload", new UploadWebHandler(), true));
-    handlersList.append(ContextPathPair("/show", new ImageViewWebHandler(), true));
-    handlersList.append(ContextPathPair("/*", new MainPageWebHandler(), true));
-    dispatcher = new ContextPathDispatcher(handlersList);
+
 }
 
 ImageGallery::~ImageGallery()
@@ -50,12 +46,23 @@ ImageGallery::~ImageGallery()
 
 void ImageGallery::init(const QMap<QString, QVariant> &  initParams)
 {
-    qDebug() << initParams;
+    QString imagesDir = initParams.value(ImgGal::SETTING_TMP_DIR).toString();
+
+    QList<ContextPathPair> handlersList;
+    handlersList.append(ContextPathPair("/upload", new UploadWebHandler(imagesDir), true));
+    handlersList.append(ContextPathPair("/show", new ImageViewWebHandler(imagesDir), true));
+    handlersList.append(ContextPathPair("/*", new MainPageWebHandler(), true));
+    dispatcher = new ContextPathDispatcher(handlersList);
 }
 
-void ImageGallery::handle(HttpRequest * req, HttpResponse * response) const
+void ImageGallery::handleGet(HttpRequest * req, HttpResponse * response) const
 {
-    dispatcher->dispatchRequest(req)->handle(req, response);
+    dispatcher->dispatchRequest(req)->handleGet(req, response);
+}
+
+void ImageGallery::handlePost(HttpRequest * req, HttpResponse * response) const
+{
+    dispatcher->dispatchRequest(req)->handlePost(req, response);
 }
 
 QString ImageGallery::name() const

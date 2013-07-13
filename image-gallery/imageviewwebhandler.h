@@ -28,9 +28,10 @@ namespace SJ {
 class ImageViewWebHandler : public AbstractWebHandler
 {
 public:
-    ImageViewWebHandler();
-    virtual void handle(HttpRequest * request, HttpResponse * response) const;
-
+    ImageViewWebHandler(const QString & imagesDir);
+    virtual void handleGet(HttpRequest * request, HttpResponse * response) const;
+private:
+    QString imagesDir;
 };
 
 } //namespace SJ

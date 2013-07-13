@@ -31,7 +31,7 @@ MainPageWebHandler::MainPageWebHandler()
 }
 
 
-void MainPageWebHandler::handle(HttpRequest * request, HttpResponse * response) const
+void MainPageWebHandler::handleGet(HttpRequest * request, HttpResponse * response) const
 {
     QString uploadLink = request->getRequestUri();
     uploadLink += (uploadLink.endsWith("/") ? "upload" : "/upload");
@@ -48,12 +48,8 @@ void MainPageWebHandler::handle(HttpRequest * request, HttpResponse * response) 
         LOG_DEBUG(logger, (LogBuilder("image #").append(i).append(": ").append(img.toString())));
         resp.append("<br><a href=\"show?file=" + img.getFilename() + "\">" + img.getTitle() + "</a> by " + img.getAuthor());
     }
-
-
     resp.append("</body></html>");
     response->writeData(resp);
-
-
 }
 
 } //namespace SJ

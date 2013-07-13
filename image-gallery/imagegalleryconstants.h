@@ -27,7 +27,7 @@ namespace SJ {
 
 namespace ImgGal {
 
-const QString SETTING_TMP_DIR = "tmp.directory";
+const QString SETTING_TMP_DIR = "image.store.directory";
 const QString FILE_ID_PARAM = "file";
 const QString LOGGER_NAME = "sj-image-gallery-logger";
 

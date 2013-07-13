@@ -36,7 +36,8 @@ public:
     ImageGallery();
     ~ImageGallery();
     void init(const QMap<QString, QVariant> & initParams);
-    void handle(HttpRequest *req, HttpResponse * resp) const;
+    void handleGet(HttpRequest *req, HttpResponse * resp) const;
+    void handlePost(HttpRequest *req, HttpResponse * resp) const;
     QString name() const;
 private:
     AbstractDispatcher * dispatcher;

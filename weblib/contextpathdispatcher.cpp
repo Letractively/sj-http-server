@@ -50,11 +50,14 @@ AbstractWebHandler * ContextPathDispatcher::dispatchRequest(HttpRequest * reques
 {
     const Logger & logger = LoggerFactory::instance().getLogger("weblib-logger");
 
+    QString requestedUri = request->getRequestUri();
+    requestedUri = requestedUri.right(requestedUri.length() - requestedUri.indexOf("/", 1));
+
     for(int i = 0; i < paths.size(); ++i) {
         QRegExp regExp(paths[i].getPath(), Qt::CaseInsensitive, QRegExp::Wildcard);
 
-        if(regExp.exactMatch(request->getRequestUri())
-                || (!request->getRequestUri().endsWith("/") && regExp.exactMatch(request->getRequestUri() + "/"))) {
+        if(regExp.exactMatch(requestedUri)
+                || (!requestedUri.endsWith("/") && regExp.exactMatch(requestedUri + "/"))) {
             LOG_DEBUG(logger, LogBuilder("ContextPathDispatcher: ").append(request->getRequestUri())
                       .append(" matches ").append(regExp.pattern()).toString());
             return paths[i].getHandler();

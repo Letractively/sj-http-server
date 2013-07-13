@@ -27,4 +27,21 @@ AbstractWebHandler::AbstractWebHandler()
 
 }
 
+void AbstractWebHandler::handleGet(HttpRequest *request, HttpResponse *response) const
+{
+    internaHandle(request, response);
+}
+
+void AbstractWebHandler::handlePost(HttpRequest *request, HttpResponse *response) const
+{
+    internaHandle(request, response);
+}
+
+void AbstractWebHandler::internaHandle(HttpRequest * /*request */, HttpResponse *response) const
+{
+    response->setStatusCode(HttpResponse::StatusCode::SC_METHOD_NOT_ALLOWED);
+    QByteArray data("This method is not supported");
+    response->writeData(data);
+}
+
 } //namespace SJ

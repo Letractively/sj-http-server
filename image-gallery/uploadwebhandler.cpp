@@ -29,35 +29,27 @@ namespace SJ {
 
 const Logger & UploadWebHandler::logger = LoggerFactory::instance().getLogger(ImgGal::LOGGER_NAME);
 
-UploadWebHandler::UploadWebHandler()
+UploadWebHandler::UploadWebHandler(const QString &imagesDir)
+    : imagesDir(imagesDir)
 {
 }
 
-void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response) const
+void UploadWebHandler::handlePost(HttpRequest * request, HttpResponse *response) const
+{
+    LOG_TRACE(logger, "UploadWebHandler handle called");
+    LOG_TRACE(logger, "POST method - reading posted data");
+    handlePostData(request, response, imagesDir);
+    return;
+}
+
+void UploadWebHandler::handleGet(HttpRequest * request, HttpResponse *response) const
 {
     LOG_TRACE(logger, "UploadWebHandler handle called");
 
-
-    switch(request->getMethod()) {
-    case HttpRequest::RequestMethod::GET:
-    {
-        LOG_TRACE(logger, "GET method - returning upload form");
-        QByteArray a = getFormBytes(request->getRequestUri());
-        response->writeData(a);
-        return;
-    }
-    case HttpRequest::RequestMethod::POST:
-    {
-        LOG_TRACE(logger, "POST method - reading posted data");
-        handlePostData(request, response, "/tmp");
-        return;
-    }
-
-    default:
-        LOG_WARN(logger, LogBuilder("Unsupported method called, ignoring").toString());
-        response->setStatusCode(HttpResponse::StatusCode::SC_BAD_REQUEST);
-        break;
-    }
+    LOG_TRACE(logger, "GET method - returning upload form");
+    QByteArray a = getFormBytes(request->getRequestUri());
+    response->writeData(a);
+    return;
 }
 
 

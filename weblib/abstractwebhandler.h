@@ -32,7 +32,11 @@ class AbstractWebHandler
 public:
     AbstractWebHandler();
     virtual ~AbstractWebHandler() {}
-    virtual void handle(HttpRequest * request, HttpResponse * response) const = 0;
+    virtual void handleGet(HttpRequest * request, HttpResponse * response) const;
+    virtual void handlePost(HttpRequest * request, HttpResponse * response) const;
+
+private:
+    void internaHandle(HttpRequest * request, HttpResponse * response) const;
 };
 
 }

@@ -32,8 +32,9 @@ namespace SJ {
 class UploadWebHandler : public AbstractWebHandler
 {
 public:
-    UploadWebHandler();
-    virtual void handle(HttpRequest * request, HttpResponse * response) const;
+    UploadWebHandler(const QString & imagesDir);
+    virtual void handleGet(HttpRequest * request, HttpResponse * response) const;
+    virtual void handlePost(HttpRequest * request, HttpResponse * response) const;
 
 private:
     QByteArray getFormBytes(const QString & requestUri) const;
@@ -41,7 +42,7 @@ private:
     QString saveToDisc(const HttpRequestBinaryFile & binFile, const QString & destDir) const;
 
     static const Logger & logger;
-
+    QString imagesDir;
 };
 
 } //namespace SJ
