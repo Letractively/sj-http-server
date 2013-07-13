@@ -30,6 +30,7 @@ class ImageMetadata
 {
 public:
     ImageMetadata();
+    ImageMetadata(const ImageMetadata& other);
     ImageMetadata(const QString & title, const QString & author, const QString & filename, const QDateTime & uploadDate, const QString & originalFilename);
 
     QString getTitle() const { return title; }

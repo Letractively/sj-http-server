@@ -21,7 +21,8 @@ HEADERS += \
     imagemetadata.h \
     imagemetadataprovider.h \
     imagemetadatamemoryprovider.h \
-    imagemetadataxmlprovider.h
+    imagemetadataxmlprovider.h \
+    apiimageswebhandler.h
 
 SOURCES += \
     imagegallery.cpp \
@@ -31,7 +32,8 @@ SOURCES += \
     imagemetadata.cpp \
     imagemetadataprovider.cpp \
     imagemetadatamemoryprovider.cpp \
-    imagemetadataxmlprovider.cpp
+    imagemetadataxmlprovider.cpp \
+    apiimageswebhandler.cpp
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../httplib/release/ -lhttplib0

@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest/QtTest>
 #include <QtCore/QSettings>
 #include <QtCore/QRegExp>
+#include <QtCore/QJsonDocument>
 
 class TestSettings : public QObject
 {
@@ -35,6 +36,7 @@ private Q_SLOTS:
     void testCase1();
     void testCase2();
     void testCase3();
+    void testCaseJson();
 };
 
 TestSettings::TestSettings()
@@ -169,6 +171,15 @@ void TestSettings::testCase3()
     }
 }
 
+void TestSettings::testCaseJson()
+{
+    QString s = "123test";
+    QJsonValue val(s);
+    QJsonObject obj;
+    obj.insert("foo",val);
+    QJsonDocument doc(obj);
+    qDebug() << doc.toJson();
+}
 
 QTEST_APPLESS_MAIN(TestSettings)
 

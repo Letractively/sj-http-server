@@ -21,6 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+const QString AbstractRequestHandler::CONTEXT_ROOT_INIT_PARAM = "_sj_context_root";
+
 void AbstractRequestHandler::init(const QMap<QString, QVariant> & /*initParams*/)
 {
 

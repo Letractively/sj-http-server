@@ -36,6 +36,16 @@ ImageMetadata::ImageMetadata(const QString & title, const QString & author,
 {
 }
 
+ImageMetadata::ImageMetadata(const ImageMetadata& other)
+    : title(other.title),
+      author(other.author),
+      filename(other.filename),
+      uploadDate(other.uploadDate),
+      originalFilename(other.originalFilename)
+{
+
+}
+
 QString ImageMetadata::toString() const
 {
     return "title=[" + title + "] author=[" + author + "], filename=[" + filename + "], uploadDate=[" + uploadDate.toString("yyyy-MM-dd hh:mm:ss") + "]";

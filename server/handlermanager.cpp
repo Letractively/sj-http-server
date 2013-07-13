@@ -54,7 +54,9 @@ void HandlerManager::loadPluginsFromConfig()
 
         if(newHandler != 0) {
             LOG_DEBUG(logger, LogBuilder("Created instance of the request handler ").append(newHandler->name()));
-            newHandler->init(h[i].getInitParams());
+            QMap<QString, QVariant> initParams = h[i].getInitParams();
+            initParams.insert(AbstractRequestHandler::CONTEXT_ROOT_INIT_PARAM, QVariant(h[i].getContextRoot()));
+            newHandler->init(initParams);
             handlers.push_back(HandlerData(newHandler, h[i]));
         } else {
             LOG_DEBUG(logger, LogBuilder("Unable to load a handler: ").append(pl.errorString()));

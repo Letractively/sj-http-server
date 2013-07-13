@@ -39,6 +39,8 @@ namespace SJ {
 class AbstractRequestHandler
 {
 public:
+
+    static const QString CONTEXT_ROOT_INIT_PARAM;
     /**
      * @brief Virtual destructor.
      */

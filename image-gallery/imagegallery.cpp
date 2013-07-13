@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "imageviewwebhandler.h"
 #include "imagegalleryconstants.h"
 #include "imagemetadataprovider.h"
+#include "apiimageswebhandler.h"
 #include <QDebug>
 
 namespace SJ {
@@ -47,10 +48,12 @@ ImageGallery::~ImageGallery()
 void ImageGallery::init(const QMap<QString, QVariant> &  initParams)
 {
     QString imagesDir = initParams.value(ImgGal::SETTING_TMP_DIR).toString();
+    QString contextRoot = initParams.value(AbstractRequestHandler::CONTEXT_ROOT_INIT_PARAM).toString();
 
     QList<ContextPathPair> handlersList;
     handlersList.append(ContextPathPair("/upload", new UploadWebHandler(imagesDir), true));
     handlersList.append(ContextPathPair("/show", new ImageViewWebHandler(imagesDir), true));
+    handlersList.append(ContextPathPair("/api/images", new ApiImagesWebHandler(contextRoot), true));
     handlersList.append(ContextPathPair("/*", new MainPageWebHandler(), true));
     dispatcher = new ContextPathDispatcher(handlersList);
 }
