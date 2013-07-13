@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "fileappenderinternal.h"
+#include <QDateTime>
 
 FileAppenderInternal::FileAppenderInternal(const QString &filename)
     : file(filename)
@@ -41,4 +42,29 @@ void FileAppenderInternal::appendLine(const QString & line)
     QMutexLocker locker(&mutex);
     *out << line << "\n";
     out->flush();
+
+    //rotate by size
+    if(maxSize > 0 && file.size() > maxSize) {
+        delete out;
+        file.close();
+        file.copy(file.fileName() + "." + produceTimestamp());
+        file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
+        out = new QTextStream(&file);
+    }
 }
+
+QString FileAppenderInternal::produceTimestamp()
+{
+    return QDateTime::currentDateTime().toString(timestampPattern);
+}
+
+void FileAppenderInternal::setMaxSize(quint64 size)
+{
+    maxSize = size;
+}
+
+void FileAppenderInternal::setTimestampPattern(const QString & pattern)
+{
+    timestampPattern = pattern;
+}
+

@@ -35,11 +35,16 @@ public:
     FileAppenderInternal(const QString & filename);
     ~FileAppenderInternal();
     void appendLine(const QString & line);
+    void setMaxSize(quint64 size);
+    void setTimestampPattern(const QString & pattern);
 
 private:
     QFile file;
     QMutex mutex;
     QTextStream * out;
+    QString produceTimestamp();
+    QString timestampPattern;
+    qint64 maxSize;
 
 };
 

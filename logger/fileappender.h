@@ -57,6 +57,9 @@ public:
 
 private:
     FileAppenderInternal * f;
+    QString filename;
+    QString rotatedFileTimestampPattern;
+    qint64 rotateByMaxSize;
 };
 
 } // namespace SJ

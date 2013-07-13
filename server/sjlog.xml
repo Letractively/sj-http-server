@@ -8,6 +8,8 @@
             <sj:appender type="console"/>
             <sj:appender type="file">
                 <sj:appenderParam name="filename">../work/logs/sjserver.log</sj:appenderParam>
+                <sj:appenderParam name="rotated-file-timestamp-pattern">yyyy-MM-dd_hh-mm-ss-zzz</sj:appenderParam>
+                <sj:appenderParam name="rotate-at-file-size-of">1048576</sj:appenderParam>
             </sj:appender>
         </sj:appenders>
     </sj:logger>
