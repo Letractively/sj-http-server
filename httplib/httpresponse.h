@@ -78,6 +78,7 @@ public:
     virtual void addHeader(QString name, QString value) = 0;
     virtual void setContentType(const QString & contentType) = 0;
     virtual void writeData(const QByteArray & data) = 0;
+    virtual void writeData(const QString & data) = 0;
     virtual void fromFile(const QString & filePath) = 0;
 };
 

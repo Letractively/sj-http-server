@@ -259,5 +259,9 @@ QString HttpRequestImpl::getRequestID() const
 {
     return requestId;
 }
+const QByteArray & HttpRequestImpl::getContent() const
+{
+    return requestData;
+}
 
 } // namespace SJ

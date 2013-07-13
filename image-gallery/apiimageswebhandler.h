@@ -28,10 +28,13 @@ namespace SJ {
 class ApiImagesWebHandler : public AbstractWebHandler
 {
 public:
-    ApiImagesWebHandler(const QString &context);
+    ApiImagesWebHandler(const QString &context, const QString &imagesDir);
     void handleGet(HttpRequest *request, HttpResponse *response) const;
+    void handlePost(HttpRequest *request, HttpResponse *response) const;
 private:
+    QString saveToDisc(const QByteArray & data, const QString & destDir, const QString & fileExtension) const;
     QString contextRoot;
+    QString imagesDir;
 };
 }
 

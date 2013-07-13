@@ -42,8 +42,9 @@ public:
     virtual void setContentType(const QString & contentType);
     virtual void addHeader(QString name, QString value);
     virtual void writeData(const QByteArray & data);
+    virtual void writeData(const QString & data);
 
-
+    static void writeContinue(QTcpSocket * socket);
     void writeToSocket(QTcpSocket * socket);
     void fromFile(const QString & filePath);
 

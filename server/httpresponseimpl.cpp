@@ -72,6 +72,11 @@ void HttpResponseImpl::addHeader(QString name, QString value)
     }
 }
 
+void HttpResponseImpl::writeData(const QString & data)
+{
+    this->data.append(data);
+}
+
 void HttpResponseImpl::writeData(const QByteArray & data)
 {
     this->data.append(data);
@@ -80,6 +85,12 @@ void HttpResponseImpl::writeData(const QByteArray & data)
 void HttpResponseImpl::setContentType(const QString & contentType)
 {
     this->contentType = contentType;
+}
+
+void HttpResponseImpl::writeContinue(QTcpSocket * socket)
+{
+    QString cont = "HTTP/1.1 100 Continue";
+    socket->write((cont + EOL + EOL).toStdString().c_str());
 }
 
 void HttpResponseImpl::writeToSocket(QTcpSocket * socket)

@@ -100,6 +100,12 @@ public:
      */
     virtual QVector<HttpRequestBinaryFile> getBinaryFiles() const = 0;
 
+    /**
+     * @brief Returns bytes sent in request body
+     * @return reqyest content
+     */
+    virtual const QByteArray & getContent() const = 0;
+
 };
 
 } //namespace SJ

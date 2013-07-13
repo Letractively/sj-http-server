@@ -60,6 +60,7 @@ public:
     virtual QString getHeaderValue(const QString & headerName) const;
     virtual QVector<HttpHeader> getHeaders() const;
     virtual QVector<HttpRequestBinaryFile> getBinaryFiles() const;
+    virtual const QByteArray & getContent() const;
 
 
 

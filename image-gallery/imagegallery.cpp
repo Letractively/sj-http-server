@@ -53,7 +53,7 @@ void ImageGallery::init(const QMap<QString, QVariant> &  initParams)
     QList<ContextPathPair> handlersList;
     handlersList.append(ContextPathPair("/upload", new UploadWebHandler(imagesDir), true));
     handlersList.append(ContextPathPair("/show", new ImageViewWebHandler(imagesDir), true));
-    handlersList.append(ContextPathPair("/api/images", new ApiImagesWebHandler(contextRoot), true));
+    handlersList.append(ContextPathPair("/api/images", new ApiImagesWebHandler(contextRoot, imagesDir), true));
     handlersList.append(ContextPathPair("/*", new MainPageWebHandler(), true));
     dispatcher = new ContextPathDispatcher(handlersList);
 }

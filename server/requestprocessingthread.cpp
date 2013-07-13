@@ -83,7 +83,14 @@ void RequestProcessingThread::dataReadySlot()
 }
 
 void RequestProcessingThread::prepareRequest() {
+
     QByteArray readData = socket->readAll();
+    if(readData.length() == 0 && request->getHeaderValue("Expect") == "100-continue") {
+        HttpResponseImpl::writeContinue(socket);
+        //there is no data yet
+        return;
+    }
+
     if(logger.isTraceEnabled()) {
         LOG_TRACE(logger, LogBuilder("reading data for request, read bytes: ").append(readData.length())
                   .append("Already read ").append(bytesRead).append(" out of ").append(request->getContentLength())
@@ -192,6 +199,7 @@ QString RequestProcessingThread::findAttributeValue(const QString & attributeNam
 
 
 void RequestProcessingThread::processRequest() {
+
     HandlerData handlerData = HandlerManager::instance().getHandler(request);
     AbstractRequestHandler * handler = handlerData.getHandler();
     LOG_TRACE(logger, LogBuilder("Processing request with ").append(handler->name()));

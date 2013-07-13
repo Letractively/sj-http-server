@@ -24,10 +24,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QJsonParseError>
+#include <QFile>
+#include <QDateTime>
+
 namespace SJ {
 
-ApiImagesWebHandler::ApiImagesWebHandler(const QString & context)
-    : contextRoot(context)
+ApiImagesWebHandler::ApiImagesWebHandler(const QString & context, const QString &imagesDir)
+    : contextRoot(context), imagesDir(imagesDir)
 {
 
 }
@@ -55,9 +59,45 @@ void ApiImagesWebHandler::handleGet(HttpRequest * request, HttpResponse *respons
     response->writeData(QJsonDocument(json).toJson());
 }
 
-//void ApiImagesWebHandler::handlePost(HttpRequest *request, HttpResponse *response) const
-//{
+void ApiImagesWebHandler::handlePost(HttpRequest *request, HttpResponse *response) const
+{
+    const QByteArray& data = request->getContent();
+    QJsonParseError error;
+    QJsonDocument jd = QJsonDocument::fromJson(data, &error);
 
-//}
+    if(error.error != QJsonParseError::NoError) {
+        response->setStatusCode(HttpResponse::StatusCode::SC_BAD_REQUEST);
+        response->writeData(error.errorString());
+        return;
+    }
 
+    QJsonObject jo = jd.object();
+    QString author = jo["author"].toString();
+    QString title = jo["title"].toString();
+    QString origFilename = jo["originalFileName"].toString();
+    QByteArray imageData;
+    imageData.append(jo["data"].toString());
+    imageData = QByteArray::fromBase64(imageData);
+
+    QStringList of = origFilename.split(".");
+    QString fileExt = of.last();
+    QString filename = saveToDisc(imageData, imagesDir, "." + fileExt);
+    ImageMetadata meta(title, author, filename, QDateTime::currentDateTime(), origFilename);
+    ImageMetadataProvider::getInstance()->addImage(meta);
+
+    response->setStatusCode(HttpResponse::StatusCode::SC_CREATED);
+}
+
+QString ApiImagesWebHandler::saveToDisc(const QByteArray & data, const QString & destDir, const QString & fileExtension) const
+{
+    QString fileName = QDateTime::currentDateTime().toString("yyyyMMddhhmmsszzz") + fileExtension;
+    QString filePath = destDir + fileName;
+    QFile file(filePath);
+    file.open(QFile::WriteOnly);
+    file.write(data);
+    file.flush();
+    file.close();
+
+    return fileName;
+}
 }
