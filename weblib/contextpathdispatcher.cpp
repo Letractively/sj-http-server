@@ -46,13 +46,12 @@ ContextPathDispatcher::~ContextPathDispatcher()
 }
 
 
-AbstractWebHandler * ContextPathDispatcher::dispatchRequest(HttpRequest * request, QSettings::SettingsMap *settings) const
+AbstractWebHandler * ContextPathDispatcher::dispatchRequest(HttpRequest * request) const
 {
     const Logger & logger = LoggerFactory::instance().getLogger("weblib-logger");
 
-    QString contextRoot = settings->value("ContextRoot", "").toString();
     for(int i = 0; i < paths.size(); ++i) {
-        QRegExp regExp(contextRoot + paths[i].getPath(), Qt::CaseInsensitive, QRegExp::Wildcard);
+        QRegExp regExp(paths[i].getPath(), Qt::CaseInsensitive, QRegExp::Wildcard);
 
         if(regExp.exactMatch(request->getRequestUri())
                 || (!request->getRequestUri().endsWith("/") && regExp.exactMatch(request->getRequestUri() + "/"))) {

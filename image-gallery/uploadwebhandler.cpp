@@ -33,7 +33,7 @@ UploadWebHandler::UploadWebHandler()
 {
 }
 
-void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response, QSettings::SettingsMap *settings) const
+void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response) const
 {
     LOG_TRACE(logger, "UploadWebHandler handle called");
 
@@ -49,7 +49,7 @@ void UploadWebHandler::handle(HttpRequest * request, HttpResponse *response, QSe
     case HttpRequest::RequestMethod::POST:
     {
         LOG_TRACE(logger, "POST method - reading posted data");
-        handlePostData(request, response, settings->value(ImgGal::SETTING_TMP_DIR).toString());
+        handlePostData(request, response, "/tmp");
         return;
     }
 

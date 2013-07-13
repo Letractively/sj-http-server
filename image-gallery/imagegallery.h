@@ -35,7 +35,7 @@ class ImageGallery : public QObject, public AbstractRequestHandler
 public:
     ImageGallery();
     ~ImageGallery();
-    void init(QMap<QString, QVariant> & initParams);
+    void init(const QMap<QString, QVariant> & initParams);
     void handle(HttpRequest *req, HttpResponse * resp) const;
     QString name() const;
 private:

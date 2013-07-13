@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "imageviewwebhandler.h"
 #include "imagegalleryconstants.h"
 #include "imagemetadataprovider.h"
+#include <QDebug>
 
 namespace SJ {
 
@@ -47,15 +48,14 @@ ImageGallery::~ImageGallery()
     ImageMetadataProvider::getInstance()->flush();
 }
 
-void ImageGallery::init(QMap<QString, QVariant> & /* initParams */)
+void ImageGallery::init(const QMap<QString, QVariant> &  initParams)
 {
-    //TODO read settings
+    qDebug() << initParams;
 }
 
-void ImageGallery::handle(HttpRequest * /*req*/, HttpResponse * response) const
+void ImageGallery::handle(HttpRequest * req, HttpResponse * response) const
 {
-    //dispatcher->dispatchRequest(req, settings)->handle(req, response, 0);
-    response->setStatusCode(HttpResponse::StatusCode::SC_NOT_FOUND);
+    dispatcher->dispatchRequest(req)->handle(req, response);
 }
 
 QString ImageGallery::name() const

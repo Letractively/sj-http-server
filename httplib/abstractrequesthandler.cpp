@@ -21,6 +21,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace SJ {
 
+void AbstractRequestHandler::init(const QMap<QString, QVariant> & /*initParams*/)
+{
+
+}
 
 void AbstractRequestHandler::handleGet(HttpRequest * /*request */, HttpResponse *response) const
 {

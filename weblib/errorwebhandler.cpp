@@ -30,8 +30,7 @@ ErrorWebHandler::~ErrorWebHandler()
 
 }
 
-void ErrorWebHandler::handle(HttpRequest * /*request*/, HttpResponse * response,
-                             QSettings::SettingsMap * /*settings*/) const
+void ErrorWebHandler::handle(HttpRequest * /*request*/, HttpResponse * response) const
 {
     response->setStatusCode(HttpResponse::StatusCode::SC_NOT_FOUND);
 }

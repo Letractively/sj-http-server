@@ -31,7 +31,7 @@ class MainPageWebHandler : public AbstractWebHandler
 {
 public:
     MainPageWebHandler();
-    void handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const;
+    void handle(HttpRequest * request, HttpResponse * response) const;
 
 private:
     static const Logger & logger;

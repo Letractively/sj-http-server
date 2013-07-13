@@ -27,9 +27,9 @@ ImageViewWebHandler::ImageViewWebHandler()
 {
 }
 
-void ImageViewWebHandler::handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const
+void ImageViewWebHandler::handle(HttpRequest * request, HttpResponse * response) const
 {
-    QString imagePath = settings->value(ImgGal::SETTING_TMP_DIR).toString() +  request->getParameter(ImgGal::FILE_ID_PARAM);
+    QString imagePath = request->getParameter(ImgGal::FILE_ID_PARAM);
     response->fromFile(imagePath);
 }
 

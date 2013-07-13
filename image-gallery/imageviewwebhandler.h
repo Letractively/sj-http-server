@@ -29,7 +29,7 @@ class ImageViewWebHandler : public AbstractWebHandler
 {
 public:
     ImageViewWebHandler();
-    virtual void handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings = 0) const;
+    virtual void handle(HttpRequest * request, HttpResponse * response) const;
 
 };
 

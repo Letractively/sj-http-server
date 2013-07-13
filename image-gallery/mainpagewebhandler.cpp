@@ -31,7 +31,7 @@ MainPageWebHandler::MainPageWebHandler()
 }
 
 
-void MainPageWebHandler::handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap * /*settings*/) const
+void MainPageWebHandler::handle(HttpRequest * request, HttpResponse * response) const
 {
     QString uploadLink = request->getRequestUri();
     uploadLink += (uploadLink.endsWith("/") ? "upload" : "/upload");

@@ -52,7 +52,7 @@ public:
      *
      * @param initParams map of parameters.
      */
-    virtual void init(QMap<QString, QVariant> & /*initParams*/) {}
+    virtual void init(const QMap<QString, QVariant> & initParams);
 
 
     virtual void handleGet(HttpRequest * request, HttpResponse * response) const;

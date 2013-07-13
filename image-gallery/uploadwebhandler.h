@@ -33,7 +33,7 @@ class UploadWebHandler : public AbstractWebHandler
 {
 public:
     UploadWebHandler();
-    virtual void handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const;
+    virtual void handle(HttpRequest * request, HttpResponse * response) const;
 
 private:
     QByteArray getFormBytes(const QString & requestUri) const;

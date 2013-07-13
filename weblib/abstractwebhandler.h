@@ -32,7 +32,7 @@ class AbstractWebHandler
 public:
     AbstractWebHandler();
     virtual ~AbstractWebHandler() {}
-    virtual void handle(HttpRequest * request, HttpResponse * response, QSettings::SettingsMap *settings) const = 0;
+    virtual void handle(HttpRequest * request, HttpResponse * response) const = 0;
 };
 
 }

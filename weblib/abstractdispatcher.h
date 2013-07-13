@@ -30,7 +30,7 @@ class AbstractDispatcher {
 public:
     AbstractDispatcher();
     virtual ~AbstractDispatcher() {}
-    virtual AbstractWebHandler * dispatchRequest(HttpRequest * request, QSettings::SettingsMap *settings) const = 0;
+    virtual AbstractWebHandler * dispatchRequest(HttpRequest * request) const = 0;
 };
 
 } //namespace SJ

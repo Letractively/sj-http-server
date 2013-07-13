@@ -33,7 +33,7 @@ class ContextPathDispatcher : public AbstractDispatcher
 public:
     ContextPathDispatcher(QList<ContextPathPair> paths);
     ~ContextPathDispatcher();
-    AbstractWebHandler * dispatchRequest(HttpRequest * request, QSettings::SettingsMap *settings) const;
+    AbstractWebHandler * dispatchRequest(HttpRequest * request) const;
 private:
     QList<ContextPathPair> paths;
     ErrorWebHandler * errorWebHandler;
