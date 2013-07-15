@@ -15,5 +15,5 @@ cp httplib/lib*.so* dist/lib
 cp weblib/lib*.so* dist/lib
 cp image-gallery/lib*.so* dist/lib
 cp fortune-teller/lib*.so* dist/lib
-
+cp logger/lib*.so* dist/lib
 
