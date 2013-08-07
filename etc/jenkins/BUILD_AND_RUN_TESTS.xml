@@ -55,7 +55,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>qmake -Wall -recursive -spec linux-g++
+      <command>qmake -Wall -recursive -spec linux-g++ sj-http-server.pro
 make clean
 make
 sh run_tests.sh

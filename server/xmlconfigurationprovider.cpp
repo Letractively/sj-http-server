@@ -302,6 +302,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         break;
 
     case State::STATE_WWW_PATH_DONE:
+    case State::STATE_HANDLERS_DONE:
         if(localName == ELEMENT_SERVER_CONF) {
             state = State::STATE_DONE;
         } else {
@@ -351,6 +352,7 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
         break;
 
     case State::STATE_HANDLER_FILE_PATH_DONE:
+    case State::STATE_HANDLER_PARAMS_DONE:
         if(localName == ELEMENT_HANDLER) {
             state = State::STATE_HANDLER_DONE;
             HandlerConfiguration handler = HandlerConfiguration(currentHandlerName, currentHandlerDescription,
@@ -367,15 +369,6 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case State::STATE_HANDLER_DONE:
         if(localName == ELEMENT_HANDLERS) {
             state = State::STATE_HANDLERS_DONE;
-        } else {
-            errorInfo = "unexpected end of [" + localName + "]";
-            return false;
-        }
-        break;
-
-    case State::STATE_HANDLERS_DONE:
-        if(localName == ELEMENT_SERVER_CONF) {
-            state = State::STATE_DONE;
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
@@ -414,19 +407,6 @@ bool XmlConfigurationParser::endElement(const QString &namespaceURI,
     case State::STATE_HANDLER_PARAM_DONE:
         if(localName == ELEMENT_HANDLER_PARAMS) {
             state = State::STATE_HANDLER_PARAMS_DONE;
-        } else {
-            errorInfo = "unexpected end of [" + localName + "]";
-            return false;
-        }
-        break;
-
-    case State::STATE_HANDLER_PARAMS_DONE:
-        if(localName == ELEMENT_HANDLER) {
-            state = State::STATE_HANDLER_DONE;
-            HandlerConfiguration handler = HandlerConfiguration(currentHandlerName, currentHandlerDescription,
-                                                                currentHandlerContextRoot, currentHandlerFilePath,
-                                                                currentParams);
-            provider->handlers.push_back(handler);
         } else {
             errorInfo = "unexpected end of [" + localName + "]";
             return false;
