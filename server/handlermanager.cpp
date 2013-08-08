@@ -32,8 +32,8 @@ namespace SJ {
 const Logger & HandlerManager::logger = LoggerFactory::instance().getLogger("sj-server-logger");
 
 HandlerManager::HandlerManager()
+    : defaultHandler(HandlerData(new RequestHandler, HandlerConfiguration("DefualtRequetHandler", "Loads static contet", "", "", QMap<QString, QVariant>())))
 {
-    defaultHandler = HandlerData(new RequestHandler, HandlerConfiguration("DefualtRequetHandler", "Loads static contet", "", "", QMap<QString, QVariant>()));
     loadPluginsFromConfig();
 }
 
