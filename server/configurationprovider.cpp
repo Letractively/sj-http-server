@@ -31,6 +31,7 @@ ConfigurationProvider * ConfigurationProvider::getInstance()
 
 
 ConfigurationProvider::ConfigurationProvider()
+    : listenPort(-1)
 {
     if(instance != 0) {
         LOG_WARN(logger, "Configuration has already been loaded, server reconfiguration is not supported");
