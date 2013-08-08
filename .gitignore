@@ -12,4 +12,4 @@ tst_*
 git_push_all.sh
 count_lines.sh
 dist
-
+doc-doxygen
