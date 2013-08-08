@@ -20,6 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "fileappenderinternalholder.h"
 
+namespace SJ {
+
 FileAppenderInternalHolder & FileAppenderInternalHolder::getInstance()
 {
     static FileAppenderInternalHolder holder;
@@ -55,4 +57,6 @@ FileAppenderInternalHolder::~FileAppenderInternalHolder()
 
 FileAppenderInternalHolder::FileAppenderInternalHolder()
 {
+}
+
 }

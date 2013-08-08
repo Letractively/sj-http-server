@@ -27,6 +27,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QTextStream>
 
+namespace SJ {
+
 class FileAppenderInternal
 {
 
@@ -47,5 +49,7 @@ private:
     qint64 maxSize;
 
 };
+
+}
 
 #endif // FILEAPPENDERINTERNAL_H

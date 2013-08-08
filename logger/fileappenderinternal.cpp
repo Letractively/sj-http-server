@@ -21,6 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "fileappenderinternal.h"
 #include <QDateTime>
 
+namespace SJ {
+
 FileAppenderInternal::FileAppenderInternal(const QString &filename)
     : file(filename)
 {
@@ -68,3 +70,4 @@ void FileAppenderInternal::setTimestampPattern(const QString & pattern)
     timestampPattern = pattern;
 }
 
+}

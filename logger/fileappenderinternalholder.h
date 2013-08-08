@@ -24,6 +24,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "fileappenderinternal.h"
 #include <QMap>
 
+namespace SJ {
+
 class FileAppenderInternalHolder
 {
 
@@ -44,5 +46,7 @@ private:
 private:
     FileAppenderInternalHolder();
 };
+
+}
 
 #endif // FILEAPPENDERINTERNALHOLDER_H
