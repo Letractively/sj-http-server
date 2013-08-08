@@ -30,7 +30,13 @@ FileAppenderInternal::FileAppenderInternal(const QString &filename)
     out = new QTextStream(&file);
 }
 
-
+//TODO: use delegating constructor from c++11
+FileAppenderInternal::FileAppenderInternal(const FileAppenderInternal & other)
+    :file(other.file.fileName())
+{
+    file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append);
+    out = new QTextStream(&file);
+}
 
 FileAppenderInternal::~FileAppenderInternal()
 {

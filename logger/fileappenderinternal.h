@@ -35,6 +35,7 @@ class FileAppenderInternal
 
 public:
     FileAppenderInternal(const QString & filename);
+    FileAppenderInternal(const FileAppenderInternal & other);
     ~FileAppenderInternal();
     void appendLine(const QString & line);
     void setMaxSize(quint64 size);
