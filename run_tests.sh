@@ -2,10 +2,13 @@
 
 TESTS="loggertest/tst_loggertest httprequesttest/tst_httprequest"
 return_code=0
+env
+i=1
 
 for t in $TESTS
 do
-  "tests/$t"
+  "./tests/$t" -o "test-result-$i.xml,xml"
+  i=$[i + 1]
   rc=$?
   if [ $rc != 0 ]
   then
@@ -21,4 +24,4 @@ else
   echo "Some tests FAILED"
 fi
 
-exit $return_code
+#exit $return_code

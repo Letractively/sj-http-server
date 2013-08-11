@@ -55,7 +55,7 @@ void HttpRequestTest::testCase1()
     HttpRequestImpl * request = new HttpRequestImpl(socket);
 
     ASSERT(request->getMethod() == HttpRequest::RequestMethod::GET);
-    ASSERT(request->getHeaderValue("Host") == "localhost:9090");
+    ASSERT(request->getHeaderValue("Host") == "localhost:90901");
     ASSERT2(request->getRequestUri() == "/", request->getRequestUri());
     ASSERT2(request->getRequestUrl() == "http://localhost:9090/", request->getRequestUrl());
 
