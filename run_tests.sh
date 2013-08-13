@@ -1,27 +1,16 @@
 #!/bin/bash
 
-TESTS="loggertest/tst_loggertest httprequesttest/tst_httprequest"
-return_code=0
-env
-i=1
+TESTS=`find tests/ -name 'tst_*' | grep -vF '.'`
+rm -rf ./tests/results
+mkdir -p ./tests/results
 
 for t in $TESTS
 do
-  "./tests/$t" -o "test-result-$i.xml,xml"
-  i=$[i + 1]
-  rc=$?
-  if [ $rc != 0 ]
-  then
-    return_code=$rc
-    echo "FAILED TEST: $t"
-  fi
+  echo $t
+  test_name=`echo $t | sed -r  's|.+/tst_||g'`
+  echo "Running test $test_name"
+  "./$t" -o "tests/results/test-result-$test_name.xml,xml"
 done
 
-if [ $return_code = 0 ]
-then
-  echo "All tests PASSED"
-else 
-  echo "Some tests FAILED"
-fi
+echo 'All tests done'
 
-#exit $return_code

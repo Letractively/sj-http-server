@@ -8,7 +8,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_httprequest
+TARGET = tst_varioustest
 CONFIG   += console
 CONFIG   -= app_bundle
 
