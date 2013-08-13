@@ -64,8 +64,8 @@ void LoggerFactory::doLoadConfig(const QString & confFile)
 {
     //read logger settings from a file
     QFile file(confFile);
-    /// \todo do not print this warning if using default config file name.
     if(!file.exists()) {
+        /// @todo do not print this warning if using default config file name.
         qWarning() << "File " + confFile + " not found, no loggers configured";
         return;
     }
