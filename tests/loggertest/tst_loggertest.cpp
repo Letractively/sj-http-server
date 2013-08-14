@@ -36,79 +36,56 @@ class LoggerTest : public QObject
 public:
     LoggerTest();
 
-private:
-    const Logger & scLogger;
-    
 private Q_SLOTS:
-    void testCase1();
-    void testCase2();
-    void testCase3();
-    void testCase4();
+    void testCodeLogger();
+    void testLoggerFactory();
+    void testLoggerConfig();
 };
 
 LoggerTest::LoggerTest()
-    :scLogger(LoggerFactory::instance().getLogger("scLogger"))
 {
+    LoggerFactory::instance().loadConfig("tests/loggertest/sjlog.xml");
 }
 
-void LoggerTest::testCase1()
+void LoggerTest::testCodeLogger()
 {
     Logger logger;
     logger.addAppender(new ConsoleAppender, true);
-    QVERIFY(! logger.isTraceEnabled());
-    QVERIFY(! logger.isDebugEnabled());
-    QVERIFY(! logger.isInfoEnabled());
-    QVERIFY(! logger.isWarnEnabled());
-    QVERIFY(! logger.isErrorEnabled());
+    ASSERT(! logger.isTraceEnabled());
+    ASSERT(! logger.isDebugEnabled());
+    ASSERT(! logger.isInfoEnabled());
+    ASSERT(! logger.isWarnEnabled());
+    ASSERT(! logger.isErrorEnabled());
 
     logger.setLevel(LoggingLevel::Level::ALL);
-    QVERIFY(logger.isTraceEnabled());
-    QVERIFY(logger.isDebugEnabled());
-    QVERIFY(logger.isInfoEnabled());
-    QVERIFY(logger.isWarnEnabled());
-    QVERIFY(logger.isErrorEnabled());
+    ASSERT(logger.isTraceEnabled());
+    ASSERT(logger.isDebugEnabled());
+    ASSERT(logger.isInfoEnabled());
+    ASSERT(logger.isWarnEnabled());
+    ASSERT(logger.isErrorEnabled());
 
 
     logger.setLevel(LoggingLevel::Level::INFO);
-    QVERIFY(! logger.isTraceEnabled());
-    QVERIFY(! logger.isDebugEnabled());
-    QVERIFY(logger.isInfoEnabled());
-    QVERIFY(logger.isWarnEnabled());
-    QVERIFY(logger.isErrorEnabled());
-
-    LOG_INFO(logger,"test message");
-    logger.info("test message two");
-    LOG_DEBUG(logger, "this should not show up");
-    logger.debug("this should not show up");
-
+    ASSERT(! logger.isTraceEnabled());
+    ASSERT(! logger.isDebugEnabled());
+    ASSERT(logger.isInfoEnabled());
+    ASSERT(logger.isWarnEnabled());
+    ASSERT(logger.isErrorEnabled());
 }
 
-void LoggerTest::testCase2()
+void LoggerTest::testLoggerFactory()
 {
-    Logger & logger = LoggerFactory::instance().getLogger();
-    logger.info("logger factory can produce loggers :)");
-    logger.debug("by default info level is enabled");
+    Logger & logger = LoggerFactory::instance().getLogger("unconfigured-logger");
     ASSERT(logger.isDebugEnabled() == false);
-
-    logger.info(LogBuilder(LoggerFactory::instance().configuredLoggers(), " "));
 }
 
-void LoggerTest::testCase3()
+void LoggerTest::testLoggerConfig()
 {
-    SJ::LogBuilder lb("Hello to LogBuilder.");
-    lb.append(" This is a string, then goes an int ").append(12);
-    lb.append(" and finally a double ").append(3.14);
-    qDebug() << lb.toString();
-
-    scLogger.info(lb);
+    Logger & configuredLogger = LoggerFactory::instance().getLogger("mylogger");
+    ASSERT(configuredLogger.isDebugEnabled());
 }
 
-void LoggerTest::testCase4()
-{
-    const Logger & logger = LoggerFactory::instance().getLogger("mylogger");
-    logger.debug("test123");
-    LOG_DEBUG(logger, "test321");
-}
+
 
 QTEST_APPLESS_MAIN(LoggerTest)
 

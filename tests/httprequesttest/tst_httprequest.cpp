@@ -43,7 +43,6 @@ HttpRequestTest::HttpRequestTest()
 }
 
 
-
 void HttpRequestTest::testCase1()
 {
     QByteArray data;
@@ -62,17 +61,6 @@ void HttpRequestTest::testCase1()
 
     socket->deleteLater();
     delete request;
-
-
-    QBENCHMARK {
-        socket = new TcpSocketMock(data);
-        request = new HttpRequestImpl(socket);
-        socket->deleteLater();
-        delete request;
-    }
-
-
-
 }
 
 
